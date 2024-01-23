@@ -53,7 +53,6 @@ body {
   background-color: #0056b3;
   border-color: #0056b3;
 }
-/* Estilo para la barra de navegación */
 .navbar {
   display: flex;
  background: rgba(255, 255, 255, 0.521);
@@ -66,12 +65,7 @@ body {
   transition: top 0.5s ease-in-out;
 }
 
-/* app/Views/Components/styles.css */
 
-/* Estilo para la barra de navegación */
-
-
-/* Agrega una clase para indicar que la barra de navegación está pegajosa */
 .navbar.sticky {
   position: fixed;
   top: 20px;
@@ -92,7 +86,6 @@ body {
 }
 
 
-/* Estilo para la tabla de usuarios */
 table {
   width: 1000px;
   border-radius: 10px;
@@ -110,7 +103,7 @@ table {
   width: 100%;
 }
 
-/* Estilo para la sección de inicio de sesión */
+
 .login {
   background: rgba(255, 255, 255, 0.521);
   backdrop-filter: blur(20px);
@@ -122,7 +115,7 @@ table {
   text-align: center;
 }
 
-/* Estilo para las leyendas del carrusel */
+
 .carousel-caption {
   text-align: center;
   background: white;
@@ -189,11 +182,10 @@ label {
 
 #dashboard-btn {
   position: absolute;
-  left: 10px; /* Ajusta la posición a tu gusto */
-  margin-top: 10px; /* Ajusta la distancia desde la parte superior */
-  z-index: 1001; /* Asegura que el índice z sea mayor que la barra de navegación */
-  transition: background-color 0.3s ease; /* Agrega transición para suavizar el efecto */
-}
+  left: 10px; 
+  margin-top: 10px; 
+  z-index: 1001; 
+  transition: background-color 0.3s ease; 
 
 
 #dashboard-btn:hover {
