@@ -42,32 +42,44 @@ body {
   box-shadow: 10px 10px 34px 0px var(--shadow-color);
   border-radius: 10px;
   transition: top 0.5s ease-in-out;
-  color: var(--text-color); /* Color de texto consistente */
 }
 
-.footer {
-  align-items: center;
-  justify-content: center;
-  margin-top: 20px;
-  color: #777;
-  text-align: center; 
-
-.navbar-brand {
-  font-size: 1.5rem;
-  padding-top: 10px;
-  padding-bottom: 10px;
+.navbar.sticky {
+  position: fixed;
+  top: 20px;
+  width: 100%;
+  animation: fadeInDown 0.5s ease-in-out;
 }
 
-.nav-item a {
-  color: var(--primary-color); 
-  &:hover {
-    color: #000;
+/* Define la animación fadeInDown */
+@keyframes fadeInDown {
+  0% {
+      opacity: 0;
+      transform: translateY(-100%);
+  }
+  100% {
+      opacity: 1;
+      transform: translateY(0);
   }
 }
 
-.btn-primary {
-  background-color: var(--primary-color); 
-  color: #fff;
+
+/* Estilo para la tabla de usuarios */
+table {
+  width: 1000px;
+  border-radius: 10px;
+  border-collapse: collapse;
+  border-style: solid;
+  border-width: 1px;
+  box-shadow: 10px 10px 34px 0px var(--shadow-color);
+  border-color: #333;
+}
+
+/* Estilo para el botón flotante */
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
 }
 
 .login {
