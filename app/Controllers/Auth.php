@@ -13,23 +13,18 @@ class Auth extends Controller
 
         $username = $this->request->getPost('username');
         $password = $this->request->getPost('password');
+        $idRol = $model->submit_login($username, $password);
 
-        $userData = $model->getUserData($username, $password);
-
-        if ($userData) {
-            // Almacenar todos los datos en la sesión
+        if ($idRol) {
             session()->set([
-                'role' => $userData->role,
-                'username' => $userData->full_name,
-                'cod_est' => $userData->cod_est,
-                'establecimiento' => $userData->nombre_est,
-                'iduser' => $userData->iduser
+                'role' => $idRol,
+                'username' => $model->getFullName($username),
+                'iduser' => $model->getIdUser($username)
             ]);
 
-            // Redireccionar según el rol
-            if ($userData->role == 'directive') {
+            if ($idRol == 2) { 
                 return redirect()->to('admin/dashboard');
-            } elseif ($userData->role == 'teacher') {
+            } elseif ($idRol == 1) { 
                 return redirect()->to('teacher/dashboard');
             } else {
                 return redirect()->to('/');

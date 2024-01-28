@@ -12,7 +12,7 @@
 <body>
     <div class="container">
         <div class="row justify-content-center align-items-center min-vh-100">
-            <div class="col-md-4">
+            <div class="">
                 <div class="text-center mb-4">
                     <h2>Login</h2>
                 </div>

@@ -6,13 +6,11 @@ use CodeIgniter\Model;
 
 class AuthModel extends Model
 {
-    protected $table = 'users';
-    protected $tableest = 'establecimientos';
+    protected $table = 'usuarios'; // Cambiar 'users' por 'usuarios'
 
     public function getUserData($username)
     {
         return $this->db->table($this->table)
-            ->join($this->tableest, "$this->table.cod_est = $this->tableest.cod_est")
             ->where('email', $username)
             ->get()
             ->getRow();
@@ -22,34 +20,20 @@ class AuthModel extends Model
     {
         $user = $this->getUserData($username);
 
-        return $user ? $user->role : null;
+        return $user && password_verify($password, $user->password) ? $user->id_rol : null;
     }
 
-    public function NombreUsuario($username)
+    public function getFullName($username)
     {
         $user = $this->getUserData($username);
 
-        return $user ? $user->full_name : null;
+        return $user ? $user->nombre : null;
     }
 
-    public function Establecimiento($username)
+    public function getIdUser($username)
     {
         $user = $this->getUserData($username);
 
-        return $user ? $user->nombre_est : null;
-    }
-
-    public function Codigo_Establecimiento($username)
-    {
-        $user = $this->getUserData($username);
-
-        return $user ? $user->cod_est : null;
-    }
-
-    public function iduser($username)
-    {
-        $user = $this->getUserData($username);
-
-        return $user ? $user->iduser : null;
+        return $user ? $user->user_id : null;
     }
 }
