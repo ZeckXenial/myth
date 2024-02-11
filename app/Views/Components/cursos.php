@@ -14,7 +14,8 @@
                         <?php $links = [
                             'Anotaciones' => "anotaciones/curso/{$curso['curso_id']}",
                             'Asistencias' => "asistencias/curso/{$curso['curso_id']}",
-                            'Calificaciones' => "calificaciones/curso/{$curso['curso_id']}"
+                            'Calificaciones' => "calificaciones/curso/{$curso['curso_id']}",
+                            'Editar' => "editar/curso/{$curso['curso_id']}"
                         ]; ?>
                         <?php foreach ($links as $text => $url): ?>
                             <a href="<?= site_url($url) ?>" class="btn btn-primary"><?= $text ?></a>
@@ -23,6 +24,16 @@
                 </div>
             </div>
         <?php endforeach; ?>
+
+        <!-- Nuevo card para crear nuevo curso -->
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Crear Nuevo Curso</h5>
+                    <a href="<?= site_url('crear_curso') ?>" class="btn btn-primary">Crear</a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

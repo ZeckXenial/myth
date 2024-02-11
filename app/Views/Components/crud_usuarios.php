@@ -3,7 +3,7 @@
 
 <h2>Administración de Usuarios</h2>
 
-<table id="usuariosTable" class="table table-bordered">
+<table id="usuariosTable" class="table table-bordered table-striped dataTable">
     <thead>
         <tr>
             <th>Nombre</th>
@@ -54,10 +54,10 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="rol_edit" class="form-floating">Rol:</label>
-                                    <select name="rol_edit" class="form-select" required>
-                                        <option value="1" <?= ($user['id_rol'] == 'Profesor') ? 'selected' : ''; ?>>Profesor</option>
-                                        <option value="2" <?= ($user['id_rol'] == 'Director') ? 'selected' : ''; ?>>Director</option>
-                                        <option value="3" <?= ($user['id_rol'] == 'UTP') ? 'selected' : ''; ?>>UTP</option>
+                                    <select name="id_rol" class="form-select" required>
+                                        <option value="1" <?= ($user['id_rol'] == '1') ? 'selected' : ''; ?>>Profesor</option>
+                                        <option value="2" <?= ($user['id_rol'] == '2') ? 'selected' : ''; ?>>Director</option>
+                                        <option value="3" <?= ($user['id_rol'] == '3') ? 'selected' : ''; ?>>UTP</option>
                                     </select>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Guardar Cambios</button>
@@ -83,21 +83,21 @@
                 <form action="<?= site_url('crud_usuarios/agregar') ?>" method="post"> <!-- Cambiado de 'components/crud_usuarios/agregar' a 'crud_usuarios/agregar' -->
                     <div class="mb-3">
                         <label for="nombre" class="form-floating">Nombre:</label>
-                        <input type="text" name="nombre" class="form-control <?= (isset($validation) && $validation->hasError('nombre')) ? 'is-invalid' : 'is-valid'; ?>" required>
+                        <input type="text" name="nombre" class="form-control <?= (isset($validation) && $validation->hasError('nombre')) ? 'is-invalid' : 'is-valid'; ?>" value="<?= (isset($validation)) ? set_value('nombre') : ''; ?>" required>
                         <?php if (isset($validation) && $validation->hasError('nombre')): ?>
                             <div class="invalid-feedback"><?= $validation->getError('nombre'); ?></div>
                         <?php endif; ?>
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-floating">Email:</label>
-                        <input type="email" name="email" class="form-control <?= (isset($validation) && $validation->hasError('email')) ? 'is-invalid' : 'is-valid'; ?>" required>
+                        <input type="email" name="email" class="form-control <?= (isset($validation) && $validation->hasError('email')) ? 'is-invalid' : 'is-valid'; ?>" value="<?= (isset($validation)) ? set_value('email') : ''; ?>" required>
                         <?php if (isset($validation) && $validation->hasError('email')): ?>
                             <div class="invalid-feedback"><?= $validation->getError('email'); ?></div>
                         <?php endif; ?>
                     </div>
                     <div class="mb-3">
                         <label for="especialidad" class="form-floating">Especialidad:</label>
-                        <input type="especialidad" name="especialidad" class="form-control <?= (isset($validation) && $validation->hasError('especialidad')) ? 'is-invalid' : 'is-valid'; ?>" >
+                        <input type="text" name="especialidad" class="form-control <?= (isset($validation) && $validation->hasError('especialidad')) ? 'is-invalid' : 'is-valid'; ?>" value="<?= (isset($validation)) ? set_value('especialidad') : ''; ?>" >
                         <?php if (isset($validation) && $validation->hasError('especialidad')): ?>
                             <div class="invalid-feedback"><?= $validation->getError('especialidad'); ?></div>
                         <?php endif; ?>
@@ -105,7 +105,7 @@
                     <div class="mb-3">
                         <label for="password" class="form-floating">Contraseña:</label>
                         <div class="input-group">
-                            <input type="password" name="password" class="form-control <?= (isset($validation) && $validation->hasError('password')) ? 'is-invalid' : 'is-valid'; ?>" required id="password">
+                            <input type="password" name="password" class="form-control <?= (isset($validation) && $validation->hasError('password')) ? 'is-invalid' : 'is-valid'; ?>" value="<?= (isset($validation)) ? set_value('password') : ''; ?>" required id="password">
                             <button class="btn btn-outline-secondary reveal-password" type="button">
                                 <i class="bi bi-eye"></i>
                             </button>
@@ -131,8 +131,6 @@
         </div>
     </div>
 </div>
-
-
 
 <?php include(APPPATH . 'Views/Components/toast.php');?>
 <?php include(APPPATH . 'Views/Components/footer.php'); ?>

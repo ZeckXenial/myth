@@ -11,8 +11,6 @@ $routes->get('logout', 'Auth::logout');
 
 $routes->get('cursos', 'CursosController::index');
 
-$routes->get('establecimientos', 'Directive::establecimientos');
-
 $routes->get('anotaciones/curso/(:num)', 'Anotaciones::curso/$1');
 $routes->get('asistencias/curso/(:num)', 'Asistencias::curso/$1');
 $routes->get('calificaciones/curso/(:num)', 'Calificaciones::curso/$1');
@@ -25,7 +23,12 @@ $routes->post('asistencia/agregar', 'Crudasistencias::agregar');
 $routes->post('asistencia/editar/(:any)', 'Crudasistencias::editar/$1');
 $routes->get('asistencia/eliminar/(:any)', 'Crudasistencias::eliminar/$1');
 
-// Corrección de la ruta para agregar usuarios
+$routes->get('estudiantes', 'CrudEstudiantes::index');
+$routes->post('estudiantes/agregar', 'CrudEstudiantes::agregar');
+$routes->get('estudiantes/editar/(:num)', 'CrudEstudiantes::editar/$1');
+$routes->post('estudiantes/editar/(:num)', 'CrudEstudiantes::editar/$1');
+$routes->get('estudiantes/eliminar/(:num)', 'CrudEstudiantes::eliminar/$1');
+
 $routes->post('crud_usuarios/agregar', 'CrudUsuariosController::agregar');
 $routes->get('crud_usuarios/eliminar/(:num)', 'CrudUsuariosController::eliminar/$1');
 $routes->get('crud_usuarios', 'CrudUsuariosController::index');

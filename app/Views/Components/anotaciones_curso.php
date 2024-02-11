@@ -1,4 +1,3 @@
-<!-- anotaciones_curso.php -->
 <?php include(APPPATH . 'Views/Components/NavBar.php');?>
 <?php include(APPPATH . 'Views/Components/headers.php');?>
 
@@ -9,8 +8,8 @@
         <div class="col-md-4 mb-4">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title"><?= isset($anotacion['nombre_estudiante']) ? $anotacion['nombre_estudiante'] : 'Estudiante Desconocido' ?></h5>
-                    <p class="card-text">Descripción: <?= $anotacion['descripcion'] ?? 'Sin descripción' ?></p>
+                    <h5 class="card-title"><?= isset($anotacion['nombre']) ? $anotacion['nombre'] : 'Estudiante Desconocido' ?></h5>
+                    <p class="card-text">Descripción: <?= $anotacion['glosa_anot'] ?? 'Sin descripción' ?></p>
                     <p class="card-text">Fecha: <?= $anotacion['fecha_anotacion'] ?? 'Sin fecha' ?></p>
                 </div>
             </div>

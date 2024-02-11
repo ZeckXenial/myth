@@ -8,7 +8,7 @@ class CrudUsuarioModel extends Model
 {
     protected $table = 'usuarios';
     protected $primaryKey = 'user_id';
-    protected $allowedFields = ['nombre', 'email', 'password', 'id_rol', 'especialidad'];
+    protected $allowedFields = ['nombre', 'email', 'password', 'id_rol', 'especialidad','activo'];
 
     public function obtenerUsuariosConRoles()
     {
@@ -38,9 +38,9 @@ class CrudUsuarioModel extends Model
     public function eliminarUsuario($id)
     {
         $user = $this->find($id);
-        $user_id= $id;
+       
         if ($user) {
-            return $this->update($user_id, ['activo' => ' ']);
+            return $this->update($id, ['activo' => '']);
         } else {
            
             return false; 

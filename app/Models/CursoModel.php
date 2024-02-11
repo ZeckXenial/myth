@@ -27,16 +27,7 @@ class CursoModel extends Model
         return $this->countAll();
     }
 
-    public function obtenerCursosSegunRol($rol, $idUsuario)
-    {
-        if ($rol === '1') {
-            return $this->getCursosByTeacher($idUsuario);
-        } elseif ($rol === '2' or '3') {
-            return $this->getCursosByDirective();
-        }
-        
-        return [];
-    }
+   
     public function getCursosByTeacher($user_id)
     {
         return $this->select('cursos.*, usuarios.nombre AS nombre_usuario')
@@ -47,6 +38,9 @@ class CursoModel extends Model
 
     public function getCursosByDirective()
     {
-        return $this->findAll();
+        return $this->select('cursos.*, usuarios.nombre AS nombre_usuario')
+        ->join('usuarios', 'usuarios.user_id = cursos.user_id')
+       
+        ->findAll();
     }
 }

@@ -51,31 +51,19 @@ class CrudUsuariosController extends Controller
     public function editar($id)
     {
         $model = new CrudUsuarioModel();
-
+    
         if ($this->request->getMethod() === 'post') {
-            $validation = \Config\Services::validation();
-
-            $rules = [
-                'nombre' => 'required|min_length[3]|max_length[50]',
-                'email' => 'required|valid_email',
-                'id_rol' => 'required',
+            $data = [
+                'nombre' => $this->request->getPost('nombre'),
+                'email' => $this->request->getPost('email'),
+                'id_rol' => $this->request->getPost('id_rol'),
             ];
-
-            if ($this->validate($rules)) {
-                $data = [
-                    'nombre' => $this->request->getPost('nombre'),
-                    'email' => $this->request->getPost('email'),
-                    'id_rol' => $this->request->getPost('id_rol'),
-                ];
-
-                $model->editarUsuario($id, $data);
-
-                return redirect()->to(site_url('crud_usuarios'))->with('success', 'Usuario editado exitosamente');
-            } else {
-                return redirect()->to(site_url('crud_usuarios'))->withInput()->with('errors', $validation->getErrors());
-            }
+    
+            $model->editarUsuario($id, $data);
+    
+            return redirect()->to(site_url('crud_usuarios'))->with('success', 'Usuario editado exitosamente');
         }
-
+    
         return redirect()->to(site_url('crud_usuarios'));
     }
 

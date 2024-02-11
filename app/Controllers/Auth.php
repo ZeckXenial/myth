@@ -16,6 +16,12 @@ class Auth extends Controller
         $user = $model->getUserData($username);
 
         if ($user && $model->verifyPassword($password, $user->password)) {
+            // Verificar si la cuenta está suspendida
+            if ($user->activo !== null) {
+                $data['error_message'] = 'Su cuenta está suspendida. Por favor, contacte al administrador.';
+                return view('auth/login', $data);
+            }
+
             $session = session();
             $session->set([
                 'role' => $model->getRoleName($user->id_rol),

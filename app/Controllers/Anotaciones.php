@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers;
 
 use App\Models\AnotacionesModel;
@@ -14,7 +15,7 @@ class Anotaciones extends BaseController
 
     public function curso($cursoId)
     {
-        $data['anotaciones'] = $this->anotacionesModel->getAnotacionesPorCurso($cursoId);
+        $data['anotaciones'] = $this->anotacionesModel->obtenerAnotacionesPorCurso($cursoId);
         return view('components/anotaciones_curso', $data);
     }
 }

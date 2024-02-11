@@ -15,7 +15,7 @@
                         </li>
                 <?php endif; ?>
                     <li class="nav-item">
-                        <a class="nav-link btn" href="<?= site_url('crud_usuarios') ?>">Administrar Usuarios</a>
+                        <a class="nav-link " href="<?= site_url('crud_usuarios') ?>">Administrar Usuarios</a>
                     </li>
                     
                 <?php elseif (session()->get('idrole') === '1'): ?>
@@ -31,7 +31,7 @@
                 </li>
               
                 <li class="nav-item">
-                    <a class="nav-link" href="<?= site_url('crudestudiante') ?>">Registrar Estudiante</a>
+                    <a class="nav-link" href="<?= site_url('estudiantes') ?>">Registrar Estudiante</a>
                 </li>
                 <li class="nav-item">
                     <a class="btn btn-primary" href="<?= site_url('logout') ?>"s>Cerrar sesión</a>

@@ -9,7 +9,7 @@ class CrudEstudiantes extends BaseController
     public function index()
     {
         $estudianteModel = new EstudiantesModel();
-        $data['estudiantes'] = $estudianteModel->findAll();
+        $data['estudiantes'] = $estudianteModel->obtenerEstudiantesConApoderados();
 
         return view('components/estudiantes', $data);
     }
@@ -20,12 +20,9 @@ class CrudEstudiantes extends BaseController
 
         if ($this->request->getMethod() === 'post') {
             $data = [
-                'rut_estudiante' => $this->request->getPost('rut_estudiante'),
-                'nombre_estudiante' => $this->request->getPost('nombre_estudiante'),
-                'cod_est' => $this->request->getPost('cod_est'),
-                'rut_apoderado' => $this->request->getPost('rut_apoderado'),
-                'fecha_nace' => $this->request->getPost('fecha_nace'),
-                'id_curso' => $this->request->getPost('id_curso'),
+                'nombre' => $this->request->getPost('nombre_estudiante'),
+                'fecha_nacimiento' => $this->request->getPost('fecha_nace'),
+                'grado' => $this->request->getPost('grado'),
             ];
 
             $estudianteModel->insert($data);
@@ -42,18 +39,16 @@ class CrudEstudiantes extends BaseController
 
         if ($this->request->getMethod() === 'post') {
             $data = [
-                'nombre_estudiante' => $this->request->getPost('nombre_estudiante'),
-                'cod_est' => $this->request->getPost('cod_est'),
-                'rut_apoderado' => $this->request->getPost('rut_apoderado'),
-                'fecha_nace' => $this->request->getPost('fecha_nace'),
-                'id_curso' => $this->request->getPost('id_curso'),
+                'nombre' => $this->request->getPost('nombre_estudiante'),
+                'fecha_nacimiento' => $this->request->getPost('fecha_nace'),
+                'grado' => $this->request->getPost('grado'),
             ];
 
             $estudianteModel->update($id, $data);
             return redirect()->to('crud_estudiantes')->with('success', 'Estudiante editado correctamente');
         }
 
-        // Obtener el estudiante por su ID y cargar la vista de editar
+       
         $data['estudiante'] = $estudianteModel->find($id);
 
         return view('components/editar_estudiante', $data);

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use CodeIgniter\Model;
@@ -6,27 +7,25 @@ use CodeIgniter\Model;
 class EstudiantesModel extends Model
 {
     protected $table = 'estudiantes';
-    protected $primaryKey = 'rut_estudiante';
-    protected $allowedFields = ['rut_estudiante', 'nombre_estudiante', 'cod_est', 'rut_apoderado', 'fecha_nace', 'id_curso'];
-
-    // ...
+    protected $primaryKey = 'estudiante_id';
+    protected $allowedFields = ['nombre', 'fecha_nacimiento', 'grado'];
 
     public function obtenerEstudiantesConApoderados()
     {
         // Obtener estudiantes con detalles de apoderados
-        return $this->select('estudiantes.*, apoderados.nombre_apoderado')
-            ->join('apoderados', 'apoderados.rut_apoderado = estudiantes.rut_apoderado')
+        return $this->select('estudiantes.*, apoderados.nombre')
+            ->join('apoderados', 'apoderados.estudiante_id = estudiantes.estudiante_id')
             ->findAll();
     }
-    public function eliminarPorApoderado($rutApoderado)
+
+    public function eliminarPorApoderado($id_Apoderado)
     {
         // Buscar estudiantes asociados a este apoderado
-        $estudiantesAsociados = $this->where('rut_apoderado', $rutApoderado)->findAll();
+        $estudiantesAsociados = $this->where('id_apoderado', $id_Apoderado)->findAll();
 
         // Eliminar los estudiantes asociados
         foreach ($estudiantesAsociados as $estudiante) {
-            $this->delete($estudiante['rut_estudiante']);
+            $this->delete($estudiante['estudiante_id']);
         }
     }
-
 }
