@@ -7,31 +7,46 @@ use CodeIgniter\Model;
 class CursoModel extends Model
 {
     protected $table = 'cursos';
-    protected $primaryKey = 'id_curso';
-    protected $allowedFields = ['cod_est', 'nombre_curso', 'nivel_curso', 'iduser'];
+    protected $primaryKey = 'curso_id';
+    protected $allowedFields = ['user_id', 'asignatura_id', 'grado', 'activo']; // Añadimos el campo 'activo'
 
     public function obtenerCursos()
     {
-        $codEstablecimiento = session()->get('cod_est');
+        $user_id = session()->get('user_id');
         
-        if (session()->get('role') === 'teacher') {
-            $idProfesor = session()->get('iduser');
-            return $this->getCursosByTeacher($idProfesor);
-        } elseif (session()->get('role') === 'directive') {
-            return $this->getCursosByEstablecimiento($codEstablecimiento);
+        if (session()->get('idrol') === '1') {
+            return $this->getCursosByTeacher($user_id);
+        } elseif (session()->get('idrol') === '2' or session()->get('idrol') === '3') {
+            return $this->getCursosByDirective();
         }
+        
         return [];
     }
-
-    public function getCursosByEstablecimiento($codEstablecimiento)
+    public function countCursos()
     {
-        return $this->where('cod_est', $codEstablecimiento)->findAll();
+        return $this->countAll();
     }
 
-    public function getCursosByTeacher($idProfesor)
+    public function obtenerCursosSegunRol($rol, $idUsuario)
     {
-        return $this->where('iduser', $idProfesor)
-            ->where('iduser IS NOT NULL', null, false)
-            ->findAll();
+        if ($rol === '1') {
+            return $this->getCursosByTeacher($idUsuario);
+        } elseif ($rol === '2' or '3') {
+            return $this->getCursosByDirective();
+        }
+        
+        return [];
+    }
+    public function getCursosByTeacher($user_id)
+    {
+        return $this->select('cursos.*, usuarios.nombre AS nombre_usuario')
+                    ->join('usuarios', 'usuarios.user_id = cursos.user_id')
+                    ->where('cursos.user_id', $user_id)
+                    ->findAll();
+    }
+
+    public function getCursosByDirective()
+    {
+        return $this->findAll();
     }
 }

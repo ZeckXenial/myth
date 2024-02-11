@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class ApoderadoModel extends Model
 {
-    protected $table = 'apoderados';
+    protected $table = 'apoderado';
     protected $primaryKey = 'rut_apoderado';
     protected $allowedFields = ['nombre_apoderado', 'telefono_apoderado', 'direccion_apoderado', 'fechanace_apoderado'];
 

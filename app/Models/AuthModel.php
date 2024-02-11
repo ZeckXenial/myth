@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class AuthModel extends Model
 {
-    protected $table = 'usuarios'; // Cambiar 'users' por 'usuarios'
+    protected $table = 'usuarios';
 
     public function getUserData($username)
     {
@@ -16,24 +16,29 @@ class AuthModel extends Model
             ->getRow();
     }
 
-    public function submit_login($username, $password)
+    public function getRoleName($roleId)
     {
-        $user = $this->getUserData($username);
-
-        return $user && password_verify($password, $user->password) ? $user->id_rol : null;
+        $query = $this->db->query("SELECT glosa FROM roles WHERE id_rol = $roleId");
+        $row = $query->getRow();
+        return $row ? $row->glosa : null;
     }
 
-    public function getFullName($username)
+    public function getUsersWithRole()
     {
-        $user = $this->getUserData($username);
-
-        return $user ? $user->nombre : null;
+        return $this->db->table('usuarios')
+            ->select('usuarios.*, roles.glosa AS role')
+            ->join('roles', 'roles.id_rol = usuarios.id_rol')
+            ->get()
+            ->getResultArray();
     }
 
-    public function getIdUser($username)
+    public function verifyPassword($password, $hashedPassword)
     {
-        $user = $this->getUserData($username);
+        return password_verify($password, $hashedPassword);
+    }
 
-        return $user ? $user->user_id : null;
+    public function hashPassword($password)
+    {
+        return password_hash($password, PASSWORD_DEFAULT);
     }
 }

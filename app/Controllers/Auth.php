@@ -13,18 +13,21 @@ class Auth extends Controller
 
         $username = $this->request->getPost('username');
         $password = $this->request->getPost('password');
-        $idRol = $model->submit_login($username, $password);
+        $user = $model->getUserData($username);
 
-        if ($idRol) {
-            session()->set([
-                'role' => $idRol,
-                'username' => $model->getFullName($username),
-                'iduser' => $model->getIdUser($username)
+        if ($user && $model->verifyPassword($password, $user->password)) {
+            $session = session();
+            $session->set([
+                'role' => $model->getRoleName($user->id_rol),
+                'email' => $user->email,
+                'idrol' => $user->id_rol,
+                'username' => $user->nombre,
+                'iduser' => $user->user_id,
             ]);
 
-            if ($idRol == 2) { 
+            if ($user->id_rol == 1) { 
                 return redirect()->to('admin/dashboard');
-            } elseif ($idRol == 1) { 
+            } elseif ($user->id_rol == 2) { 
                 return redirect()->to('teacher/dashboard');
             } else {
                 return redirect()->to('/');

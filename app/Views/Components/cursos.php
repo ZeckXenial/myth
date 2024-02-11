@@ -1,5 +1,3 @@
-<!-- cursos.php -->
-<!-- app/Views/components/asistencia.php -->
 <?php include(APPPATH . 'Views/Components/NavBar.php');?>
 <?php include(APPPATH . 'Views/Components/headers.php');?>
 
@@ -11,11 +9,16 @@
             <div class="col-md-4 mb-4">
                 <div class="card">
                     <div class="card-body">
-                        <h3 class="card-title"><?= $curso['nombre_curso'] ?></h3>
-                        <p class="card-text"><?= $curso['nivel_curso'] ?></p>
-                        <a href="<?= site_url("anotaciones/curso/{$curso['id_curso']}") ?>" class="btn btn-primary">Anotaciones</a>
-                        <a href="<?= site_url("asistencias/curso/{$curso['id_curso']}") ?>" class="btn btn-success">Asistencias</a>
-                        <a href="<?= site_url("calificaciones/curso/{$curso['id_curso']}") ?>" class="btn btn-info">Calificaciones</a>
+                        <p class="card-text"><?= $curso['grado'] ?></p>
+                        <p class="card-text">Profesor Designado: <?= $curso['nombre_usuario'] ?></p>
+                        <?php $links = [
+                            'Anotaciones' => "anotaciones/curso/{$curso['curso_id']}",
+                            'Asistencias' => "asistencias/curso/{$curso['curso_id']}",
+                            'Calificaciones' => "calificaciones/curso/{$curso['curso_id']}"
+                        ]; ?>
+                        <?php foreach ($links as $text => $url): ?>
+                            <a href="<?= site_url($url) ?>" class="btn btn-primary"><?= $text ?></a>
+                        <?php endforeach; ?>
                     </div>
                 </div>
             </div>

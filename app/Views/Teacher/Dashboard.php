@@ -12,7 +12,8 @@
     <?php include(APPPATH . 'Views/Components/NavBar.php');?>
 
     <div> <?php include(APPPATH . 'Views/Components/Carrousel.php'); ?> </div>
-    
+    <div> <?php include(APPPATH . 'Views/Components/Card.php'); ?> </div>
+
 
     <div> <?php include(APPPATH . 'Views/Components/footer.php'); ?> </div>
 </body>

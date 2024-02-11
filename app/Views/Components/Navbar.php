@@ -8,23 +8,28 @@
             
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto" id="btnCrudUsuarios">
-                <?php if (session()->get('role') === 'directive'): ?>
+                <?php if (session()->get('idrol') === '2' or session()->get('idrol') === '3'): ?>
+                    <?php if (strpos(current_url(), 'dashboard') === false): ?>
+                        <li class="nav-item">
+                        <a class="nav-link" href="<?= site_url('admin/dashboard') ?>">Dashboard</a>
+                        </li>
+                <?php endif; ?>
                     <li class="nav-item">
                         <a class="nav-link btn" href="<?= site_url('crud_usuarios') ?>">Administrar Usuarios</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?= site_url('establecimientos') ?>">Ver Establecimientos</a>
-                    </li>
-                <?php elseif (session()->get('role') === 'teacher'): ?>
                     
+                <?php elseif (session()->get('idrole') === '1'): ?>
+                    <?php if (strpos(current_url(), 'dashboard') === false): ?>
+                        <li class="nav-item ">
+                        <a class="nav-link" href="<?= site_url('teacher/dashboard') ?>">Dashboard</a>
+                        </li>
+                <?php endif; ?>
                 <?php endif; ?>
                     
                 <li class="nav-item">
                     <a class="nav-link" href="<?= site_url('cursos') ?>">Cursos</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="<?= site_url('crud_apoderados') ?>">Editar Info Apoderados</a>
-                </li>
+              
                 <li class="nav-item">
                     <a class="nav-link" href="<?= site_url('crudestudiante') ?>">Registrar Estudiante</a>
                 </li>

@@ -1,1 +1,2 @@
-<!-- <a href="<?= site_url('dashboard') ?>" class="dashboard-btn btn btn-primary">Dashboard</a> -->
+
+<a href="<?= _ci_previous_url() ?>" class="btn btn-secondary">Volver Atrás</a>

@@ -21,12 +21,11 @@ public function index()
 
 private function obtenerCursosSegunRol($cursosModel)
 {
-    if ($this->session->get('role') === 'teacher') {
-        // Obtener cursos relacionados al profesor
+    if ($this->session->get('idrol') === '1') {
+        
         $idProfesor = $this->session->get('iduser');
         return $cursosModel->getCursosByTeacher($idProfesor);
-    } elseif ($this->session->get('role') === 'directive') {
-        // Obtener todos los cursos si es un directivo
+    } elseif ($this->session->get('idrol') === '2') {
         return $cursosModel->obtenerCursos();
     }
 

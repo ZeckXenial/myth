@@ -1,7 +1,5 @@
 <?php
-
 use CodeIgniter\Router\RouteCollection;
-
 /**
  * @var RouteCollection $routes
  */
@@ -27,14 +25,11 @@ $routes->post('asistencia/agregar', 'Crudasistencias::agregar');
 $routes->post('asistencia/editar/(:any)', 'Crudasistencias::editar/$1');
 $routes->get('asistencia/eliminar/(:any)', 'Crudasistencias::eliminar/$1');
 
-$routes->post('components/crud_usuarios/agregar', 'CrudUsuariosController::agregar');
-$routes->add('crud_usuarios', 'CrudUsuariosController::index');
-$routes->post('components/crud_usuarios/editar/(:segment)', 'CrudUsuariosController::editar/$1');
-$routes->add('crud_apoderados', 'Crudapoderados::index');
+// Corrección de la ruta para agregar usuarios
+$routes->post('crud_usuarios/agregar', 'CrudUsuariosController::agregar');
+$routes->get('crud_usuarios/eliminar/(:num)', 'CrudUsuariosController::eliminar/$1');
+$routes->get('crud_usuarios', 'CrudUsuariosController::index');
+$routes->post('crud_usuarios/editar/(:num)', 'CrudUsuariosController::editar/$1');
+
 $routes->post('auth/submit_login', 'Auth::submit_login');
 $routes->get('dashboard', 'DashboardController::index');
-$routes->post('components/crud_apoderados/agregar', 'CrudApoderados::agregar');
-$routes->post('components/crud_apoderados/editar/(:segment)', 'CrudApoderados::editar/$1');
-$routes->get('components/crud_apoderados/eliminar/(:segment)', 'CrudApoderados::eliminar/$1');
-
-

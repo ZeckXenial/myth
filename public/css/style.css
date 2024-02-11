@@ -17,6 +17,24 @@
     background-position: 0% 0%;
   }
 }
+.card{
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  transition: 0.3s;
+  border-radius: 5px;
+  gap: 10px;
+  height: fit-content;
+  display: flex;
+  
+}
+.fixed-top {
+  top: -40px;
+  transform: translateY(40px);
+  transition: transform .3s;
+}
+nav:hover{
+  -webkit-animation: shadow-inset-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+  animation: shadow-inset-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
 
 body {
   background: linear-gradient(300deg, #ffffe6, #e3ffa5, #c1ffa5);
@@ -31,10 +49,17 @@ body {
   height: 100vh;
   font-family: sans-serif; 
 }
-
+.carousel-inner {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  margin-top: 25px;
+  display: flex;
+  height: 250px;
+  width: fit-content;
+  border-radius: 10px;
+}
 .navbar {
   display: flex;
-  background: #fff;
+  background: #ffffff85;
   backdrop-filter: blur(20px);
   align-items: center;
   justify-content: center;
@@ -63,8 +88,6 @@ body {
   }
 }
 
-
-/* Estilo para la tabla de usuarios */
 table {
   width: 1000px;
   border-radius: 10px;
@@ -75,13 +98,15 @@ table {
   border-color: #333;
 }
 
-/* Estilo para el botón flotante */
+
 .sticky {
   position: fixed;
   top: 0;
   width: 100%;
 }
-
+.model{
+  backdrop-filter: blur(10px);
+}
 .login {
   background: rgba(255, 255, 255, 0.521);
   backdrop-filter: blur(20px);

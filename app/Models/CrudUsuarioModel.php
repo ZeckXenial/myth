@@ -6,18 +6,23 @@ use CodeIgniter\Model;
 
 class CrudUsuarioModel extends Model
 {
-    protected $table = 'users';
-    protected $primaryKey = 'rut';
-    protected $allowedFields = ['rut', 'full_name', 'email', 'role'];
+    protected $table = 'usuarios';
+    protected $primaryKey = 'user_id';
+    protected $allowedFields = ['nombre', 'email', 'password', 'id_rol', 'especialidad'];
 
-    public function obtenerUsuarios()
+    public function obtenerUsuariosConRoles()
     {
-        return $this->findAll();
+        return $this->db->table('usuarios')
+            ->select('usuarios.*, roles.glosa as nombre_rol')
+            ->join('roles', 'roles.id_rol = usuarios.id_rol')
+            ->where('activo', null)// Filtrar usuarios activos
+            ->get()
+            ->getResultArray();
     }
 
-    public function obtenerUsuarioPorRut($rut)
+    public function obtenerUsuarioPorId($id)
     {
-        return $this->find($rut);
+        return $this->find($id);
     }
 
     public function agregarUsuario($datos)
@@ -25,13 +30,20 @@ class CrudUsuarioModel extends Model
         return $this->insert($datos);
     }
 
-    public function editarUsuario($rut, $datos)
+    public function editarUsuario($id, $datos)
     {
-        return $this->update($rut, $datos);
+        return $this->update($id, $datos);
     }
 
-    public function eliminarUsuario($rut)
+    public function eliminarUsuario($id)
     {
-        return $this->delete($rut);
+        $user = $this->find($id);
+        $user_id= $id;
+        if ($user) {
+            return $this->update($user_id, ['activo' => ' ']);
+        } else {
+           
+            return false; 
+        }
     }
 }

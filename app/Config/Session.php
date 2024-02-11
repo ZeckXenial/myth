@@ -22,6 +22,7 @@ class Session extends BaseConfig
      * @var class-string<BaseHandler>
      */
     public string $driver = FileHandler::class;
+public $sessionExpirationOnClose = true;  // Esto es importante
 
     /**
      * --------------------------------------------------------------------------
