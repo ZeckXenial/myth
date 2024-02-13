@@ -56,6 +56,7 @@ class CrudUsuariosController extends Controller
             $data = [
                 'nombre' => $this->request->getPost('nombre'),
                 'email' => $this->request->getPost('email'),
+                'password' => $this->request->getPost('password'),
                 'id_rol' => $this->request->getPost('id_rol'),
             ];
     

@@ -4,31 +4,20 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class AnotacionesModel extends Model
+class EstudiantesModel extends Model
 {
-    protected $table = 'anotaciones';
-    protected $primaryKey = 'anotacion_id';
-    protected $allowedFields = ['estudiante_id', 'user_id', 'origen_anot', 'glosa_anot'];
+    protected $table = 'estudiantes';
 
-    // Obtener anotaciones por estudiante
-    public function obtenerAnotacionesPorEstudiante($estudianteId)
+    public function obtenerEstudiantesPorCurso($curso_id)
     {
-        return $this->where('estudiante_id', $estudianteId)->findAll();
-    }
+        $builder = $this->db->table('cursos');
+        $builder->select('estudiantes.*');
+        $builder->join('usuarios', 'usuarios.user_id = cursos.user_id');
+        $builder->join('anotaciones', 'anotaciones.user_id = usuarios.user_id');
+        $builder->join('estudiantes', 'estudiantes.estudiante_id = anotaciones.estudiante_id');
+        $builder->where('cursos.curso_id', $curso_id);
+        $query = $builder->get();
 
-    // Obtener anotaciones por curso
-    public function obtenerAnotacionesPorCurso($cursoId)
-    {
-        return $this->select('anotaciones.*, estudiantes.nombre')
-            ->join('estudiantes', 'estudiantes.estudiante_id = anotaciones.estudiante_id')
-            ->join('clases', 'clases.user_id = anotaciones.user_id')
-            ->where('clases.clase_id', $cursoId)
-            ->findAll();
-    }
-
-    // Guardar una nueva anotación
-    public function guardarAnotacion($data)
-    {
-        return $this->insert($data);
+        return $query->getResultArray();
     }
 }

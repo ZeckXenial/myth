@@ -10,6 +10,18 @@ class EstudiantesModel extends Model
     protected $primaryKey = 'estudiante_id';
     protected $allowedFields = ['nombre', 'fecha_nacimiento', 'grado'];
 
+    public function obtenerEstudiantesPorCurso($curso_id)
+    {
+        $builder = $this->db->table('estudiantes');
+        $builder->select('estudiantes.*');
+        $builder->join('anotaciones', 'anotaciones.estudiante_id = estudiantes.estudiante_id');
+        $builder->join('usuarios', 'usuarios.user_id = anotaciones.user_id');
+        $builder->join('cursos', 'cursos.user_id = usuarios.user_id');
+        $builder->where('cursos.curso_id', $curso_id);
+        $query = $builder->get();
+    
+        return $query->getResultArray();
+    }
     public function obtenerEstudiantesConApoderados()
     {
         // Obtener estudiantes con detalles de apoderados

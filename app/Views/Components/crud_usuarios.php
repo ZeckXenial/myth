@@ -1,7 +1,7 @@
-<?php include(APPPATH . 'Views/Components/NavBar.php');?>
 <?php include(APPPATH . 'Views/Components/headers.php');?>
-
-<h2>Administración de Usuarios</h2>
+<?php include(APPPATH . 'Views/Components/NavBar.php');?>
+<div class="container-fluid">
+<h1 class="text-center" >Administración de Usuarios</h1>
 
 <table id="usuariosTable" class="table table-bordered table-striped dataTable">
     <thead>
@@ -9,17 +9,17 @@
             <th>Nombre</th>
             <th>Email</th>
             <th>Rol</th>
-            <th>Especialidad</th> <!-- Agregado -->
+            <th>Especialidad</th> 
             <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($users as $user): ?> <!-- Cambiado de $users a $user -->
+        <?php foreach ($users as $user): ?>
             <tr>
                 <td><?= $user['nombre']; ?></td>
                 <td><?= $user['email']; ?></td>
                 <td><?= $user['nombre_rol']; ?></td>
-                <td><?= $user['especialidad']; ?></td> <!-- Agregado -->
+                <td><?= $user['especialidad']; ?></td> 
                 <td>
                     <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editarUsuarioModal<?= $user['user_id'] ?>">Editar</a>
                     <a href="<?= site_url('crud_usuarios/eliminar/' . $user['user_id']) ?>" class="btn btn-danger">Eliminar</a> <!-- Cambiado de 'components/crud_usuarios/eliminar' a 'crud_usuarios/eliminar' -->
@@ -60,7 +60,7 @@
                                         <option value="3" <?= ($user['id_rol'] == '3') ? 'selected' : ''; ?>>UTP</option>
                                     </select>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                                <button type="submit" class="btn  btn-primary">Guardar Cambios</button>
                             </form>
                         </div>
                     </div>
@@ -131,6 +131,6 @@
         </div>
     </div>
 </div>
-
+</div>
 <?php include(APPPATH . 'Views/Components/toast.php');?>
 <?php include(APPPATH . 'Views/Components/footer.php'); ?>

@@ -15,7 +15,7 @@ class CrudUsuarioModel extends Model
         return $this->db->table('usuarios')
             ->select('usuarios.*, roles.glosa as nombre_rol')
             ->join('roles', 'roles.id_rol = usuarios.id_rol')
-            ->where('activo', null)// Filtrar usuarios activos
+            ->where('activo', null)
             ->get()
             ->getResultArray();
     }

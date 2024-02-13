@@ -4,8 +4,6 @@
   --shadow-color: rgba(0, 0, 0, 0.54);
   --text-color: #333; 
 }
-
-
 @keyframes gradient-animation {
   0% {
     background-position: 0% 0%;
@@ -17,7 +15,6 @@
     background-position: 0% 0%;
   }
 }
-
 .card{
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   transition: 0.3s;
@@ -29,11 +26,6 @@
   height: fit-content;
   display: flex;
   
-}
-.fixed-top {
-  top: -40px;
-  transform: translateY(40px);
-  transition: transform .3s;
 }
 .navbar:hover{
   -webkit-animation: shadow-inset-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
@@ -73,19 +65,19 @@ body {
   height: 100vh;
   font-family: sans-serif; 
 }
-
 .carousel-inner {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   margin-top: 25px;
-  display: flex;
+ 
   height: 250px;
-  width: fit-content;
+  width: 1000px;
   border-radius: 10px;
 }
+
 .navbar {
-  display: flex;
-  background: #ffffff85;
-  backdrop-filter: blur(20px);
+  
+  background: #ffffff2c;
+  backdrop-filter: blur(10px);
   align-items: center;
   justify-content: center;
   max-width: fit-content;
@@ -93,15 +85,6 @@ body {
   border-radius: 10px;
   transition: top 0.5s ease-in-out;
 }
-
-.navbar.sticky {
-  position: fixed;
-  top: 20px;
-  width: 100%;
-  animation: fadeInDown 0.5s ease-in-out;
-}
-
-/* Define la animación fadeInDown */
 @keyframes fadeInDown {
   0% {
       opacity: 0;
@@ -115,23 +98,14 @@ body {
 .btn{
   margin: 5px;
 }
-.table {
+table {
   width: 1000px;
-  border-radius: 5px;
+  border-radius: 10px;
   background: #ffffffbf; 
-  border-collapse: collapse;
-  border-style: solid;
-  border-width: 1px;
   box-shadow: 10px 10px 34px 0px var(--shadow-color);
-  border-color: #333;
+  
 }
 
-
-.sticky {
-  position: fixed;
-  top: 0;
-  width: 100%;
-}
 .modal{
   backdrop-filter: blur(10px);
 }

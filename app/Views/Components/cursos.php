@@ -1,6 +1,12 @@
 <?php include(APPPATH . 'Views/Components/NavBar.php');?>
 <?php include(APPPATH . 'Views/Components/headers.php');?>
 
+
+<body>
+    
+</body>
+</html>
+
 <div class="container mt-4">
     <h1 class="text-center">Cursos</h1>
 

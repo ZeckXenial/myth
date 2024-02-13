@@ -2,20 +2,23 @@
 
 namespace App\Controllers;
 
-use App\Models\AnotacionesModel;
+use App\Models\EstudiantesModel;
+use App\Models\anotacionesmodel;
+use CodeIgniter\Controller;
 
-class Anotaciones extends BaseController
+class Anotaciones extends Controller
 {
-    private $anotacionesModel;
-
-    public function __construct()
+    public function curso($curso_id)
     {
-        $this->anotacionesModel = new AnotacionesModel();
-    }
+        $estudiantesModel = new EstudiantesModel();
 
-    public function curso($cursoId)
-    {
-        $data['anotaciones'] = $this->anotacionesModel->obtenerAnotacionesPorCurso($cursoId);
-        return view('components/anotaciones_curso', $data);
+        $estudiantes = $estudiantesModel->obtenerEstudiantesPorCurso($curso_id);
+
+        if ($estudiantes) {
+            return view('components/anotaciones_curso', ['estudiantes' => $estudiantes]);
+        } else {
+            
+            return "No se encontraron estudiantes para este curso";
+        }
     }
 }
