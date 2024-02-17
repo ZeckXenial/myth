@@ -7,10 +7,16 @@ use CodeIgniter\Controller;
 
 class Cursos extends Controller
 {
+    private $cursoModel;
+
+    public function __construct()
+    {
+        $this->cursoModel = new CursoModel();
+    }
+
     public function index()
     {
-        $cursoModel = new CursoModel();
-        $data['cursos'] = $cursoModel->findAll();
+        $data['cursos'] = $this->cursoModel->findAll();
         return view('cursos/index', $data);
     }
 
@@ -21,29 +27,25 @@ class Cursos extends Controller
 
     public function store()
     {
-        $cursoModel = new CursoModel();
-        $cursoModel->insert($this->request->getPost());
+        $this->cursoModel->insert($this->request->getPost());
         return redirect()->to('/cursos');
     }
 
     public function edit($id)
     {
-        $cursoModel = new CursoModel();
-        $data['curso'] = $cursoModel->find($id);
-        return view('cursos/edit', $data);
+        $data['curso'] = $this->cursoModel->find($id);
+        return view('components/edit', $data);
     }
 
     public function update($id)
     {
-        $cursoModel = new CursoModel();
-        $cursoModel->update($id, $this->request->getPost());
+        $this->cursoModel->update($id, $this->request->getPost());
         return redirect()->to('/cursos');
     }
 
     public function delete($id)
     {
-        $cursoModel = new CursoModel();
-        $cursoModel->delete($id);
+        $this->cursoModel->delete($id);
         return redirect()->to('/cursos');
     }
 }

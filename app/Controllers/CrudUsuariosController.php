@@ -16,8 +16,6 @@ class CrudUsuariosController extends Controller
 
     public function agregar()
     {
-        $model = new CrudUsuarioModel();
-
         if ($this->request->getMethod() === 'post') {
             $validation = \Config\Services::validation();
 
@@ -29,10 +27,10 @@ class CrudUsuariosController extends Controller
             ];
 
             if ($this->validate($rules)) {
+                $model = new CrudUsuarioModel();
                 $data = [
                     'nombre' => $this->request->getPost('nombre'),
                     'email' => $this->request->getPost('email'),
-                    'especialidad' => $this->request->getPost('especialidad'),
                     'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
                     'id_rol' => $this->request->getPost('id_rol'),
                 ];
@@ -50,19 +48,40 @@ class CrudUsuariosController extends Controller
 
     public function editar($id)
     {
-        $model = new CrudUsuarioModel();
-    
         if ($this->request->getMethod() === 'post') {
-            $data = [
-                'nombre' => $this->request->getPost('nombre'),
-                'email' => $this->request->getPost('email'),
-                'password' => $this->request->getPost('password'),
-                'id_rol' => $this->request->getPost('id_rol'),
+            $validation = \Config\Services::validation();
+    
+            $rules = [
+                'nombre_edit' => 'required|min_length[3]|max_length[50]',
+                'email_edit' => 'required|valid_email',
+                'id_rol' => 'required',
             ];
     
-            $model->editarUsuario($id, $data);
+            // Verificar si se proporcionó una contraseña
+            if (!empty($this->request->getPost('password_edit'))) {
+                // Si se proporcionó, validar la contraseña
+                $rules['password_edit'] = 'required|min_length[6]';
+            }
     
-            return redirect()->to(site_url('crud_usuarios'))->with('success', 'Usuario editado exitosamente');
+            if ($this->validate($rules)) {
+                $model = new CrudUsuarioModel();
+                $data = [
+                    'nombre' => $this->request->getPost('nombre_edit'),
+                    'email' => $this->request->getPost('email_edit'),
+                    'id_rol' => $this->request->getPost('id_rol'),
+                ];
+    
+                // Verificar si se proporcionó una contraseña antes de actualizarla
+                if (!empty($this->request->getPost('password_edit'))) {
+                    $data['password'] = password_hash($this->request->getPost('password_edit'), PASSWORD_DEFAULT);
+                }
+    
+                $model->editarUsuario($id, $data);
+    
+                return redirect()->to(site_url('crud_usuarios'))->with('success', 'Usuario editado exitosamente');
+            } else {
+                return redirect()->to(site_url('crud_usuarios'))->withInput()->with('errors', $validation->getErrors());
+            }
         }
     
         return redirect()->to(site_url('crud_usuarios'));

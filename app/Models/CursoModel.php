@@ -8,8 +8,7 @@ class CursoModel extends Model
 {
     protected $table = 'cursos';
     protected $primaryKey = 'curso_id';
-    protected $allowedFields = ['user_id', 'asignatura_id', 'grado', 'activo']; // Añadimos el campo 'activo'
-
+    protected $allowedFields = ['user_id', 'asignatura_id', 'grado', 'activo']; 
     public function obtenerCursos()
     {
         $user_id = session()->get('user_id');

@@ -12,15 +12,8 @@ class EstudiantesModel extends Model
 
     public function obtenerEstudiantesPorCurso($curso_id)
     {
-        $builder = $this->db->table('estudiantes');
-        $builder->select('estudiantes.*');
-        $builder->join('anotaciones', 'anotaciones.estudiante_id = estudiantes.estudiante_id');
-        $builder->join('usuarios', 'usuarios.user_id = anotaciones.user_id');
-        $builder->join('cursos', 'cursos.user_id = usuarios.user_id');
-        $builder->where('cursos.curso_id', $curso_id);
-        $query = $builder->get();
-    
-        return $query->getResultArray();
+        return $this->where('curso_id', $curso_id)
+        ->findAll();
     }
     public function obtenerEstudiantesConApoderados()
     {

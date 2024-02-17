@@ -1,16 +1,23 @@
-<?
+<?php
+
 namespace App\Models;
 
 use CodeIgniter\Model;
 
 class AsistenciasModel extends Model
 {
-    protected $table = 'asistencias';
-    protected $primaryKey = 'id_asistencia';
-    protected $allowedFields = ['rut_estudiante', 'fecha_asistencia', 'asistio', 'semestre', 'iduser', 'id_curso'];
-    
-    public function getAsistenciasPorCurso($cursoId)
+    protected $table = 'asistencia';
+    protected $primaryKey = 'asistencia_id';
+    protected $allowedFields = ['estudiante_id', 'curso_id', 'fecha', 'presente'];
+
+    public function getAsistenciasPorCurso($clase_id)
     {
-        return $this->where('id_curso', $cursoId)->findAll();
+        return $this->where('curso_id', $clase_id)
+                    ->findAll();
+    }
+
+    public function ingresarAsistencias($datos)
+    {
+        return $this->insertBatch($datos);
     }
 }

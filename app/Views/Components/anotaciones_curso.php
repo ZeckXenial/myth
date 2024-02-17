@@ -1,5 +1,5 @@
-<?php include(APPPATH . 'Views/Components/NavBar.php');?>
 <?php include(APPPATH . 'Views/Components/headers.php');?>
+<?php include(APPPATH . 'Views/Components/NavBar.php');?>
 
 <div class="container mt-4">
     <h1 class="text-center">Anotaciones de Curso</h1>

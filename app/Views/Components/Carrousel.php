@@ -1,10 +1,10 @@
-<div id="carousel" class="carousel slide">
+<div id="carousel" class="carousel  slide">
   <div class="carousel-indicators">
     <button type="button" data-bs-target="#carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
     <button type="button" data-bs-target="#carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
     <button type="button" data-bs-target="#carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
   </div>
-  <div class="carousel-inner">
+  <div class="mx-auto carousel-inner">
     <div class="carousel-item active">
       <img src="https://www.uclm.es/-/media/Files/C01-Centros/To-cdeporte/fotosCabecera/studying.ashx" class="d-block w-100" alt="...">
       <div class="carousel-caption d-none d-md-block">

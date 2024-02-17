@@ -1,5 +1,5 @@
-<?php include(APPPATH . 'Views/Components/NavBar.php');?>
 <?php include(APPPATH . 'Views/Components/headers.php');?>
+<?php include(APPPATH . 'Views/Components/NavBar.php');?>
 
 
 <body>
@@ -21,7 +21,7 @@
                             'Anotaciones' => "anotaciones/curso/{$curso['curso_id']}",
                             'Asistencias' => "asistencias/curso/{$curso['curso_id']}",
                             'Calificaciones' => "calificaciones/curso/{$curso['curso_id']}",
-                            'Editar' => "editar/curso/{$curso['curso_id']}"
+                            'Editar' => "cursos/edit/{$curso['curso_id']}"
                         ]; ?>
                         <?php foreach ($links as $text => $url): ?>
                             <a href="<?= site_url($url) ?>" class="btn btn-primary"><?= $text ?></a>

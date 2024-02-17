@@ -18,10 +18,14 @@ $routes->get('calificaciones/curso/(:num)', 'Calificaciones::curso/$1');
 $routes->get('notas', 'NotasController::index');
 $routes->get('notas/crud/(:num)', 'NotasController::crud/$1');
 
-$routes->get('asistencia', 'Crudasistencias::index');
-$routes->post('asistencia/agregar', 'Crudasistencias::agregar');
-$routes->post('asistencia/editar/(:any)', 'Crudasistencias::editar/$1');
-$routes->get('asistencia/eliminar/(:any)', 'Crudasistencias::eliminar/$1');
+$routes->post('guardar_asistencias', 'Asistencias::ingresarAsistencias');
+
+
+$routes->get('cursos/create', 'Cursos::create');
+$routes->post('cursos/store', 'Cursos::store');
+$routes->get('cursos/edit/(:num)', 'Cursos::edit/$1');
+$routes->post('cursos/update/(:num)', 'Cursos::update/$1');
+$routes->get('cursos/delete/(:num)', 'Cursos::delete/$1');
 
 $routes->get('estudiantes', 'CrudEstudiantes::index');
 $routes->post('estudiantes/agregar', 'CrudEstudiantes::agregar');
