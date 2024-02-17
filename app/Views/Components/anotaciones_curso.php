@@ -10,30 +10,65 @@
                     <div class="card-body">
                         <h5 class="card-title"><?= $estudiante['nombre'] ?></h5>
                         <p class="card-text">Fecha de Nacimiento: <?= $estudiante['fecha_nacimiento'] ?></p>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#anotacionModal<?= $estudiante['estudiante_id'] ?>">
-                            Agregar Anotación
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#verAnotacionesModal<?= $estudiante['estudiante_id'] ?>">
+                            Ver Anotaciones
+                        </button>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#crearAnotacionesModal<?= $estudiante['estudiante_id'] ?>">
+                            Crear Anotaciones
                         </button>
                     </div>
                 </div>
             </div>
 
-            
-            <div class="modal fade" id="anotacionModal<?= $estudiante['estudiante_id'] ?>" tabindex="-1" aria-labelledby="anotacionModalLabel<?= $estudiante['estudiante_id'] ?>" aria-hidden="true">
-                <div class="modal-dialog">
+            <div class="modal fade" id="verAnotacionesModal<?= $estudiante['estudiante_id'] ?>" tabindex="-1" aria-labelledby="verAnotacionesModalLabel<?= $estudiante['estudiante_id'] ?>" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="anotacionModalLabel<?= $estudiante['estudiante_id'] ?>">Agregar Anotación para <?= $estudiante['nombre'] ?></h5>
+                            <h5 class="modal-title" id="verAnotacionesModalLabel<?= $estudiante['estudiante_id'] ?>">Anotaciones de <?= $estudiante['nombre'] ?></h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <!-- Aquí va el formulario para agregar la anotación -->
-                            <form action="<?= site_url('anotaciones/agregar') ?>" method="post">
+                            <?php if (isset($estudiante['anotaciones'])): ?>
+                                <?php foreach ($estudiante['anotaciones'] as $anotacion): ?>
+                                    <?php if ($anotacion['origen_anot'] === 'negativa'): ?>
+                                        <div class="alert alert-danger" role="alert">
+                                    <?php else: ?>
+                                        <div class="alert alert-info" role="alert">
+                                    <?php endif; ?>
+                                        <?= $anotacion['glosa_anot'] ?>
+                                    </div>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <div class="alert alert-warning" role="alert">
+                                    Este estudiante no tiene anotaciones.
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="crearAnotacionesModal<?= $estudiante['estudiante_id'] ?>" tabindex="-1" aria-labelledby="crearAnotacionesModalLabel<?= $estudiante['estudiante_id'] ?>" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="CrearAnotacionesModalLabel<?= $estudiante['estudiante_id'] ?>">Anotaciones de <?= $estudiante['nombre'] ?></h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                        <form action="<?= site_url('anotaciones/crear') ?>" method="post">
                                 <input type="hidden" name="estudiante_id" value="<?= $estudiante['estudiante_id'] ?>">
+                                <input type="hidden" name="user_id" value="<?= session()->get('iduser') ?>">
                                 <div class="mb-3">
-                                    <label for="glosa" class="form-label">Glosa:</label>
+                                    <label for="glosa" class="form-label">Nueva Anotación:</label>
                                     <textarea class="form-control" name="glosa" rows="3" required></textarea>
                                 </div>
-                               
+                                <div class="mb-3">
+                                    <label for="origen_anotacion" class="form-label">Origen de la Anotación:</label>
+                                    <select class="form-select" name="origen_anotacion" required>
+                                        <option value="positiva">Positiva</option>
+                                        <option value="negativa">Negativa</option>
+                                    </select>
+                                </div>
                                 <button type="submit" class="btn btn-primary">Agregar Anotación</button>
                             </form>
                         </div>

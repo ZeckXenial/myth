@@ -4,13 +4,28 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class EstudiantesModel extends Model
+class AnotacionesModel extends Model
 {
-    protected $table = 'estudiantes';
+    protected $table = 'anotaciones';
+    protected $primaryKey = 'anotacion_id';
+    protected $allowedFields = ['estudiante_id', 'user_id', 'origen_anot', 'glosa_anot'];
 
-    public function obtenerEstudiantesPorCurso($curso_id)
+    public function crearAnotacion($data)
     {
-        return $this->where('curso_id', $curso_id)
-        ->findAll();
+        return $this->insert($data);
+    }
+
+    public function editarAnotacion($anotacion_id, $data)
+    {
+        return $this->update($anotacion_id, $data);
+    }
+
+    public function eliminarAnotacion($anotacion_id)
+    {
+        return $this->delete($anotacion_id);
+    }
+    public function obtenerAnotacionesPorEstudiante($estudiante_id)
+    {
+        return $this->where('estudiante_id', $estudiante_id)->findAll();
     }
 }

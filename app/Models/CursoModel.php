@@ -21,25 +21,41 @@ class CursoModel extends Model
         
         return [];
     }
-    public function countCursos()
-    {
-        return $this->countAll();
-    }
-
+    
    
     public function getCursosByTeacher($user_id)
+{
+    return $this->select('cursos.*, usuarios.nombre AS nombre_usuario, nivel.nombre AS nombre_nivel')
+                ->join('usuarios', 'usuarios.user_id = cursos.user_id')
+                ->join('nivel', 'nivel.nivel_id = cursos.nivel_id')
+                ->where('cursos.user_id', $user_id)
+                ->findAll();
+}
+
+public function getCursosByDirective()
+{
+    return $this->select('cursos.*, usuarios.nombre AS nombre_usuario, nivel.nombre AS nombre_nivel')
+                ->join('usuarios', 'usuarios.user_id = cursos.user_id')
+                ->join('nivel', 'nivel.nivel_id = cursos.nivel_id', 'left')
+                ->findAll();
+}
+    public function obtenerCursoPorId($id)
     {
-        return $this->select('cursos.*, usuarios.nombre AS nombre_usuario')
-                    ->join('usuarios', 'usuarios.user_id = cursos.user_id')
-                    ->where('cursos.user_id', $user_id)
-                    ->findAll();
+        return $this->find($id);
     }
 
-    public function getCursosByDirective()
+    public function crearCurso($data)
     {
-        return $this->select('cursos.*, usuarios.nombre AS nombre_usuario')
-        ->join('usuarios', 'usuarios.user_id = cursos.user_id')
-       
-        ->findAll();
+        return $this->insert($data);
+    }
+
+    public function actualizarCurso($id, $data)
+    {
+        return $this->update($id, $data);
+    }
+
+    public function eliminarCurso($id)
+    {
+        return $this->delete($id);
     }
 }

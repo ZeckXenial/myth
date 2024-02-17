@@ -17,7 +17,11 @@ class AsistenciasModel extends Model
     }
 
     public function ingresarAsistencias($datos)
-    {
+{
+    if (is_array($datos) && isset($datos[0]) && is_array($datos[0])) {
         return $this->insertBatch($datos);
+    } else {
+        return $this->insert($datos);
     }
+}
 }

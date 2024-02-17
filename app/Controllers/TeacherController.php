@@ -19,7 +19,6 @@ class TeacherController extends Controller
         $idUsuario = session()->get('user_id');
 
         $data['cursos'] = $cursoModel->obtenerCursos($rol, $idUsuario);
-        $data['cantCursos'] = $cursoModel->countCursos(); // Obtener la cantidad total de cursos
 
         return view('teacher/dashboard', $data);
     }

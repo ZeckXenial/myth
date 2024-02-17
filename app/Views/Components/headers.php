@@ -28,7 +28,7 @@
     <script src="<?= base_url('public/scripts/script.js') ?>"></script>
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="/computer.png" />
-
+<!--     <link rel="icon" type="image/png" href="/computer.png" />
+ -->
     <title>Intranet</title>
 </head>

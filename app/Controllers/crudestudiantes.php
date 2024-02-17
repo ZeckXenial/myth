@@ -3,13 +3,16 @@
 namespace App\Controllers;
 
 use App\Models\EstudiantesModel;
+use App\Models\nivelModel;
 
 class CrudEstudiantes extends BaseController
 {
     public function index()
     {
         $estudianteModel = new EstudiantesModel();
+        $nivelModel = new nivelModel();
         $data['estudiantes'] = $estudianteModel->obtenerEstudiantesConApoderados();
+        $data['niveles'] = $nivelModel->obtenerniveles();
 
         return view('components/estudiantes', $data);
     }

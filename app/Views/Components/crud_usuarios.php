@@ -1,7 +1,7 @@
 <?php include(APPPATH . 'Views/Components/headers.php');?>
 <?php include(APPPATH . 'Views/Components/NavBar.php');?>
 <div class="container-fluid">
-    <h1 class="text-center">Administración de Usuarios</h1>
+    <h1 class="text-center" >Administración de Usuarios</h1>
 
     <table id="usuariosTable" class="table table-bordered table-responsive table-hover table-striped dataTable">
         <thead>
@@ -26,7 +26,7 @@
                     </td>
                 </tr>
 
-                <div class="modal fade" id="editarUsuarioModal<?= $user['user_id'] ?>" tabindex="-1" aria-labelledby="editarUsuarioModalLabel<?= $user['user_id'] ?>" aria-hidden="true">
+                <div class="modal fade" data-backdrop="static" id="editarUsuarioModal<?= $user['user_id'] ?>" tabindex="-1" aria-labelledby="editarUsuarioModalLabel<?= $user['user_id'] ?>" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">

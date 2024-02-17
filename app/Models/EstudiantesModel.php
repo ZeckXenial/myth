@@ -8,7 +8,7 @@ class EstudiantesModel extends Model
 {
     protected $table = 'estudiantes';
     protected $primaryKey = 'estudiante_id';
-    protected $allowedFields = ['nombre', 'fecha_nacimiento', 'grado'];
+    protected $allowedFields = ['nombre', 'fecha_nacimiento', 'grado', 'curso_id'];
 
     public function obtenerEstudiantesPorCurso($curso_id)
     {
@@ -22,7 +22,30 @@ class EstudiantesModel extends Model
             ->join('apoderados', 'apoderados.estudiante_id = estudiantes.estudiante_id')
             ->findAll();
     }
+    public function obtenerEstudiantes()
+    {
+        return $this->findAll();
+    }
 
+    public function obtenerEstudiantePorId($id)
+    {
+        return $this->find($id);
+    }
+
+    public function crearEstudiante($data)
+    {
+        return $this->insert($data);
+    }
+
+    public function actualizarEstudiante($id, $data)
+    {
+        return $this->update($id, $data);
+    }
+
+    public function eliminarEstudiante($id)
+    {
+        return $this->delete($id);
+    }
     public function eliminarPorApoderado($id_Apoderado)
     {
         // Buscar estudiantes asociados a este apoderado
