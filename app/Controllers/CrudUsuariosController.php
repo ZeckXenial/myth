@@ -53,14 +53,18 @@ class CrudUsuariosController extends Controller
 
         $rules = [
             'nombre_edit' => 'required|min_length[3]|max_length[50]',
-            'email_edit' => 'required|valid_email',
-            'id_rol' => 'required',
+            'id_rol' => 'required'
         ];
 
    
         if (!empty($this->request->getPost('password_edit'))) {
          
             $rules['password_edit'] = 'required|min_length[6]';
+        }
+   
+        if (!empty($this->request->getPost('email_edit'))) {
+         
+            $rules['email_edit'] = 'required|valid_email';
         }
 
         if ($this->validate($rules)) {

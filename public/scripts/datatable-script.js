@@ -1,8 +1,11 @@
 
 $(document).ready(function () {
     $('#usuariosTable').DataTable({"language": {
-        "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
-        }});
+        "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"} ,
+        responsive: true,
+        scrollCollapse: true,
+        scroller: true,
+        scrollY: 200});
     
 });
 $(document).ready(function () {

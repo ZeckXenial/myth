@@ -6,7 +6,7 @@
 <div class="container mt-4">
     <h1 class="text-center">Cursos</h1>
 
-    <div class="row">
+    <div class="row position-absolute">
         <?php foreach ($cursos as $curso): ?>
             <div class="col-md-4 mb-4">
                 <div class="card">
@@ -32,7 +32,7 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Crear Nuevo Curso</h5>
-                    <a href="<?= site_url('crear_curso') ?>" class="btn btn-primary">Crear</a>
+                    <a href="<?= site_url('cursos/agregar') ?>" class="btn btn-primary">Crear</a>
                 </div>
             </div>
         </div>

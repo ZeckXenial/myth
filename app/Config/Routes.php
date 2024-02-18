@@ -23,8 +23,8 @@ $routes->post('anotaciones/crear', 'Anotaciones::crear');
 $routes->post('editar/(:num)', 'Anotaciones::editar/$1');
 $routes->get('eliminar/(:num)', 'Anotaciones::eliminar/$1');
 
-$routes->get('cursos/create', 'Cursos::create');
-$routes->post('cursos/store', 'Cursos::store');
+$routes->get('cursos/agregar', 'Cursos::agregar');
+$routes->post('cursos/guardar', 'Cursos::guardar');
 $routes->get('cursos/editar/(:num)', 'Cursos::editar/$1');
 $routes->post('cursos/update/(:num)', 'Cursos::update/$1');
 $routes->get('cursos/delete/(:num)', 'Cursos::delete/$1');

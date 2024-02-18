@@ -1,10 +1,11 @@
 <?php include(APPPATH . 'Views/Components/headers.php');?>
 <?php include(APPPATH . 'Views/Components/NavBar.php');?>
-<div class="container-fluid">
-    <h1 class="text-center" >Administración de Usuarios</h1>
+<div class="container">
+    <h1 class="text-center ">Administracion de usuarios</h1>
 
-    <table id="usuariosTable" class="table table-bordered table-responsive table-hover table-striped dataTable">
-        <thead>
+    <table id="usuariosTable" class="table position-absolute caption-top table-bordered table-responsive table-hover table-striped scroller dataTable">
+    <caption  style="visibility: hidden">Administracion de usuarios</caption>  
+    <thead>
             <tr>
                 <th>Nombre</th>
                 <th>Email</th>
@@ -47,7 +48,7 @@
                                         <label for="password_edit" class="form-floating">Nueva Contraseña:</label>
                                         <div class="input-group">
                                             <input type="password" name="password_edit" class="form-control" placeholder="Ingrese nueva contraseña">
-                                            <button class="btn btn-outline-secondary reveal-password" type="button">
+                                            <button class="btn btn-outline-secondary reveal-password" onclick="mostrarContrasena()" type="button">
                                                 <i class="bi bi-eye"></i>
                                             </button>
                                         </div>

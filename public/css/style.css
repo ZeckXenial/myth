@@ -21,9 +21,8 @@
   border-radius: 5px;
   backdrop-filter: blur(10px);
   height: fit-content;
- 
-  
 }
+
 div.form-control{
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   transition: 0.3s;
@@ -71,29 +70,22 @@ height: 100vh;
 }
 .carousel-inner {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  margin-top: 25px;
- 
+  position: relative;
   height: 250px;
   width: 1000px;
   border-radius: 10px;
 }
 
-h1.text-center{
-  position: relative;
-  margin-top: 20%;
-
-}
-
-.navbar{
+nav.navbar{
   margin-top: 25px;
   background: #ffffff2c;
   backdrop-filter: blur(10px);
   align-items: center;
+ 
   justify-content: center;
   max-width: fit-content;
   box-shadow: 10px 10px 34px 0px var(--shadow-color);
   border-radius: 10px;
-  transition: top 0.5s ease-in-out;
 }
 @keyframes fadeInDown {
   0% {
@@ -105,11 +97,13 @@ h1.text-center{
       transform: translateY(0);
   }
 }
+
 .btn{
   margin: 5px;
 }
-table {
-  width: 1000px;
+table.datatable{
+  position: absolute;
+  width: fit-content;
   border-radius: 10px;
   background: #ffffffbf; 
   box-shadow: 10px 10px 34px 0px var(--shadow-color);

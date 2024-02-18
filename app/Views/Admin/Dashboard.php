@@ -7,14 +7,13 @@
 
     <title>Intranet</title>
 </head>
-<body>
+<body class="container-fluid">
      
-    <nav>
-        <?php include(APPPATH . 'Views/Components/NavBar.php');
-?></nav>
+   
+    <?php include(APPPATH . 'Views/Components/NavBar.php');?>
     
-      
-<div> <?php include(APPPATH . 'Views/Components/Carrousel.php'); ?> </div>
+    
+<div> <?php include(APPPATH . 'Views/Components/Carrousel.php'); ?> </div>  
 <div> <?php include(APPPATH . 'Views/Components/Card.php'); ?> </div>
 
 <div> <?php include(APPPATH . 'Views/Components/footer.php'); ?> </div>
