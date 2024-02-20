@@ -19,7 +19,14 @@ class CrudUsuarioModel extends Model
             ->get()
             ->getResultArray();
     }
-
+ public function obtenerUsuarios()
+    {
+        return $this->db->table('usuarios')
+            ->select('usuarios.*')
+            ->where('activo', null)
+            ->get()
+            ->getResultArray();
+    }
     public function obtenerUsuarioPorId($id)
     {
         return $this->find($id);

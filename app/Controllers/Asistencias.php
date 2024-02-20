@@ -39,8 +39,7 @@ class Asistencias extends BaseController
                 $model->ingresarAsistencias($data);
             }
 
-            // Redirigir a la vista de asistencias del curso con el ID del curso
-            return redirect()->to(site_url("asistencias/curso/$cursoId"))->with('success', 'Asistencias guardadas exitosamente');
+            return redirect()->to(site_url("cursos"))->with('success', 'Asistencias guardadas exitosamente');
         } else {
             return redirect()->to(site_url("asistencias/curso/$cursoId"))->with('error', 'No se recibieron datos de asistencia');
         }

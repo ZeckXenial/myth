@@ -5,7 +5,7 @@ namespace App\Controllers;
 use App\Models\CursoModel;
 use App\Models\CrudUsuarioModel;
 use App\Models\AsignaturaModel;
-use App\Models\AsignaturacursoModel;
+use App\Models\AsignaturaCursoModel;
 use App\Models\NivelModel;
 use CodeIgniter\Controller;
 
@@ -14,7 +14,7 @@ class Cursos extends Controller
     private $cursoModel;
     private $nivelModel;
     private $asignaturaModel;
-    private $asignaturacursoModel;
+    private $asignaturaCursoModel;
     private $crudUsuarioModel;
 
     public function __construct()
@@ -22,7 +22,7 @@ class Cursos extends Controller
         $this->cursoModel = new CursoModel();
         $this->nivelModel = new NivelModel();
         $this->asignaturaModel = new AsignaturaModel();
-        $this->asignaturacursoModel = new AsignaturacursoModel();
+        $this->asignaturaCursoModel = new AsignaturaCursoModel();
         $this->crudUsuarioModel = new CrudUsuarioModel();
     }
 
@@ -36,64 +36,70 @@ class Cursos extends Controller
     {
         $data['curso'] = $this->cursoModel->obtenerCursoPorId($id);
         $data['asignaturas'] = $this->asignaturaModel->obtenerAsignaturas();
-        $data['usuarios'] = $this->crudUsuarioModel->findAll();
+        $data['usuarios'] = $this->crudUsuarioModel->obtenerUsuarios();
         $data['niveles'] = $this->nivelModel->obtenerNiveles();
 
         return view('components/edit', $data);
     }
+
     public function guardar()
-{
-    if ($this->request->getMethod() === 'post') {
-        // Obtener los valores del formulario
-        $user_id = $this->request->getPost('user_id');
-        $grado = $this->request->getPost('grado');
-        $nivel_id = $this->request->getPost('nivel_id');
-        $asignatura_ids = $this->request->getPost('asignatura_id'); // Este será un array
+    {
+        if ($this->request->getMethod() === 'post') {
+            $user_id = $this->request->getPost('user_id');
+            $grado = $this->request->getPost('grado');
+            $nivel_id = $this->request->getPost('nivel_id');
+            $asignatura_ids = $this->request->getPost('asignatura_id'); // Este será un array
 
-        // Crear un nuevo curso
-        $cursoModel = new CursoModel();
-        $curso_id = $cursoModel->insert(['user_id' => $user_id, 'grado' => $grado, 'nivel_id' => $nivel_id]);
+            $data = ['user_id' => $user_id, 'grado' => $grado, 'nivel_id' => $nivel_id];
+            $curso_id = $this->cursoModel->insert($data);
 
-        // Verificar si el curso se creó correctamente
-        if ($curso_id) {
-            // Insertar los registros en la tabla asignatura_curso
-            foreach ($asignatura_ids as $asignatura_id) {
-                $asignaturaCursoModel = new AsignaturaCursoModel();
-                $asignaturaCursoModel->insert(['curso_id' => $curso_id, 'asignatura_id' => $asignatura_id]);
+            if ($curso_id) {
+                foreach ($asignatura_ids as $asignatura_id) {
+                    $this->asignaturaCursoModel->insertarAsignaturaCurso($curso_id, $asignatura_id);
+                }
+
+                return redirect()->to(site_url('cursos'))->with('success', 'Curso agregado exitosamente');
+            } else {
+                return redirect()->to(site_url('cursos'))->with('error', 'Error al agregar el curso');
             }
-
-            return redirect()->to(site_url('cursos'))->with('success', 'Curso agregado exitosamente');
-        } else {
-            return redirect()->to(site_url('cursos'))->with('error', 'Error al agregar el curso');
         }
+
+        return redirect()->to(site_url('cursos'))->with('error', 'Error al procesar la solicitud');
     }
 
-    return redirect()->to(site_url('cursos'))->with('error', 'Error al procesar la solicitud');
-}
     public function agregar()
-{
-    $nivelModel = new NivelModel();
-    $asignaturaModel = new AsignaturaModel();
-    $usuarioModel = new CrudUsuarioModel();
+    {
+        $nivelModel = new NivelModel();
+        $asignaturaModel = new AsignaturaModel();
+        $usuarioModel = new CrudUsuarioModel();
 
-    $data['niveles'] = $nivelModel->findAll();
-    $data['asignaturas'] = $asignaturaModel->findAll();
-    $data['usuarios'] = $usuarioModel->findAll();
+        $data['niveles'] = $nivelModel->findAll();
+        $data['asignaturas'] = $asignaturaModel->findAll();
+        $data['usuarios'] = $usuarioModel->findAll();
 
-    return view('components/agregar', $data);
-}
+        return view('components/agregar', $data);
+    }
+
     public function update($cursoId)
     {
         if ($this->request->getMethod() === 'post') {
             $data = [
                 'grado' => $this->request->getPost('grado'),
-                'asignatura_id' => $this->request->getPost('asignatura_id'),
                 'user_id' => $this->request->getPost('user_id'),
                 'nivel_id' => $this->request->getPost('nivel_id'),
             ];
 
             // Actualizar el curso
             if ($this->cursoModel->actualizarCurso($cursoId, $data)) {
+                // Eliminar las asignaturas anteriores asociadas con este curso
+                $this->asignaturaCursoModel->eliminarAsignaturasCursoPorCursoId($cursoId);
+                
+                // Insertar las nuevas asignaturas seleccionadas
+                $asignatura_ids = $this->request->getPost('asignatura_id');
+                foreach ($asignatura_ids as $asignatura_id) {
+                    $this->asignaturaCursoModel->insertarAsignaturaCurso($cursoId, $asignatura_id);
+                }
+
                 return redirect()->to(site_url('cursos'))->with('success', 'Curso actualizado exitosamente');
             } else {
                 return redirect()->to(site_url('cursos'))->with('error', 'Error al actualizar el curso');

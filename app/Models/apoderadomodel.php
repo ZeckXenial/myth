@@ -7,15 +7,15 @@ use CodeIgniter\Model;
 class ApoderadoModel extends Model
 {
     protected $table = 'apoderados';
-    protected $primaryKey = 'apoderado_id';
-    protected $allowedFields = ['nombre', 'numero_telefono', 'email'];
+    protected $primaryKey = 'apoderados_id';
+    protected $allowedFields = ['nombre', 'estudiante_id', 'numero_telefono', 'email'];
 
     public function obtenerApoderados()
     {
         return $this->findAll();
     }
 
-    public function obtenerApoderadoPorId($id)
+    public function obtenerApoderado($id)
     {
         return $this->find($id);
     }

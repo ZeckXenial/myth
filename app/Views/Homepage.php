@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
-    <link rel="stylesheet" href="<?= base_url('public/css/style.css') ?>">
+    <link rel="stylesheet" href="<?= base_url('public/css/style.scss') ?>">
 </head>
 <body>
     <h2>Bienvenido a My School App</h2>

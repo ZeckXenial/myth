@@ -1,12 +1,12 @@
 <?php include(APPPATH . 'Views/Components/headers.php');?>
-<?php include(APPPATH . 'Views/Components/NavBar.php');?>
 
 
 <body>
+    <?php include(APPPATH . 'Views/Components/NavBar.php');?>
 <div class="container mt-4">
     <h1 class="text-center">Cursos</h1>
 
-    <div class="row position-absolute">
+    <div class="row">
         <?php foreach ($cursos as $curso): ?>
             <div class="col-md-4 mb-4">
                 <div class="card">
@@ -17,7 +17,7 @@
                         <?php $links = [
                             'Anotaciones' => "anotaciones/curso/{$curso['curso_id']}",
                             'Asistencias' => "asistencias/curso/{$curso['curso_id']}",
-                            'Calificaciones' => "calificaciones/curso/{$curso['curso_id']}",
+                            'Calificaciones' => "calificaciones/asignaturas/{$curso['curso_id']}",
                             'Editar' => "cursos/editar/{$curso['curso_id']}"
                         ]; ?>
                         <?php foreach ($links as $text => $url): ?>
@@ -38,7 +38,7 @@
         </div>
     </div>
 </div>    
+<?php include(APPPATH . 'Views/Components/toast.php'); ?>
 </body>
 
-<?php include(APPPATH . 'Views/Components/toast.php'); ?>
 <?php include(APPPATH . 'Views/Components/footer.php'); ?>

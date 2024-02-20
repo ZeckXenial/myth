@@ -4,7 +4,6 @@
     <h1 class="text-center ">Administracion de usuarios</h1>
 
     <table id="usuariosTable" class="table position-absolute caption-top table-bordered table-responsive table-hover table-striped scroller dataTable">
-    <caption  style="visibility: hidden">Administracion de usuarios</caption>  
     <thead>
             <tr>
                 <th>Nombre</th>
@@ -98,7 +97,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="especialidad" class="form-floating">Especialidad:</label>
-                            <input type="text" name="especialidad" class="form-control <?= (isset($validation) && $validation->hasError('especialidad')) ? 'is-invalid' : 'is-valid'; ?>" value="<?= (isset($validation)) ? set_value('especialidad') : ''; ?>" >
+                            <input type="text" name="especialidad" class="form-control <?= (isset($validation) && $validation->hasError('especialidad')) ? 'is-invalid' : 'is-valid'; ?>" value="<?= (isset($validation)) ? set_value('especialidad') : ''; ?>"required >
                             <?php if (isset($validation) && $validation->hasError('especialidad')): ?>
                                 <div class="invalid-feedback"><?= $validation->getError('especialidad'); ?></div>
                             <?php endif; ?>
@@ -134,24 +133,7 @@
     </div>
 
     <?php include(APPPATH . 'Views/Components/toast.php');?>
-    <script>
-        var successToast = new bootstrap.Toast(document.querySelector('.success-toast'));
-        console.log(successToast);
-    </script>
-    <?php if (isset($success)): ?>
-        <script>   
-            var successToast = new bootstrap.Toast(document.querySelector('.success-toast'));
-            console.log(successToast);
-            successToast.show();
-        </script>
-    <?php endif; ?>
 
-    <?php if (isset($errors)): ?>
-        <script>
-            var errorToast = new bootstrap.Toast(document.querySelector('.error-toast'));
-            errorToast.show();
-        </script>
-    <?php endif; ?>
 </div>
 
 <?php include(APPPATH . 'Views/Components/footer.php'); ?>
