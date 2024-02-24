@@ -1,12 +1,11 @@
 <?php include(APPPATH . 'Views/Components/headers.php');?>
 <?php include(APPPATH . 'Views/Components/NavBar.php');?>
 
-<div class="container ">
+<div class="container">
     <h2 class="text-center" style="margin-top: 20px;">Lista de Asistencias</h2>
-    <form class="form-control  datatable " action="<?= site_url("guardar_asistencias/$cursoId") ?>" method="post">
-      
+    <form class="form-control" action="<?= site_url("guardar_asistencias/$cursoId") ?>" method="post">
         <input type="hidden" name="fecha_asistencia" value="<?= date('Y-m-d') ?>">
-        <table class="table datatable table-responsive table-hover table-striped ">
+        <table class="table datatable table-responsive table-hover table-striped" id="#asistenciaTable">
             <thead>
                 <tr>
                     <th>Estudiante</th>
@@ -19,8 +18,7 @@
                         <tr>
                             <td><?= $asistencia['nombre'] ?></td>
                             <td>
-                                <input type="checkbox" name="asistencias[]" value="<?= $asistencia['estudiante_id'] ?>">
-                                
+                                <input class="form-check-input" type="checkbox" name="asistencias[]" value="<?= $asistencia['estudiante_id'] ?>">
                             </td>
                         </tr>
                     <?php endforeach; ?>

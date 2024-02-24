@@ -14,21 +14,20 @@
                         <p class="card-text"><?= $curso['grado'] ?></p>
                         <p class="card-text">Nivel: <?= $curso['nombre_nivel'] ?></p> <!-- Agregamos el nivel aquí -->
                         <p class="card-text">Profesor Designado: <?= $curso['nombre_usuario'] ?></p>
-                        <?php $links = [
-                            'Anotaciones' => "anotaciones/curso/{$curso['curso_id']}",
-                            'Asistencias' => "asistencias/curso/{$curso['curso_id']}",
-                            'Calificaciones' => "calificaciones/asignaturas/{$curso['curso_id']}",
-                            'Editar' => "cursos/editar/{$curso['curso_id']}"
-                        ]; ?>
-                        <?php foreach ($links as $text => $url): ?>
-                            <a href="<?= site_url($url) ?>" class="btn btn-primary"><?= $text ?></a>
-                        <?php endforeach; ?>
+                        <a href="<?= site_url("anotaciones/curso/{$curso['curso_id']}") ?>" class="btn btn-primary">Anotaciones</a>
+                        <a href="<?= site_url("asistencias/curso/{$curso['curso_id']}") ?>" class="btn btn-primary">Asistencias</a>
+                        <a href="<?= site_url("calificaciones/asignaturas/{$curso['curso_id']}") ?>" class="btn btn-primary">Calificaciones</a>
+                        <?php if (session()->get('idrol') === '2' xor session('idrol') === '3'): ?>
+                                <a href="<?= site_url("cursos/editar/{$curso['curso_id']}") ?>" class="btn btn-primary">Editar</a>
+                            <?php endif; ?>
+                            <a href="<?= site_url("cursos/exportar/{$curso['curso_id']}") ?>" class="btn btn-primary">Exportar</a>
                     </div>
                 </div>
             </div>
         <?php endforeach; ?>
-
-        <div class="col-md-4 mb-4">
+        <?php if (session()->get('idrol') === '2' or session()->get('idrol') === '3'): ?>
+                    
+                        <div class="col-md-4 mb-4">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Crear Nuevo Curso</h5>
@@ -36,6 +35,8 @@
                 </div>
             </div>
         </div>
+                <?php endif; ?>
+        
     </div>
 </div>    
 <?php include(APPPATH . 'Views/Components/toast.php'); ?>

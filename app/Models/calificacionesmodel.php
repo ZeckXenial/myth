@@ -14,5 +14,11 @@ class CalificacionesModel extends Model
     {
         return $this->where('curso_id', $cursoId)->findAll();
     }
-    
+    public function obtenerCalificacionesPorEstudiante($estudiante_id)
+    {
+        return $this
+            ->where('estudiante_id', $estudiante_id)
+            ->get()
+            ->getResultArray();
+    }
 }

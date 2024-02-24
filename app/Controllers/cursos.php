@@ -4,22 +4,37 @@ namespace App\Controllers;
 
 use App\Models\CursoModel;
 use App\Models\CrudUsuarioModel;
+use App\Models\AsistenciasModel;
+use App\Models\CalificacionesModel;
+use App\Models\AnotacionesModel;
 use App\Models\AsignaturaModel;
+use App\Models\EstudiantesModel;
 use App\Models\AsignaturaCursoModel;
 use App\Models\NivelModel;
+use App\Models\ApoderadoModel;
 use CodeIgniter\Controller;
 
 class Cursos extends Controller
 {
     private $cursoModel;
     private $nivelModel;
+    private $anotacionesmodel;
+    private $asistenciasmodel;
+    private $calificacionesmodel;
+    private $apoderadoModel;
     private $asignaturaModel;
+    private $estudianteModel;
     private $asignaturaCursoModel;
     private $crudUsuarioModel;
 
     public function __construct()
     {
         $this->cursoModel = new CursoModel();
+        $this->calificacionesmodel = new calificacionesModel();
+        $this->asistenciasmodel = new asistenciasModel();
+        $this->anotacionesmodel = new anotacionesModel();
+        $this->apoderadoModel = new ApoderadoModel();
+        $this->estudianteModel = new EstudiantesModel();
         $this->nivelModel = new NivelModel();
         $this->asignaturaModel = new AsignaturaModel();
         $this->asignaturaCursoModel = new AsignaturaCursoModel();
@@ -28,6 +43,7 @@ class Cursos extends Controller
 
     public function index()
     {
+        
         $data['cursos'] = $this->cursoModel->findAll();
         return view('cursos/index', $data);
     }
@@ -38,17 +54,18 @@ class Cursos extends Controller
         $data['asignaturas'] = $this->asignaturaModel->obtenerAsignaturas();
         $data['usuarios'] = $this->crudUsuarioModel->obtenerUsuarios();
         $data['niveles'] = $this->nivelModel->obtenerNiveles();
-
+        if (!$id) {
+            return redirect()->to(site_url('cursos'))->with('error', 'El curso no existe.');
+        }
         return view('components/edit', $data);
     }
-
     public function guardar()
     {
         if ($this->request->getMethod() === 'post') {
             $user_id = $this->request->getPost('user_id');
             $grado = $this->request->getPost('grado');
             $nivel_id = $this->request->getPost('nivel_id');
-            $asignatura_ids = $this->request->getPost('asignatura_id'); // Este será un array
+            $asignatura_ids = $this->request->getPost('asignatura_id'); 
 
             $data = ['user_id' => $user_id, 'grado' => $grado, 'nivel_id' => $nivel_id];
             $curso_id = $this->cursoModel->insert($data);
@@ -66,7 +83,6 @@ class Cursos extends Controller
 
         return redirect()->to(site_url('cursos'))->with('error', 'Error al procesar la solicitud');
     }
-
     public function agregar()
     {
         $nivelModel = new NivelModel();
@@ -86,15 +102,13 @@ class Cursos extends Controller
             $data = [
                 'grado' => $this->request->getPost('grado'),
                 'user_id' => $this->request->getPost('user_id'),
+                
                 'nivel_id' => $this->request->getPost('nivel_id'),
             ];
 
-            // Actualizar el curso
             if ($this->cursoModel->actualizarCurso($cursoId, $data)) {
-                // Eliminar las asignaturas anteriores asociadas con este curso
                 $this->asignaturaCursoModel->eliminarAsignaturasCursoPorCursoId($cursoId);
                 
-                // Insertar las nuevas asignaturas seleccionadas
                 $asignatura_ids = $this->request->getPost('asignatura_id');
                 foreach ($asignatura_ids as $asignatura_id) {
                     $this->asignaturaCursoModel->insertarAsignaturaCurso($cursoId, $asignatura_id);
@@ -108,7 +122,46 @@ class Cursos extends Controller
 
         return redirect()->to(site_url('cursos'))->with('error', 'Error al procesar la solicitud');
     }
+    public function exportar($cursoId)
+    {    
+        
+        $estudianteId = $this->request->getGet('estudiante_id');
 
+        $anotaciones = $this->anotacionesmodel->obtenerAnotacionesPorEstudiante($estudianteId);
+
+        $asistencias = $this->asistenciasmodel->obtenerAsistenciasPorEstudiante($estudianteId);
+
+        $calificaciones = $this->calificacionesmodel->obtenerCalificacionesPorEstudiante($estudianteId);
+        $estudiantes= $this->estudianteModel->obtenerEstudiantesPorCurso($cursoId);
+        $data = [
+            'anotaciones' => $anotaciones,
+            'asistencias' => $asistencias,
+            'calificaciones' => $calificaciones,
+            'estudiantes' => $estudiantes
+        ];
+        return view('components/exportar', $data);
+        
+    }
+    public function exportarestudiante($estudianteId)
+    {
+
+        $anotaciones = $this->anotacionesmodel->obtenerAnotacionesPorEstudiante($estudianteId);
+
+        $asistencias = $this->asistenciasmodel->obtenerAsistenciasPorEstudiante($estudianteId);
+
+        $calificaciones = $this->calificacionesmodel->obtenerCalificacionesPorEstudiante($estudianteId);
+       
+        $data = [
+            'anotaciones' => $anotaciones,
+            'asistencias' => $asistencias,
+            'calificaciones' => $calificaciones,
+            
+        ];
+   
+       return $this->response->setJSON($data);  
+
+       
+    }
     public function delete($id)
     {
         $this->cursoModel->eliminarCurso($id);

@@ -1,6 +1,6 @@
 <?php include(APPPATH . 'Views/Components/headers.php');?>
-<?php include(APPPATH . 'Views/Components/NavBar.php');?>
 <div class="container">
+    <?php include(APPPATH . 'Views/Components/NavBar.php');?>
     <h1 class="text-center ">Administracion de usuarios</h1>
 
     <table id="usuariosTable" class="table position-absolute caption-top table-bordered table-responsive table-hover table-striped scroller dataTable">

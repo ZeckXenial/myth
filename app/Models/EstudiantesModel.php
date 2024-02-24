@@ -8,7 +8,7 @@ class EstudiantesModel extends Model
 {
     protected $table = 'estudiantes';
     protected $primaryKey = 'estudiante_id';
-    protected $allowedFields = ['nombre', 'fecha_nacimiento', 'grado', 'curso_id'];
+    protected $allowedFields = ['nombre', 'fecha_nacimiento', 'curso_id'];
 
     public function obtenerEstudiantesPorCurso($curso_id)
     {
@@ -27,10 +27,12 @@ class EstudiantesModel extends Model
         return $this->findAll();
     }
 
+    
     public function obtenerEstudiantePorId($id)
     {
         return $this->find($id);
     }
+ 
 
     public function crearEstudiante($data)
     {
@@ -56,4 +58,11 @@ class EstudiantesModel extends Model
             $this->delete($estudiante['estudiante_id']);
         }
     }
+
+    
+
+   
+
+    
 }
+

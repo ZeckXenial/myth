@@ -24,8 +24,13 @@ class AnotacionesModel extends Model
     {
         return $this->delete($anotacion_id);
     }
+ 
     public function obtenerAnotacionesPorEstudiante($estudiante_id)
     {
-        return $this->where('estudiante_id', $estudiante_id)->findAll();
+        return $this
+            ->where('estudiante_id', $estudiante_id)
+            ->get()
+            ->getResultArray();
     }
 }
+

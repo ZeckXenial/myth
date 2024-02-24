@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/plug-ins/1.13.7/i18n/es-MX.json" >
     <link rel="stylesheet" href="https://cdn.datatables.net/scroller/2.4.0/css/scroller.bootstrap.css" >
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" >
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.0.0/css/buttons.dataTables.css" >
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="<?= base_url('public/css/style.scss') ?>">
@@ -26,8 +27,15 @@
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/2.0.0/js/dataTables.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/scroller/2.4.0/js/dataTables.scroller.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/2.0.0/js/dataTables.bootstrap5.js"></script>
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/fixedcolumns/5.0.0/js/dataTables.fixedColumns.js"></script>
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/fixedcolumns/5.0.0/js/fixedColumns.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/3.0.0/js/buttons.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/3.0.0/js/dataTables.buttons.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/3.0.0/js/buttons.print.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/3.0.0/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/fixedheader/4.0.0/js/dataTables.fixedHeader.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/fixedheader/4.0.0/js/fixedHeader.dataTables.js"></script>
 
     <!-- Scripts personalizados -->
     <script src="<?= base_url('public/scripts/datatable-script.js') ?>"></script>

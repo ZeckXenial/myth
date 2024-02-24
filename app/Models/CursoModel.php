@@ -6,22 +6,23 @@ use CodeIgniter\Model;
 
 class CursoModel extends Model
 {
-    protected $table = 'cursos';
+    protected $table      = 'cursos';
     protected $primaryKey = 'curso_id';
-    protected $allowedFields = ['user_id', 'asignatura_id', 'grado', 'activo']; // Agrega 'activo' si es necesario
+    protected $allowedFields = ['user_id', 'asignatura_id', 'nivel_id', 'grado'];
 
     public function obtenerCursos()
     {
         $user_id = session()->get('user_id');
-        
+
         if (session()->get('idrol') === '1') {
             return $this->getCursosByTeacher($user_id);
-        } elseif (session()->get('idrol') === '2' or session()->get('idrol') === '3') {
+        } elseif (session()->get('idrol') === '2' || session()->get('idrol') === '3') {
             return $this->getCursosByDirective();
         }
-        
+
         return [];
     }
+
     public function getAsignaturasPorCurso($cursoId)
     {
         return $this->db->table('cursos_asignaturas')
@@ -29,21 +30,22 @@ class CursoModel extends Model
             ->where('cursos_asignaturas.curso_id', $cursoId)
             ->get()->getResultArray();
     }
+
     public function getCursosByTeacher($user_id)
     {
         return $this->select('cursos.*, usuarios.nombre AS nombre_usuario, nivel.nombre AS nombre_nivel')
-                    ->join('usuarios', 'usuarios.user_id = cursos.user_id')
-                    ->join('nivel', 'nivel.nivel_id = cursos.nivel_id')
-                    ->where('cursos.user_id', $user_id)
-                    ->findAll();
+            ->join('usuarios', 'usuarios.user_id = cursos.user_id')
+            ->join('nivel', 'nivel.nivel_id = cursos.nivel_id')
+            ->where('cursos.user_id', $user_id)
+            ->findAll();
     }
 
     public function getCursosByDirective()
     {
         return $this->select('cursos.*, usuarios.nombre AS nombre_usuario, nivel.nombre AS nombre_nivel')
-                    ->join('usuarios', 'usuarios.user_id = cursos.user_id')
-                    ->join('nivel', 'nivel.nivel_id = cursos.nivel_id', 'left')
-                    ->findAll();
+            ->join('usuarios', 'usuarios.user_id = cursos.user_id')
+            ->join('nivel', 'nivel.nivel_id = cursos.nivel_id', 'left')
+            ->findAll();
     }
 
     public function obtenerCursoPorId($id)
@@ -56,9 +58,9 @@ class CursoModel extends Model
         return $this->insert($data);
     }
 
-    public function actualizarCurso($id, $data)
+    public function actualizarCurso($cursoid, $data)
     {
-        return $this->update($id, $data);
+        return $this->update($cursoid, $data);
     }
 
     public function eliminarCurso($id)

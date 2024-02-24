@@ -10,8 +10,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title"><?= $asignatura['nombre'] ?></h5>
-                        <!-- Botón para ver calificaciones del curso -->
-                        <a href="<?= site_url('calificaciones/' . $asignatura['id']) ?>" class="btn btn-primary">Entrar a Calificaciones</a>
+                        <a href="<?= site_url('calificaciones/0' . $asignatura['id']) ?>" class="btn btn-primary">Entrar a Calificaciones</a>
                     </div>
                 </div>
             </div>

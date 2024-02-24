@@ -24,4 +24,11 @@ class AsistenciasModel extends Model
         return $this->insert($datos);
     }
 }
+public function obtenerAsistenciasPorEstudiante($estudiante_id)
+{
+    return $this
+        ->where('estudiante_id', $estudiante_id)
+        ->get()
+        ->getResultArray();
+}
 }

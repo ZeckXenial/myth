@@ -1,22 +1,20 @@
 <?php include(APPPATH . 'Views/Components/NavBar.php');?>
 <?php include(APPPATH . 'Views/Components/headers.php');?>
-
+<body>
+    
 <div class="container mt-4">
     <h2 class="text-center h1">Gestión de Estudiantes y Apoderados</h2>
 
- 
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#crearEstudianteModal">
-    Agregar Estudiante y Apoderado
-</button>
-
-<div class="modal mx-auto fade" id="crearEstudianteModal" data-backdrop="static" tabindex="-1" aria-labelledby="crearEstudianteModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="crearEstudianteModalLabel">Agregar Estudiante y Apoderado</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
+    
+    <!-- Modal de Crear Estudiante y Apoderado -->
+    <div class="modal mx-auto fade" id="crearEstudianteModal" data-backdrop="static" tabindex="-1" aria-labelledby="crearEstudianteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="crearEstudianteModalLabel">Agregar Estudiante y Apoderado</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
                 <form action="<?= site_url('estudiantes/agregar') ?>" method="post">
                     <div class="mb-3">
                         <label for="nombre_estudiante" class="form-label">Nombre del Estudiante</label>
@@ -26,14 +24,7 @@
                         <label for="fecha_nacimiento_estudiante" class="form-label">Fecha de Nacimiento</label>
                         <input type="date" class="form-control" id="fecha_nacimiento_estudiante" name="fecha_nacimiento_estudiante" required>
                     </div>
-                    <div class="mb-3">
-                    <label for="nivel_estudiante" class="form-label">Nivel</label>
-                    <select class="form-select" id="nivel_estudiante" name="nivel_estudiante" required>
-                        <?php foreach ($niveles as $nivel): ?>
-                            <option value="<?= $nivel['nivel_id'] ?>"><?= $nivel['nombre'] ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
+                    
                     <div class="mb-3">
                         <label for="nombre_apoderado" class="form-label">Nombre del Apoderado</label>
                         <input type="text" class="form-control" id="nombre_apoderado" name="nombre_apoderado" placeholder="Nombre del apoderado" required>
@@ -48,23 +39,21 @@
                     </div>
                     <button type="submit" class="btn btn-primary">Agregar</button>
                 </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
     <div class="row">
         <div class="col-md-12">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Estudiantes y Apoderados</h5>
-                    <table class="table">
+            
+                <div class="container">
+                   
+                    <table class="table" id="estudiantesTable">
                         <thead>
                             <tr>
                                 <th>Nombre del Estudiante</th>
-                               
                                 <th>Nombre del Apoderado</th>
-                               
                                 <th>Acciones</th>
                             </tr>
                         </thead>
@@ -72,9 +61,7 @@
                             <?php foreach ($estudiantes as $estudiante): ?>
                                 <tr>
                                     <td><?= $estudiante['nombre'] ?></td>
-                                  
                                     <td><?= $estudiante['nombre'] ?></td>
-                                  
                                     <td>
                                         <a href="<?= site_url('estudiantes/editar/' . $estudiante['estudiante_id']) ?>" class="btn btn-sm btn-primary">Editar</a>
                                         <a href="<?= site_url('estudiantes/eliminar/' . $estudiante['estudiante_id']) ?>" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de eliminar este estudiante?')">Eliminar</a>
@@ -83,12 +70,14 @@
                             <?php endforeach; ?>
                         </tbody>
                     </table>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#crearEstudianteModal">
+                        Agregar Estudiante y Apoderado
+                    </button>
                 </div>
-            </div>
         </div>
     </div>
 
 </div>
-
+</body>
 <?php include(APPPATH . 'Views/Components/toast.php'); ?>
 <?php include(APPPATH . 'Views/Components/footer.php'); ?>
