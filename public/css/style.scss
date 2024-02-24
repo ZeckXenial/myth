@@ -221,8 +221,8 @@ body {
     }
   }
 
-.btn{
-  margin: 5px;
+.btn.margin5px{
+  margin:5px;
 }
 table{
  
@@ -234,6 +234,9 @@ table{
 }
 .modal{
   backdrop-filter: blur(10px);
+}
+#estudiantebtn{
+  display: inline;
 }
 .login {
   background: rgba(255, 255, 255, 0.521);

@@ -13,7 +13,7 @@ $routes->get('cursos', 'CursosController::index');
 
 $routes->get('anotaciones/curso/(:num)', 'Anotaciones::curso/$1');
 $routes->get('asistencias/curso/(:num)', 'Asistencias::curso/$1');
-$routes->get('calificaciones/curso/(:num)', 'Calificaciones::curso/$1');
+$routes->get('calificaciones/(:num)', 'Calificaciones::index/$1');
 
 $routes->get('notas', 'NotasController::index');
 $routes->get('notas/crud/(:num)', 'NotasController::crud/$1');
@@ -42,11 +42,11 @@ $routes->post('update/(:num)', 'Calificaciones::update/$1');
 $routes->get('delete/(:num)', 'Calificaciones::delete/$1');
 
 $routes->get('estudiantes', 'crudEstudiantes::index');
-$routes->get('estudiantes/agregar', 'EstudiantesController::agregar');
+$routes->get('estudiantes/agregar', 'crudEstudiantes::agregar');
 $routes->post('estudiantes/agregar', 'crudEstudiantes::agregar');
-$routes->get('editar/(:num)', 'EstudiantesController::editar/$1');
-$routes->post('editar/(:num)', 'EstudiantesController::editar/$1');
-$routes->get('eliminar/(:num)', 'EstudiantesController::eliminar/$1');
+$routes->get('editar/(:num)', 'crudEstudiantes::editar/$1');
+$routes->post('editar/(:num)', 'crudEstudiantes::editar/$1');
+$routes->get('eliminar/(:num)', 'crudEstudiantes::eliminar/$1');
 
 
 $routes->post('crud_usuarios/agregar', 'CrudUsuariosController::agregar');

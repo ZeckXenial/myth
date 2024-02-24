@@ -16,7 +16,7 @@
                 <?php if (isset($asistencias) && is_array($asistencias)): ?>
                     <?php foreach ($asistencias as $asistencia): ?>
                         <tr>
-                            <td><?= $asistencia['nombre'] ?></td>
+                            <td><?= $asistencia['nombre_estudiante'] ?></td>
                             <td>
                                 <input class="form-check-input" type="checkbox" name="asistencias[]" value="<?= $asistencia['estudiante_id'] ?>">
                             </td>

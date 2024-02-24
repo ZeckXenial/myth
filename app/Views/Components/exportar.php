@@ -11,7 +11,7 @@
         <div class="accordion-item">
             <h2 class="accordion-header" id="heading<?= $estudiante['estudiante_id'] ?>">
                 <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<?= $estudiante['estudiante_id'] ?>" aria-expanded="true" aria-controls="collapse<?= $estudiante['estudiante_id'] ?>">
-                    <?= $estudiante['nombre'] ?>
+                    <?= $estudiante['nombre_estudiante'] ?>
                 </button>
             </h2>
             <div id="collapse<?= $estudiante['estudiante_id'] ?>" class="accordion-collapse mx-auto collapse" aria-labelledby="heading<?= $estudiante['estudiante_id'] ?>" data-bs-parent="#accordion">

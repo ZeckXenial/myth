@@ -24,7 +24,8 @@
                         </li>
                 <?php endif; ?>
                 <?php endif; ?>
-                    
+                <?php if (session()->has('idrol')): ?>
+
                 <li class="nav-item">
                     <a class="nav-link" href="<?= site_url('cursos') ?>">Cursos</a>
                 </li>
@@ -32,6 +33,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="<?= site_url('estudiantes') ?>">Registrar Estudiante</a>
                 </li>
+                <?php endif; ?>
                 <li class="nav-item">
                     <a class="btn btn-primary" href="<?= site_url('logout') ?>"s>Cerrar sesión</a>
                 </li>

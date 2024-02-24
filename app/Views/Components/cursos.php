@@ -14,13 +14,13 @@
                         <p class="card-text"><?= $curso['grado'] ?></p>
                         <p class="card-text">Nivel: <?= $curso['nombre_nivel'] ?></p> <!-- Agregamos el nivel aquí -->
                         <p class="card-text">Profesor Designado: <?= $curso['nombre_usuario'] ?></p>
-                        <a href="<?= site_url("anotaciones/curso/{$curso['curso_id']}") ?>" class="btn btn-primary">Anotaciones</a>
-                        <a href="<?= site_url("asistencias/curso/{$curso['curso_id']}") ?>" class="btn btn-primary">Asistencias</a>
-                        <a href="<?= site_url("calificaciones/asignaturas/{$curso['curso_id']}") ?>" class="btn btn-primary">Calificaciones</a>
+                        <a href="<?= site_url("anotaciones/curso/{$curso['curso_id']}") ?>" class="btn margin5px btn-primary">Anotaciones</a>
+                        <a href="<?= site_url("asistencias/curso/{$curso['curso_id']}") ?>" class="btn margin5px btn-primary">Asistencias</a>
+                        <a href="<?= site_url("calificaciones/asignaturas/{$curso['curso_id']}") ?>" class="btn margin5px btn-primary">Calificaciones</a>
                         <?php if (session()->get('idrol') === '2' xor session('idrol') === '3'): ?>
-                                <a href="<?= site_url("cursos/editar/{$curso['curso_id']}") ?>" class="btn btn-primary">Editar</a>
+                                <a href="<?= site_url("cursos/editar/{$curso['curso_id']}") ?>" class="btn margin5px btn-primary">Editar</a>
                             <?php endif; ?>
-                            <a href="<?= site_url("cursos/exportar/{$curso['curso_id']}") ?>" class="btn btn-primary">Exportar</a>
+                            <a href="<?= site_url("cursos/exportar/{$curso['curso_id']}") ?>" class="btn margin5px btn-primary">Exportar</a>
                     </div>
                 </div>
             </div>

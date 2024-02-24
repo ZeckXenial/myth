@@ -39,16 +39,16 @@ class Calificaciones extends Controller
             'calificaciones' => $calificaciones
         ];
 
-        return view('components/asignaturas', $data);
+        return view('components/calificaciones_curso', $data);
     }
 
-    public function Calificaciones()
+    public function Calificaciones($asignatura_id)
     {
         // Obtener todas las calificaciones
-        $data['calificaciones'] = $this->CalificacionesModel->findAll();
+        $data['calificaciones'] = $this->CalificacionesModel->getCalificacionesPorasignatura($asignatura_id);
 
         // Cargar la vista con las calificaciones
-        return view('components/calificaciones', $data);
+        return view('Components/calificaciones_curso', $data);
     }
 
     public function guardar()
