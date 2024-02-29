@@ -24,7 +24,7 @@ class CrudEstudiantes extends BaseController
         
         $data['estudiantes'] = $this->apoderado_estudiante->obtenerEstudiantesConApoderados();
         $data['cursos'] = $this->cursoModel->getCursosByDirective();
-        $data['apoderados'] = $this->apoderadoModel->findAll();
+        $data['apoderados'] = $this->apoderadoModel->obtenerApoderados();
         
 
         return view('components/estudiantes', $data);
@@ -65,41 +65,45 @@ class CrudEstudiantes extends BaseController
     public function editar($id)
     {
         if ($this->request->getMethod() === 'post') {
-            $data = [
-                'nombre' => $this->request->getPost('nombre_estudiante'),
-                'fecha_nacimiento' => $this->request->getPost('fecha_nace'),
-                'grado' => $this->request->getPost('grado'),
+            $dataEstudiante = [
+                'nombre_estudiante' => $this->request->getPost('nombre_estudiante'),
+                'fecha_nacimiento' => $this->request->getPost('fechaNacimientoEstudiante'),
+                'curso_id' => $this->request->getPost('curso_id')
             ];
 
-            // Obtener la información del apoderado relacionado con el estudiante
-            $apoderadoId = $this->request->getPost('apoderado_id');
-            // Actualizar la información del estudiante
-            $this->estudianteModel->update($id, $data);
-
-            // Actualizar la información del apoderado relacionado
-            $apoderadodata = [
-                'email' => $this->request->getPost('email_apoderado'),
+            if (!empty($dataEstudiante)) {
+                $this->estudianteModel->update($id, $dataEstudiante);
+            }
+    
+            $apoderadoData = [
                 'nombre_apoderado' => $this->request->getPost('nombre_apoderado'),
                 'numero_telefono' => $this->request->getPost('telefono_apoderado'),
+                'email' => $this->request->getPost('email')
             ];
-            $this->apoderadoModel->update($apoderadoId, $apoderadodata);
+            
+            if (!empty(array_filter($apoderadoData))) {
+                $query = $this->apoderadoModel->editarapoderado($id, $apoderadoData);
 
-            return redirect()->to('crud_estudiantes')->with('success', 'Estudiante editado correctamente');
+                return redirect()->to('estudiantes')->with('success', 'Apoderado editado correctamente');
+               
+            }
+    
+            return redirect()->to('estudiantes')->with('success', 'Estudiante editado correctamente');
         }
-
+    
         $data['estudiante'] = $this->estudianteModel->find($id);
-
+    
         return view('components/estudiantes', $data);
     }
+    
 
 
     public function eliminar($id)
     {
-        $estudianteModel = new EstudiantesModel();
-
-        // Lógica para eliminar un estudiante
-        $estudianteModel->delete($id);
-
-        return redirect()->to('crud_estudiantes')->with('success', 'Estudiante eliminado correctamente');
+        
+    
+        $this->apoderado_estudiante->where('estudiantes_id', $id)->delete();
+    
+        return redirect()->to('estudiantes')->with('success', 'Estudiante eliminado correctamente');
     }
 }

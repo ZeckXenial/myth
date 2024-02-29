@@ -73,6 +73,8 @@ class CrudUsuariosController extends Controller
                 'nombre' => $this->request->getPost('nombre_edit'),
                 'email' => $this->request->getPost('email_edit'),
                 'id_rol' => $this->request->getPost('id_rol'),
+                'especialidad' => $this->request->getPost('especialidad')
+
             ];
 
           

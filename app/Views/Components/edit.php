@@ -9,16 +9,19 @@
                 <input type="text" class="form-control" id="grado" name="grado" value="<?= $curso['grado'] ?>" required>
             </div>
             <div class="mb-3">
-                <label for="asignatura_id" class="form-label">Asignaturas</label>
-                <select class="form-select" name="asignatura_id[]" id="asignatura_id" multiple required>
-                    <?php foreach ($asignaturas as $asignatura): ?>
-                        <?php $selected = (strpos($curso['asignatura_id'], (string)$asignatura['asignatura_id']) !== false) ? 'selected' : ''; ?>
-                        <option value="<?= $asignatura['asignatura_id'] ?>" <?= $selected ?>>
-                            <?= $asignatura['nombre'] ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
+        <label class="form-label">Asignaturas</label>
+    <div class="mb-3 form-select" style="max-height: 100px; overflow-y: auto;">
+    <?php foreach ($asignaturas as $asignatura): ?>
+        <?php $checked = (strpos($curso['asignatura_id'], (string)$asignatura['asignatura_id']) !== false) ? 'checked' : ''; ?>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="asignatura_id[]" value="<?= $asignatura['asignatura_id'] ?>" id="asignatura<?= $asignatura['asignatura_id'] ?>" <?= $checked ?>>
+            <label class="form-check-label" for="asignatura<?= $asignatura['asignatura_id'] ?>">
+                <?= $asignatura['nombre'] ?>
+            </label>
+        </div>
+    <?php endforeach; ?>
+    </div>
+</div>
             <div class="mb-3">
                 <label for="nivel_id" class="form-label">Nivel</label>
                 <select class="form-select" name="nivel_id" id="nivel_id" required>

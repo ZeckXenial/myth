@@ -24,7 +24,13 @@ class TeacherController extends Controller
     }
 
     public function admin()
-    {
+    {   
+        $cursoModel = new CursoModel();
+        $rol = session()->get('role');
+        $idUsuario = session()->get('user_id');
+
+        $data['cursos'] = $cursoModel->obtenerCursos($rol, $idUsuario);
+
         return view('admin/dashboard');
     }
 }

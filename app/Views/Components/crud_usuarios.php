@@ -22,7 +22,7 @@
                     <td><?= $user['especialidad']; ?></td> 
                     <td>
                         <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editarUsuarioModal<?= $user['user_id'] ?>">Editar</a>
-                        <a href="<?= site_url('crud_usuarios/eliminar/' . $user['user_id']) ?>" class="btn btn-danger">Eliminar</a>
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#eliminarUsuarioModal<?= $user['user_id'] ?>">Eliminar</button>
                     </td>
                 </tr>
 
@@ -44,6 +44,13 @@
                                         <input type="email" name="email_edit" class="form-control" value="<?= $user['email']; ?>" >
                                     </div>
                                     <div class="mb-3">
+                                    <label for="especialidad" class="form-floating">Especialidad:</label>
+                                    <input type="text" name="especialidad" class="form-control <?= (isset($validation) && $validation->hasError('especialidad')) ? 'is-invalid' : 'is-valid'; ?>" value="<?= (isset($validation)) ? set_value('especialidad') : ''; ?>"required >
+                                    <?php if (isset($validation) && $validation->hasError('especialidad')): ?>
+                                        <div class="invalid-feedback"><?= $validation->getError('especialidad'); ?></div>
+                                    <?php endif; ?>
+                                    </div>
+                                    <div class="mb-3">
                                         <label for="password_edit" class="form-floating">Nueva Contraseña:</label>
                                         <div class="input-group">
                                             <input type="password" name="password_edit" class="form-control" placeholder="Ingrese nueva contraseña">
@@ -62,6 +69,23 @@
                                     </div>
                                     <button type="submit" class="btn btn-primary">Guardar Cambios</button>
                                 </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="eliminarUsuarioModal<?= $user['user_id'] ?>" tabindex="-1" aria-labelledby="eliminarUsuarioModalLabel<?= $user['user_id'] ?>" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="eliminarUsuarioModalLabel<?= $user['user_id'] ?>">Eliminar Usuario</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>¿Está seguro de que desea eliminar este usuario?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <a href="<?= site_url('crud_usuarios/eliminar/' . $user['user_id']) ?>" class="btn btn-danger">Eliminar</a>
                             </div>
                         </div>
                     </div>
@@ -132,8 +156,8 @@
         </div>
     </div>
 
-    <?php include(APPPATH . 'Views/Components/toast.php');?>
-
+    
 </div>
+<?php include(APPPATH . 'Views/Components/toast.php');?>
 
 <?php include(APPPATH . 'Views/Components/footer.php'); ?>

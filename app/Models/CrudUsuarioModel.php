@@ -13,7 +13,7 @@ class CrudUsuarioModel extends Model
     public function obtenerUsuariosConRoles()
     {
         return $this->db->table('usuarios')
-            ->select('usuarios.*, roles.glosa as nombre_rol')
+            ->select('usuarios.user_id,usuarios.nombre,usuarios.email,usuarios.especialidad,usuarios.id_rol ,roles.glosa as nombre_rol')
             ->join('roles', 'roles.id_rol = usuarios.id_rol')
             ->where('activo', null)
             ->get()
@@ -22,7 +22,7 @@ class CrudUsuarioModel extends Model
  public function obtenerUsuarios()
     {
         return $this->db->table('usuarios')
-            ->select('usuarios.*')
+            ->select('usuarios.nombre,usuarios.user_id')
             ->where('activo', null)
             ->get()
             ->getResultArray();

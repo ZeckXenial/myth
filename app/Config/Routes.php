@@ -11,9 +11,12 @@ $routes->get('logout', 'Auth::logout');
 
 $routes->get('cursos', 'CursosController::index');
 
+$routes->get('editar/(:num)', 'Asignaturas::editar/$1');
+$routes->post('asignaturas/editar/(:num)', 'Asignaturas::editar/$1');
+
 $routes->get('anotaciones/curso/(:num)', 'Anotaciones::curso/$1');
 $routes->get('asistencias/curso/(:num)', 'Asistencias::curso/$1');
-$routes->get('calificaciones/(:num)', 'Calificaciones::index/$1');
+$routes->get('calificaciones/(:num)/(:num)', 'Calificaciones::calificaciones/$1/$1');
 
 $routes->get('notas', 'NotasController::index');
 $routes->get('notas/crud/(:num)', 'NotasController::crud/$1');
@@ -36,18 +39,20 @@ $routes->get('cursos/delete/(:num)', 'Cursos::delete/$1');
 
 $routes->get('/', 'Calificaciones::index');
 $routes->get('calificaciones/asignaturas/(:num)', 'Calificaciones::asignaturas/$1');
-$routes->post('guardar', 'Calificaciones::guardar');
+$routes->post('calificaciones/guardar', 'Calificaciones::guardar');
 $routes->get('editar/(:num)', 'Calificaciones::editar/$1');
-$routes->post('update/(:num)', 'Calificaciones::update/$1');
+$routes->post('calificacion/update/(:num)', 'Calificaciones::update/$1');
 $routes->get('delete/(:num)', 'Calificaciones::delete/$1');
 
+
+
 $routes->get('estudiantes', 'crudEstudiantes::index');
+$routes->post('estudiantes', 'crudEstudiantes::editar/$1');
 $routes->get('estudiantes/agregar', 'crudEstudiantes::agregar');
 $routes->post('estudiantes/agregar', 'crudEstudiantes::agregar');
-$routes->get('editar/(:num)', 'crudEstudiantes::editar/$1');
-$routes->post('editar/(:num)', 'crudEstudiantes::editar/$1');
-$routes->get('eliminar/(:num)', 'crudEstudiantes::eliminar/$1');
-
+$routes->get('estudiantes/editar/(:num)', 'crudEstudiantes::editar/$1');
+$routes->post('estudiantes/editar/(:num)', 'crudEstudiantes::editar/$1');
+$routes->post('eliminar/(:num)', 'crudEstudiantes::eliminar/$1');
 
 $routes->post('crud_usuarios/agregar', 'CrudUsuariosController::agregar');
 $routes->get('crud_usuarios/eliminar/(:num)', 'CrudUsuariosController::eliminar/$1');

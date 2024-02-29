@@ -1,7 +1,8 @@
-
 $(document).ready(function () {
-    $('#usuariosTable').DataTable({"language": {
-        "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"} ,
+    $('#usuariosTable').DataTable({
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+        },
         fixedHeader: true,
         scrollY: '50vh',
         responsive: true,
@@ -44,39 +45,31 @@ $(document).ready(function () {
                 ]
             }
         }
+    });
 
+    $.fn.dataTable.ext.errMode = 'none';
 
-        });
-    
-});
-
-
-/* $(document).ready(function() {
-    $('').DataTable({"language": {
-        "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+    $('#calificacionesTable').DataTable({
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
         },
+       columns:[
+      {  data:  'nombre'},
+      {  data:  'calificacion'},
+      {  data:  'id_alumno'},
+
+       ],
         fixedColumns: true,
-        scrollY: '50vh',
-        scroller: true,
-        });
-}); */
-$(document).ready(function () {
-    $('#apoderadosTable').DataTable({"language": {
-        "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+        responsive: true
+    });
+
+    $('#estudiantesTable').DataTable({
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
         },
-        fixedColumns: true,
-        scrollY: '50vh',
-        scrollCollapse: true,
-        scroller: true,
-        });
-});
-$(document).ready(function () {
-    $('#estudiantesTable').DataTable({"language": {
-        "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
-        },
-       
         scrollCollapse: true,
         fixedHeader: true,
+        info: false,
         responsive: true,
         scroller: true,
         layout: {
@@ -86,10 +79,15 @@ $(document).ready(function () {
                         extend: 'collection',
                         text: 'Exportar',
                         autoClose: true,
+                        columns: [
+                            { data: 'nombre_estudiante' },
+                            { data: 'Nombre_Apoderado' }
+                        ],
                         buttons: [
                             {
                                 extend: 'copy',
                                 text: 'Copiar',
+                                title: 'Registro de alumnos',
                                 exportOptions: {
                                     columns: ':visible'
                                 }
@@ -97,6 +95,7 @@ $(document).ready(function () {
                             {
                                 extend: 'print',
                                 text: 'Print',
+                                title: 'Registro de alumnos',
                                 exportOptions: {
                                     margin: [0, 0, 0, 12],
                                     alignment: 'center',
@@ -106,6 +105,7 @@ $(document).ready(function () {
                             {
                                 extend: 'pdf',
                                 text: 'PDF',
+                                title: 'Registro de alumnos',
                                 exportOptions: {
                                     margin: [0, 0, 0, 12],
                                     alignment: 'center',
@@ -115,15 +115,14 @@ $(document).ready(function () {
                         ]
                     }
                 ]
-            }}
-        });
-});
-$(document).ready(function () {
-    $('#asistenciaTable').DataTable({"language": {
-        "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+            }
+        }
+    });
+
+    $('#asistenciaTable').DataTable({
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
         },
-        scrollY: '50vh',
-        scrollCollapse: true,
-        scroller: true,
-        });
+        responsive: true
+    });
 });

@@ -25,4 +25,5 @@ class apoderado_estudiante extends Model
     ];
     return $this->db->table('estudiantes_apoderados')->insert($data);
 }
+
 }

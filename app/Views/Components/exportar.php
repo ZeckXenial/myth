@@ -80,7 +80,7 @@ $(document).ready(function () {
             }
             anotacionesTableHTML += '</tbody></table>';
             $('#anotacionesContainer' + estudianteId).html(anotacionesTableHTML);
-
+            console.log(data)
             // Agregar los botones de DataTables a sus respectivas tablas
             $.fn.dataTable.ext.errMode = 'none';
             $('#asistenciasContainer' + estudianteId).DataTable({
@@ -221,7 +221,6 @@ $(document).ready(function () {
         }
             });
         } catch (error) {
-            // Error handling
             $('#spinner' + estudianteId).hide();
             console.error(error);
         }

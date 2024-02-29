@@ -8,7 +8,7 @@ class AsignaturaModel extends Model
 {
     protected $table = 'asignaturas';
     protected $primaryKey = 'asignatura_id';
-    protected $allowedFields = ['nombre', 'user_id'];
+    protected $allowedFields = ['nombre_asignatura', 'user_id' ];
 
     public function obtenerAsignaturas()
     {

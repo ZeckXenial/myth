@@ -33,7 +33,7 @@ class Auth extends Controller
 
             if ($user->id_rol == 1) { 
                 return redirect()->to('admin/dashboard');
-            } elseif ($user->id_rol == 2) { 
+            } elseif ($user->id_rol == 2 or $user->id_rol == 3 ) { 
                 return redirect()->to('teacher/dashboard');
             } else {
                 return redirect()->to('/');

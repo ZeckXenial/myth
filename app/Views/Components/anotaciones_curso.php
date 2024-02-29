@@ -8,7 +8,7 @@
             <div class="col-md-4 mb-4">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title"><?= $estudiante['nombre'] ?></h5>
+                        <h5 class="card-title"><?= $estudiante['nombre_estudiante'] ?></h5>
                         <p class="card-text">Fecha de Nacimiento: <?= $estudiante['fecha_nacimiento'] ?></p>
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#verAnotacionesModal<?= $estudiante['estudiante_id'] ?>">
                             Ver Anotaciones
@@ -24,7 +24,7 @@
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="verAnotacionesModalLabel<?= $estudiante['estudiante_id'] ?>">Anotaciones de <?= $estudiante['nombre'] ?></h5>
+                            <h5 class="modal-title" id="verAnotacionesModalLabel<?= $estudiante['estudiante_id'] ?>">Anotaciones de <?= $estudiante['nombre_estudiante'] ?></h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -51,7 +51,7 @@
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="CrearAnotacionesModalLabel<?= $estudiante['estudiante_id'] ?>">Anotaciones de <?= $estudiante['nombre'] ?></h5>
+                            <h5 class="modal-title" id="CrearAnotacionesModalLabel<?= $estudiante['estudiante_id'] ?>">Anotaciones de <?= $estudiante['nombre_estudiante'] ?></h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">

@@ -22,20 +22,20 @@ class Asistencias extends BaseController
 
     public function ingresarAsistencias($cursoId)
 {
-    // Verificar si la solicitud es de tipo POST
     if ($this->request->getMethod() === 'post') {
         $asistencias = $this->request->getPost('asistencias');
 
         if (!empty($asistencias)) {
             $model = new AsistenciasModel();
+            $fecha_asistencia = date('Y-m-d'); 
 
-            foreach ($asistencias as $estudiante_id => $presente) {
+            foreach ($_POST['asistencias'] as $asistencia) {
                 $data = [
-                    'estudiante_id' => $estudiante_id,
-                    'presente' => ($presente == 'presente') ? 1 : 0,
-                    'fecha_asistencia' => date('Y-m-d H:i:s')
+                    'estudiante_id' => $asistencia['estudiante_id'],
+                    'presente' => isset($asistencia['presente']) ? 1 : 0,
+                    'fecha' => $fecha_asistencia
                 ];
-
+            
                 $model->ingresarAsistencias($data);
             }
 
