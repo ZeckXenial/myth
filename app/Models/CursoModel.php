@@ -12,34 +12,99 @@ class CursoModel extends Model
 
     public function obtenerCursos()
     {
-        $user_id = session()->get('user_id');
-
-        if (session()->get('idrol') === '1') {
-            return $this->getCursosByTeacher($user_id);
-        } elseif (session()->get('idrol') === '2' || session()->get('idrol') === '3') {
-            return $this->getCursosByDirective();
+        $idrol = session()->get('idrol');
+        $user_id = session()->get('iduser');
+        
+        if ($idrol === '1') {
+            return $this->getCursosAndAsignaturas($user_id);
+        } elseif ($idrol === '2' || $idrol === '3') {
+            return $this->getAllCursosAndAsignaturas();
         }
-
+        
         return [];
     }
-
-    public function getAsignaturasPorCurso($cursoId)
-    {
-        return $this->db->table('cursos_asignaturas')
-            ->join('asignaturas', 'asignaturas.asignatura_id = cursos_asignaturas.asignatura_id')
-            ->where('cursos_asignaturas.curso_id', $cursoId)
-            ->get()->getResultArray();
-    }
-
+    
     public function getCursosByTeacher($user_id)
     {
         return $this->select('cursos.*, usuarios.nombre AS nombre_usuario, nivel.nombre AS nombre_nivel')
-            ->join('usuarios', 'usuarios.user_id = cursos.user_id')
-            ->join('nivel', 'nivel.nivel_id = cursos.nivel_id')
-            ->where('cursos.user_id', $user_id)
-            ->findAll();
+        ->join('usuarios', 'usuarios.user_id = cursos.user_id')
+        ->join('nivel', 'nivel.nivel_id = cursos.nivel_id')
+        ->where('cursos.user_id', $user_id)
+        ->distinct()
+        ->findAll();
+    }
+    
+    public function getCursosAndAsignaturas($user_id)
+{
+    $cursos_directos = $this->select('cursos.*, usuarios.nombre AS nombre_usuario, nivel.nombre AS nombre_nivel')
+                            ->join('usuarios', 'usuarios.user_id = cursos.user_id')
+                            ->join('nivel', 'nivel.nivel_id = cursos.nivel_id')
+                            ->where('cursos.user_id', $user_id)
+                            ->findAll();
+
+    $asignatura_ids = $this->db->table('asignaturas')
+                               ->select('asignatura_id')
+                               ->where('user_id', $user_id)
+                               ->get()
+                               ->getResultArray();
+    
+    if (!empty($asignatura_ids)) {
+        $cursos_asignaturas = $this->db->table('cursos_asignaturas')
+                                       ->select('curso_id')
+                                       ->whereIn('asignatura_id', array_column($asignatura_ids, 'asignatura_id'))
+                                       ->get()
+                                       ->getResultArray();
+        
+        if (!empty($cursos_asignaturas)) {
+            $cursos_por_asignaturas = $this->select('cursos.*, usuarios.nombre AS nombre_usuario, nivel.nombre AS nombre_nivel')
+                                           ->join('usuarios', 'usuarios.user_id = cursos.user_id')
+                                           ->join('nivel', 'nivel.nivel_id = cursos.nivel_id')
+                                           ->whereIn('cursos.curso_id', array_column($cursos_asignaturas, 'curso_id'))
+                                           ->findAll();
+            
+            $todos_los_cursos = array_merge($cursos_directos, $cursos_por_asignaturas);
+            $todos_los_cursos = array_unique($todos_los_cursos, SORT_REGULAR);
+
+            return $todos_los_cursos;
+        }
     }
 
+    return $cursos_directos;
+}
+public function getAllCursosAndAsignaturas()
+{
+    return $this->select('cursos.*, usuarios.nombre AS nombre_usuario, nivel.nombre AS nombre_nivel')
+        ->join('usuarios', 'usuarios.user_id = cursos.user_id')
+        ->join('nivel', 'nivel.nivel_id = cursos.nivel_id')
+        ->findAll();
+}
+
+public function getAsignaturasPorCurso($cursoId)
+{
+    $user_id = session()->get('iduser');
+    $idrol = session()->get('idrol');
+
+    $isUserRelatedToCourse = $this->db->table('cursos')
+                                       ->where('curso_id', $cursoId)
+                                       ->where('user_id', $user_id)
+                                       ->countAllResults() > 0;
+
+    $query = $this->db->table('cursos_asignaturas')
+                      ->join('asignaturas', 'asignaturas.asignatura_id = cursos_asignaturas.asignatura_id')
+                      ->join('usuarios', 'usuarios.user_id = asignaturas.user_id') 
+                      ->where('cursos_asignaturas.curso_id', $cursoId);
+
+    if ($isUserRelatedToCourse || $idrol === '2' || $idrol === '3') {
+        
+        $query->select('cursos_asignaturas.curso_id, asignaturas.*, usuarios.nombre AS nombre')
+              ->groupBy('asignaturas.asignatura_id');
+    } else {
+        $query->select('cursos_asignaturas.curso_id, asignaturas.*, usuarios.nombre AS nombre')
+              ->where('asignaturas.user_id', $user_id);
+    }
+
+    return $query->get()->getResultArray();
+}
     public function getCursosByDirective()
     {
         return $this->select('cursos.*, usuarios.nombre AS nombre_usuario, nivel.nombre AS nombre_nivel')
@@ -47,7 +112,6 @@ class CursoModel extends Model
             ->join('nivel', 'nivel.nivel_id = cursos.nivel_id', 'left')
             ->findAll();
     }
-
     public function obtenerCursoPorId($id)
     {
         return $this->find($id);
@@ -65,6 +129,6 @@ class CursoModel extends Model
 
     public function eliminarCurso($id)
     {
-        return $this->delete(['curso_id' => $id]); // Eliminar el curso por ID
+        return $this->delete(['curso_id' => $id]); 
     }
 }

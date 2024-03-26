@@ -7,10 +7,9 @@ use CodeIgniter\Model;
 class AsignaturaCursoModel extends Model
 {
     protected $table = 'cursos_asignaturas';
-    protected $primaryKey = 'id'; // Ajusta el nombre del campo si es diferente en tu base de datos
+    protected $primaryKey = 'id'; 
     protected $allowedFields = ['curso_id', 'asignatura_id'];
 
-    // Insertar un solo registro
     public function insertarAsignaturaCurso($curso_id, $asignatura_id)
     {
         $data = [

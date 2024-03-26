@@ -4,43 +4,45 @@
     <h1 class="text-center">Editar Curso</h1>
     <div class="container">
         <form action="<?= site_url('cursos/update/' . $curso['curso_id']) ?>" method="post" class="form-control">
-            <div class="mb-3">
-                <label for="grado" class="form-label">Grado</label>
-                <input type="text" class="form-control" id="grado" name="grado" value="<?= $curso['grado'] ?>" required>
+            <div class="mb-3 form-floating">
+                <input type="text" class="form-control" placeholder="Nombre" id="grado" name="grado" value="<?= $curso['grado'] ?>" required>
+                <label for="grado" class="form-label">Nombre</label>
             </div>
             <div class="mb-3">
         <label class="form-label">Asignaturas</label>
-    <div class="mb-3 form-select" style="max-height: 100px; overflow-y: auto;">
+        <div class="mb-3 form-select form-floating" style="max-height: 100px; overflow-y: auto;">
     <?php foreach ($asignaturas as $asignatura): ?>
-        <?php $checked = (strpos($curso['asignatura_id'], (string)$asignatura['asignatura_id']) !== false) ? 'checked' : ''; ?>
+        <?php
+        $checked = isset($asignatura['selected']) && $asignatura['selected'] ? 'checked' : '';
+        ?>
         <div class="form-check">
             <input class="form-check-input" type="checkbox" name="asignatura_id[]" value="<?= $asignatura['asignatura_id'] ?>" id="asignatura<?= $asignatura['asignatura_id'] ?>" <?= $checked ?>>
             <label class="form-check-label" for="asignatura<?= $asignatura['asignatura_id'] ?>">
-                <?= $asignatura['nombre'] ?>
+                <?= $asignatura['nombre_asignatura'] ?>, Encargado:<?= $asignatura['nombre_usuario'] ?>
             </label>
         </div>
     <?php endforeach; ?>
-    </div>
 </div>
-            <div class="mb-3">
-                <label for="nivel_id" class="form-label">Nivel</label>
-                <select class="form-select" name="nivel_id" id="nivel_id" required>
+</div>
+            <div class="mb-3 form-floating">
+                <select class="form-select" name="nivel_id" placeholder="nivel" id="nivel_id" required>
                     <?php foreach ($niveles as $nivel): ?>
                         <option value="<?= $nivel['nivel_id'] ?>" <?= ($curso['nivel_id'] == $nivel['nivel_id']) ? 'selected' : '' ?>>
                             <?= $nivel['nombre'] ?>
                         </option>
-                    <?php endforeach; ?>
-                </select>
+                        <?php endforeach; ?>
+                    </select>
+                    <label for="nivel_id" class="form-label">Nivel</label>
             </div>
-            <div class="mb-3">
-                <label for="user_id" class="form-label">Usuario</label>
+            <div class="mb-3 form-floating">
                 <select class="form-select" name="user_id" id="user_id" required>
                     <?php foreach ($usuarios as $usuario): ?>
                         <option value="<?= $usuario['user_id'] ?>" <?= ($curso['user_id'] == $usuario['user_id']) ? 'selected' : '' ?>>
                             <?= $usuario['nombre'] ?>
                         </option>
-                    <?php endforeach; ?>
-                </select>
+                        <?php endforeach; ?>
+                    </select>
+                    <label for="user_id" class="form-label">Usuario</label>
             </div>
             <button type="submit" class="btn mx-auto btn-primary">Actualizar</button>
             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#eliminarModal">Eliminar</button>

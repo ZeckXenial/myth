@@ -10,9 +10,11 @@ $routes->get('admin/dashboard', 'TeacherController::admin');
 $routes->get('logout', 'Auth::logout');
 
 $routes->get('cursos', 'CursosController::index');
-
 $routes->get('editar/(:num)', 'Asignaturas::editar/$1');
+$routes->post('asignaturas/crear', 'Asignaturas::crear');
+$routes->get('asignaturas/agregar', 'Asignaturas::asignaturas');
 $routes->post('asignaturas/editar/(:num)', 'Asignaturas::editar/$1');
+$routes->post('asignaturas/eliminar/(:num)', 'Asignaturas::eliminar/$1');
 
 $routes->get('anotaciones/curso/(:num)', 'Anotaciones::curso/$1');
 $routes->get('asistencias/curso/(:num)', 'Asistencias::curso/$1');

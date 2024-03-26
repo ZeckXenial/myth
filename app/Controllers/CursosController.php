@@ -15,21 +15,15 @@ class CursosController extends BaseController
 public function index()
 {
     $cursosModel = new CursoModel();
-    $data['cursos'] = $this->obtenerCursosSegunRol($cursosModel);
+    $data['cursos'] = $cursosModel->obtenerCursos();
     return view('components/cursos', $data);
 }
 
 private function obtenerCursosSegunRol($cursosModel)
 {
-    if ($this->session->get('idrol') === '1') {
-        
-        $iduser = $this->session->get('iduser');
-        return $cursosModel->getCursosByTeacher($iduser);
-    } elseif ($this->session->get('idrol') === '2') {
+   
         return $cursosModel->obtenerCursos();
-    }
-
-    return [];
+  
 }
 public function agregar()
 {

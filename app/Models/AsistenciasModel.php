@@ -10,11 +10,6 @@ class AsistenciasModel extends Model
     protected $primaryKey = 'asistencia_id';
     protected $allowedFields = ['estudiante_id', 'curso_id', 'fecha', 'presente'];
 
-    public function getAsistenciasPorCurso($clase_id)
-    {
-        return $this->where('curso_id', $clase_id)
-                    ->findAll();
-    }
 
     public function ingresarAsistencias($datos)
 {
@@ -24,6 +19,20 @@ class AsistenciasModel extends Model
         return $this->insert($datos);
     }
 }
+public function obtenerUltimaFechaAsistenciaPorCurso($cursoId)
+{
+    return $this->select('fecha')
+                ->where('curso_id', $cursoId)
+                ->orderBy('fecha', 'DESC')
+                ->first();
+}
+
+public function getAsistenciasPorCurso($cursoId)
+{
+    return $this->where('curso_id', $cursoId)
+                ->findAll();
+}
+
 public function obtenerAsistenciasPorEstudiante($estudiante_id)
 {
     return $this

@@ -44,14 +44,27 @@ class Cursos extends Controller
     public function index()
     {
         
-        $data['cursos'] = $this->cursoModel->findAll();
+        $idrol = session()->get('idrol');
+
+        if ($idrol === '1') {
+           
+            $data['cursos'] = $this->cursoModel->obtener;
+
+        } elseif ($idrol === '2' || $idrol === '3') {
+            $data['cursos'] = $this->cursoModel->obtenerCursos();
+        } else {
+            // Otros roles
+            $data['cursos'] = [];
+        }
+
         return view('cursos/index', $data);
     }
+    
 
     public function editar($id)
     {
         $data['curso'] = $this->cursoModel->obtenerCursoPorId($id);
-        $data['asignaturas'] = $this->asignaturaModel->obtenerAsignaturas();
+        $data['asignaturas'] = $this->asignaturaModel->obtenerAsignaturas($id);
         $data['usuarios'] = $this->crudUsuarioModel->obtenerUsuarios();
         $data['niveles'] = $this->nivelModel->obtenerNiveles();
         if (!$id) {
@@ -65,16 +78,11 @@ class Cursos extends Controller
             $user_id = $this->request->getPost('user_id');
             $grado = $this->request->getPost('grado');
             $nivel_id = $this->request->getPost('nivel_id');
-            $asignatura_ids = $this->request->getPost('asignatura_id'); 
 
             $data = ['user_id' => $user_id, 'grado' => $grado, 'nivel_id' => $nivel_id];
             $curso_id = $this->cursoModel->insert($data);
 
             if ($curso_id) {
-                foreach ($asignatura_ids as $asignatura_id) {
-                    $this->asignaturaCursoModel->insertarAsignaturaCurso($curso_id, $asignatura_id);
-                }
-
                 return redirect()->to(site_url('cursos'))->with('success', 'Curso agregado exitosamente');
             } else {
                 return redirect()->to(site_url('cursos'))->with('error', 'Error al agregar el curso');
@@ -108,16 +116,23 @@ class Cursos extends Controller
 
             if ($this->cursoModel->actualizarCurso($cursoId, $data)) {
                 $this->asignaturaCursoModel->eliminarAsignaturasCursoPorCursoId($cursoId);
-                
+            
+                // Obtener las asignaturas seleccionadas
                 $asignatura_ids = $this->request->getPost('asignatura_id');
-                foreach ($asignatura_ids as $asignatura_id) {
-                    $this->asignaturaCursoModel->insertarAsignaturaCurso($cursoId, $asignatura_id);
+            
+                // Verificar si hay asignaturas seleccionadas
+                if ($asignatura_ids !== null) {
+                    // Iterar sobre las asignaturas seleccionadas
+                    foreach ($asignatura_ids as $asignatura_id) {
+                        $this->asignaturaCursoModel->insertarAsignaturaCurso($cursoId, $asignatura_id);
+                    }
                 }
-
+            
                 return redirect()->to(site_url('cursos'))->with('success', 'Curso actualizado exitosamente');
             } else {
                 return redirect()->to(site_url('cursos'))->with('error', 'Error al actualizar el curso');
             }
+            
         }
 
         return redirect()->to(site_url('cursos'))->with('error', 'Error al procesar la solicitud');
@@ -139,7 +154,7 @@ class Cursos extends Controller
             'calificaciones' => $calificaciones,
             'estudiantes' => $estudiantes
         ];
-        return view('components/exportar', $data);
+        return view('Components/exportar', $data);
         
     }
     public function exportarestudiante($estudianteId)
@@ -165,6 +180,6 @@ class Cursos extends Controller
     public function delete($id)
     {
         $this->cursoModel->eliminarCurso($id);
-        return redirect()->to('/cursos');
+        return redirect()->to('cursos');
     }
 }

@@ -19,6 +19,15 @@ class CrudUsuarioModel extends Model
             ->get()
             ->getResultArray();
     }
+    public function obtenerprofesores()
+    {
+        return $this->db->table('usuarios')
+            ->select('usuarios.user_id,usuarios.nombre,usuarios.email,usuarios.id_rol ')
+            ->where('activo', null)
+            ->where('id_rol' , '1')
+            ->get()
+            ->getResultArray();
+    }
  public function obtenerUsuarios()
     {
         return $this->db->table('usuarios')
@@ -47,7 +56,8 @@ class CrudUsuarioModel extends Model
         $user = $this->find($id);
        
         if ($user) {
-            return $this->update($id, ['activo' => '']);
+            return $this->update($id, ['activo' => null, 'email' => '']);
+                   
         } else {
            
             return false; 

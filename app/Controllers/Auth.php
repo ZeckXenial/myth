@@ -16,7 +16,6 @@ class Auth extends Controller
         $user = $model->getUserData($username);
 
         if ($user && $model->verifyPassword($password, $user->password)) {
-            // Verificar si la cuenta está suspendida
             if ($user->activo !== null) {
                 $data['error_message'] = 'Su cuenta está suspendida. Por favor, contacte al administrador.';
                 return view('auth/login', $data);
@@ -29,8 +28,18 @@ class Auth extends Controller
                 'idrol' => $user->id_rol,
                 'username' => $user->nombre,
                 'iduser' => $user->user_id,
+                
             ]);
+            $courseOrSubject = $model->getCourseOrSubjectId($user->user_id);
 
+            if ($courseOrSubject) {
+                $session_data['type'] = $courseOrSubject['type'];
+                $session_data['id_course_or_subject'] = $courseOrSubject['id'];
+            }
+            if ($courseOrSubject != True or $courseOrSubject < '0'){
+                $session_data = " ";  //Si no tiene asignado curso
+            }
+            $session->set($session_data);
             if ($user->id_rol == 1) { 
                 return redirect()->to('admin/dashboard');
             } elseif ($user->id_rol == 2 or $user->id_rol == 3 ) { 
@@ -46,10 +55,9 @@ class Auth extends Controller
 
     public function logout()
     {
-        // Destruir la sesión
         session()->destroy();
 
-        // Redireccionar al inicio
+      
         return redirect()->to('/');
     }
 }

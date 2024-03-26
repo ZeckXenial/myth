@@ -8,17 +8,24 @@ use App\Models\EstudiantesModel;
 class Asistencias extends BaseController
 {
     private $estudiantesModel;
+    private $asistenciasModel;
+
 
     public function __construct()
     {
         $this->estudiantesModel = new EstudiantesModel();
+        $this->asistenciasModel = new AsistenciasModel();
+
     }
 
     public function curso($cursoId)
-    {   $data['cursoId'] = $cursoId;
+    {
+        $data['cursoId'] = $cursoId;
         $data['asistencias'] = $this->estudiantesModel->obtenerEstudiantesPorCurso($cursoId);
+        $data['ultimaFechaAsistencia'] = $this->asistenciasModel->obtenerUltimaFechaAsistenciaPorCurso($cursoId);
         return view('components/asistencias', $data);
     }
+    
 
     public function ingresarAsistencias($cursoId)
 {
@@ -32,10 +39,11 @@ class Asistencias extends BaseController
             foreach ($_POST['asistencias'] as $asistencia) {
                 $data = [
                     'estudiante_id' => $asistencia['estudiante_id'],
+                    'fecha' => $fecha_asistencia,
+                    'curso_id' => $cursoId,
                     'presente' => isset($asistencia['presente']) ? 1 : 0,
-                    'fecha' => $fecha_asistencia
                 ];
-            
+      
                 $model->ingresarAsistencias($data);
             }
 

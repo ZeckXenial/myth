@@ -104,7 +104,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="<?= site_url('crud_usuarios/agregar') ?>" method="post">
+                    <form action="<?= site_url('crud_usuarios/agregar') ?>" class="was-validated" method="post">
                         <div class="mb-3">
                             <label for="nombre" class="form-floating">Nombre:</label>
                             <input type="text" name="nombre" class="form-control <?= (isset($validation) && $validation->hasError('nombre')) ? 'is-invalid' : 'is-valid'; ?>" value="<?= (isset($validation)) ? set_value('nombre') : ''; ?>" required>

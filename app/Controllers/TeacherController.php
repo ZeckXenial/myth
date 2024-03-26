@@ -3,7 +3,6 @@
 namespace App\Controllers;
 
 use CodeIgniter\Controller;
-use App\Models\CursoModel;
 
 class TeacherController extends Controller
 {
@@ -14,22 +13,15 @@ class TeacherController extends Controller
 
     public function dashboard()
     {
-        $cursoModel = new CursoModel();
-        $rol = session()->get('role');
-        $idUsuario = session()->get('user_id');
+      
 
-        $data['cursos'] = $cursoModel->obtenerCursos($rol, $idUsuario);
-
-        return view('teacher/dashboard', $data);
+        return view('admin/dashboard');
     }
 
     public function admin()
     {   
-        $cursoModel = new CursoModel();
-        $rol = session()->get('role');
-        $idUsuario = session()->get('user_id');
+       
 
-        $data['cursos'] = $cursoModel->obtenerCursos($rol, $idUsuario);
 
         return view('admin/dashboard');
     }

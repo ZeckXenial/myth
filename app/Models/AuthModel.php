@@ -16,6 +16,31 @@ class AuthModel extends Model
             ->getRow();
     }
 
+    public function getCourseOrSubjectId($userId)
+{
+    $courseId = $this->db->table('cursos')
+        ->select('curso_id')
+        ->where('user_id', $userId)
+        ->get()
+        ->getRow();
+
+    if ($courseId) {
+        return ['id' => $courseId->curso_id, 'type' => 'curso'];
+    } else {
+        $subjectId = $this->db->table('asignaturas')
+            ->select('asignatura_id')
+            ->where('user_id', $userId)
+            ->get()
+            ->getRow();
+
+        if ($subjectId) {
+            return ['id' => $subjectId->asignatura_id, 'type' => 'asignatura'];
+        } else {
+            return null;
+        }
+    }
+}
+
     public function getRoleName($roleId)
     {
         $query = $this->db->query("SELECT glosa FROM roles WHERE id_rol = $roleId");

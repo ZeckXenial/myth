@@ -11,7 +11,8 @@
             <div class="col-md-4 mb-4">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title"><?= $asignatura['nombre'] ?></h5>
+                        <h5 class="card-title"><?= $asignatura['nombre_asignatura'] ?></h5>
+                        <h5 class="h6">Profesor: <?= $asignatura['nombre'] ?></h5>
                         <a href="<?= site_url('calificaciones/' . $asignatura['curso_id'] . '/' . $asignatura['asignatura_id']) ?>" class="btn btn-primary">Entrar a Calificaciones</a>
                         <?php if (session()->get('idrol') === '2' xor session('idrol') === '3'): ?>
                              <a href="<?= site_url('editar/' . $asignatura['asignatura_id']) ?>" class="btn btn-primary">Editar</a>
