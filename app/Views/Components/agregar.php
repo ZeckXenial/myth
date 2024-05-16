@@ -1,9 +1,9 @@
 <?php include(APPPATH . 'Views/Components/headers.php');?>
 <?php include(APPPATH . 'Views/Components/NavBar.php');?>
 
-<h1 class="text-center">Agregar Curso</h1>
 
-<div class="container form-form-floatingcontrol">
+<h1 class="text-center">Agregar Curso</h1>
+<div class="container form-control form-floating">
     <form action="<?= site_url('cursos/guardar') ?>" method="post">
         <div class="mb-3 form-floating">
             <input type="text" class="form-control" id="grado" name="grado" placeholder="Ingrese el grado" required>

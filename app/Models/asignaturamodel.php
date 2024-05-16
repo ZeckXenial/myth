@@ -48,17 +48,14 @@ return $query;
         ->groupBy('asignaturas.asignatura_id')
         ->findAll();
 
-// Obtener las asignaturas relacionadas con el curso actual
 $asignaturas_relacionadas_curso = $this->db->table('cursos_asignaturas')
                        ->select('asignatura_id')
                        ->where('curso_id', $cursoId)
                        ->get()
                        ->getResultArray();
 
-// Convertir el resultado en un array de IDs de asignaturas
 $asignaturas_ids = array_column($asignaturas_relacionadas_curso, 'asignatura_id');
 
-// Marcar las asignaturas relacionadas con el curso como seleccionadas
 foreach ($asignaturas_usuario as &$asignatura) {
 if (in_array($asignatura['asignatura_id'], $asignaturas_ids)) {
 $asignatura['selected'] = true;
@@ -70,7 +67,6 @@ $asignatura['selected'] = false;
 return $asignaturas_usuario;
     }
     }
-
     public function obtenerAsignaturaPorId($id)
     {
         return $this->find($id);

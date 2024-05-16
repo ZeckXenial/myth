@@ -31,7 +31,6 @@ class Asignaturas extends Controller
     }
     public function asignaturas (){
         $user_id = session()->get('iduser');
-        $data['asignaturas'] = $this->asignaturaModel->obtenerAsignaturas();
         $data['usuarios'] = $this->usuariosmodel->obtenerprofesores();
         $data['cursos'] = $this->Cursomodel->getCursosByTeacher($user_id);
         return view('components/crear', $data);

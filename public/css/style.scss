@@ -197,8 +197,22 @@ transition: transform .3s;
   width: 1000px;
   border-radius: 10px;
 }
+img {
+  display: flex;
+    width: 500px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
 
+}
+.carousel-caption{
+  height: fit-content;
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  box-shadow: 5px 5px 30px 3px #000 inset;
+  display: inline-block;
 
+}
 nav.navbar {
   margin-top: 25px;
   z-index: 1;
