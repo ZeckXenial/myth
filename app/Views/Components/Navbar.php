@@ -5,9 +5,6 @@
         </button>
              
         <div class="collapse navbar-collapse" id="navbarNav">
-            <!-- <a class="navbar-brand" >
-                <img src="https://www.colegiosanjosesalamanca.es/images/logo.png"></" alt="">
-            </a> -->
             <ul class="navbar-nav ml-auto" id="btnCrudUsuarios">
                 <?php if (session()->get('idrol') === '2' or session()->get('idrol') === '3'): ?>
                     <?php if (strpos(current_url(), 'dashboard') === false): ?>

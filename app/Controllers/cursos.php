@@ -170,7 +170,6 @@ class Cursos extends Controller
             'anotaciones' => $anotaciones,
             'asistencias' => $asistencias,
             'calificaciones' => $calificaciones,
-            
         ];
    
        return $this->response->setJSON($data);  

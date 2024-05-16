@@ -66,12 +66,17 @@ public function getCalificacionesPorasignatura($asignaturaId)
         ->findAll();
 }
 
-    public function obtenerCalificacionesPorEstudiante($estudiante_id)
-    {
-        return $this
-            ->where('estudiante_id', $estudiante_id)
-            ->get()
-            ->getResultArray();
-    }
-   
+public function obtenerCalificacionesPorEstudiante($estudiante_id)
+{
+    return $this->select('calificaciones.nota, asignaturas.nombre_asignatura, calificaciones.fecha_ingreso')
+        ->join('asignaturas', 'asignaturas.asignatura_id = calificaciones.asignatura_id')
+        ->where('calificaciones.estudiante_id', $estudiante_id)
+        ->get()
+        ->getResultArray();
 }
+
+
+
+}
+   
+
