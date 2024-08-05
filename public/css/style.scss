@@ -29,6 +29,67 @@ h1.text-center{
 margin-top: 5%;
 
 }
+
+
+
+.user-menu-container {
+  display: flex;
+  align-items: center;
+  position: inherit;
+  right: 20px; 
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+
+.menu-user {
+  display: inline-block;
+  cursor: pointer;
+}
+
+.menu-user .dropdown-menu {
+  
+  opacity: 0;
+  position: absolute;
+  right: 0;
+  background-color: white;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  transition: visibility 0s, opacity 0.3s ease;
+}
+
+.menu-user:hover .dropdown-menu,
+.menu-user .dropdown-menu:hover {
+  visibility: visible;
+  opacity: 1;
+}
+
+.menu-user .dropdown-item {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.menu-user .dropdown-item:hover {
+  background-color: #f1f1f1;
+}
+
+.menu-user a.nav-link i {
+  font-size: 30px;
+}
+.modal-header .close {
+  margin: -1rem -1rem -1rem auto;
+}
+
+.modal-body {
+  padding: 1.5rem;
+}
+
+.modal-body .form-group {
+  margin-bottom: 1rem;
+}
 div.form-control{
 box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 transition: 0.3s;
@@ -224,8 +285,7 @@ nav.navbar {
   box-shadow: 10px 10px 34px 0px var(--shadow-color);
   border-radius: 10px;
   &:hover{
-    transform: translateY(10px);
-    transition: transform .3s;
+  
     backdrop-filter: blur(10px);
   }
   ul.navbar-nav li.nav-item:hover:not(:hover) {

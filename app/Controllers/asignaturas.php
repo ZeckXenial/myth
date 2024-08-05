@@ -25,7 +25,7 @@ class Asignaturas extends Controller
     public function index()
     {
         
-        $data['asignaturas'] = $this->asignaturaModel->obtenerAsignaturas();
+        $data['asignaturas'] = $this->asignaturaModel->obtenerAsignaturas("*");
         
         return view('asignaturas/index', $data);
     }

@@ -63,7 +63,7 @@ body {
   max-width: fit-content;
   box-shadow: 10px 10px 34px 0px var(--shadow-color);
   border-radius: 10px;
-  transition: top 0.5s ease-in-out;
+  
 }
 
 /* app/Views/Components/styles.css */
