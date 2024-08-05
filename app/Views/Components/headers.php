@@ -3,6 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Last-Modified" content="0">
+    <meta http-equiv="Cache-Control" content="no-cache, mustrevalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <?php
+    header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
+    header("Expires: Sat, 1 Jul 2000 05:00:00 GMT"); // Fecha en el pasado
+    ?>
+
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -37,7 +46,8 @@
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/fixedheader/4.0.0/js/dataTables.fixedHeader.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/fixedheader/4.0.0/js/fixedHeader.dataTables.js"></script>
 
-    
+    <link href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     
 
     <!-- Scripts personalizados -->
@@ -48,4 +58,4 @@
 <!--     <link rel="icon" type="image/png" href="/computer.png" />
  -->
     <title>Intranet</title>
-</head>
+

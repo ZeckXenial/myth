@@ -37,40 +37,42 @@
                 
             </div>
         </div>
-        <div class="menu-user " style="font-size: 30px; margin-right:10px;">
-                <a class="nav-link"><i class="fas fa-user-circle"></i></a> 
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#" data-toggle="modal" data-target="#otpModal">Código OTP</a></li>
-                            <li><a class="dropdown-item" href="#">Mi información</a></li>
-                            <li><a class="dropdown-item" href="<?= site_url('logout') ?>">Cerrar sesión</a></li>
+        <div class="user-menu-container">
+                    <div class="menu-user nav-item dropdown ml-auto">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person-circle"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#otpModal">Código OTP</a></li>
+                            <a class="dropdown-item" href="<?= site_url('usuario/mi_informacion') ?>">Mi Información</a>
+                            <li><a class="dropdown-item btn" href="<?= site_url('logout') ?>">Cerrar sesión</a></li>
                         </ul>
-        </div>
-  </nav>
- 
-
-    <div class="modal fade" id="otpModal" tabindex="-1" role="dialog" aria-labelledby="otpModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="otpModalLabel">Verificar OTP</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <form id="otpForm">
-                        <div class="form-group">
-                            <label for="rut">RUT</label>
-                            <input type="text" class="form-control" id="rut" name="rut" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="otp">Código OTP</label>
-                            <input type="text" class="form-control" id="otp" name="otp" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Enviar</button>
-                    </form>
+            </div>
+        </nav>
+
+        <div class="modal fade" id="otpModal" tabindex="-1" role="dialog" aria-labelledby="otpModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="otpModalLabel">Verificar OTP</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="otpForm">
+                            <div class="form-group">
+                                <label for="rut" >RUT</label>
+                                <input type="number" class="form-control" prefix="99999999-9" id="rut" name="rut" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="otp">Código OTP</label>
+                                <input type="number" class="form-control" id="otp" name="otp" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Enviar</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>

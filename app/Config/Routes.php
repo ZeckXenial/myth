@@ -16,9 +16,15 @@ $routes->get('asignaturas/agregar', 'Asignaturas::asignaturas');
 $routes->post('asignaturas/editar/(:num)', 'Asignaturas::editar/$1');
 $routes->post('asignaturas/eliminar/(:num)', 'Asignaturas::eliminar/$1');
 
+$routes->get('check-session', 'SessionController::check');
+
 $routes->get('anotaciones/curso/(:num)', 'Anotaciones::curso/$1');
 $routes->get('asistencias/curso/(:num)', 'Asistencias::curso/$1');
 $routes->get('calificaciones/(:num)/(:num)', 'Calificaciones::calificaciones/$1/$1');
+
+$routes->get('usuario/mi_informacion', 'CrudUsuariosController::miInformacion');
+$routes->post('usuario/actualizar_informacion', 'CrudUsuariosController::actualizarInformacion');
+$routes->get('usuario/mi_informacion', 'CrudUsuariosController::miInformacion');
 
 $routes->get('notas', 'NotasController::index');
 $routes->get('notas/crud/(:num)', 'NotasController::crud/$1');
@@ -46,20 +52,18 @@ $routes->get('editar/(:num)', 'Calificaciones::editar/$1');
 $routes->post('calificacion/update/(:num)', 'Calificaciones::update/$1');
 $routes->get('delete/(:num)', 'Calificaciones::delete/$1');
 
-
-
 $routes->get('estudiantes', 'crudEstudiantes::index');
 $routes->post('estudiantes', 'crudEstudiantes::editar/$1');
 $routes->get('estudiantes/agregar', 'crudEstudiantes::agregar');
 $routes->post('estudiantes/agregar', 'crudEstudiantes::agregar');
 $routes->get('estudiantes/editar/(:num)', 'crudEstudiantes::editar/$1');
 $routes->post('estudiantes/editar/(:num)', 'crudEstudiantes::editar/$1');
-$routes->post('eliminar/(:num)', 'crudEstudiantes::eliminar/$1');
+$routes->post('estudiantes/eliminar/(:num)', 'crudestudiantes::eliminar/$1');
 
 $routes->post('crud_usuarios/agregar', 'CrudUsuariosController::agregar');
 $routes->get('crud_usuarios/eliminar/(:num)', 'CrudUsuariosController::eliminar/$1');
 $routes->get('crud_usuarios', 'CrudUsuariosController::index');
 $routes->post('crud_usuarios/editar/(:num)', 'CrudUsuariosController::editar/$1');
 
-$routes->post('auth/submit_login', 'Auth::submit_login');
+$routes->post('auth', 'Auth::submit_login');
 $routes->get('dashboard', 'DashboardController::index');

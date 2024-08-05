@@ -7,12 +7,41 @@ use CodeIgniter\Controller;
 
 class Auth extends Controller
 {
+    protected $maxAttempts = 5;
+    protected $lockoutTime = 300; // 5 minutes
+
     public function submit_login()
     {
+        $session = session();
         $model = new AuthModel();
+        $logger = \Config\Services::logger();
+        $recaptchaSecret = 'YOUR_SECRET_KEY';
+        $recaptchaVerifyUrl = 'https://www.google.com/recaptcha/api/siteverify';
 
         $username = $this->request->getPost('username');
         $password = $this->request->getPost('password');
+        $recaptchaResponse = $this->request->getPost('g-recaptcha-response');
+
+     /*    // Verify reCAPTCHA
+        $response = file_get_contents($recaptchaVerifyUrl . '?secret=' . $recaptchaSecret . '&response=' . $recaptchaResponse);
+        $responseKeys = json_decode($response, true);
+
+         if (intval($responseKeys["success"]) !== 1) {
+            $data['error_message'] = 'Por favor complete the reCAPTCHA.';
+            return view('auth/login', $data);
+        }  */
+
+        // Get attempts from session
+        $attempts = $session->get('login_attempts') ?? 0;
+        $lastAttemptTime = $session->get('last_attempt_time') ?? time();
+
+        // Check if user is locked out
+        if ($attempts >= $this->maxAttempts && (time() - $lastAttemptTime) < $this->lockoutTime) {
+            $logger->error("IP: {$_SERVER['REMOTE_ADDR']}");
+            $data['error_message'] = 'Haz hecho muchos intentos, intenta mas tarde!';
+            return view('auth/login', $data);
+        }
+
         $user = $model->getUserData($username);
 
         if ($user && $model->verifyPassword($password, $user->password)) {
@@ -21,14 +50,15 @@ class Auth extends Controller
                 return view('auth/login', $data);
             }
 
-            $session = session();
+            // Reset attempts on successful login
+            $session->set('login_attempts', 0);
+
             $session->set([
                 'role' => $model->getRoleName($user->id_rol),
                 'email' => $user->email,
                 'idrol' => $user->id_rol,
                 'username' => $user->nombre,
                 'iduser' => $user->user_id,
-                
             ]);
             $courseOrSubject = $model->getCourseOrSubjectId($user->user_id);
 
@@ -48,6 +78,10 @@ class Auth extends Controller
                 return redirect()->to('/');
             }
         } else {
+            // Increment attempts on failed login
+            $session->set('login_attempts', $attempts + 1);
+            $session->set('last_attempt_time', time());
+            $logger->warning("Failed login attempt for user: $username from IP: {$_SERVER['REMOTE_ADDR']}");
             $data['error_message'] = 'Credenciales incorrectas';
             return view('auth/login', $data);
         }
@@ -56,8 +90,6 @@ class Auth extends Controller
     public function logout()
     {
         session()->destroy();
-
-      
         return redirect()->to('/');
     }
 }

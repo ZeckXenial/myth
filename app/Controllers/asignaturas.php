@@ -25,14 +25,14 @@ class Asignaturas extends Controller
     public function index()
     {
         
-        $data['asignaturas'] = $this->asignaturaModel->obtenerAsignaturas("*");
+        $data['asignaturas'] = $this->asignaturaModel->obtenerAsignaturas();
         
         return view('asignaturas/index', $data);
     }
     public function asignaturas (){
         $user_id = session()->get('iduser');
         $data['usuarios'] = $this->usuariosmodel->obtenerprofesores();
-        $data['cursos'] = $this->Cursomodel->getCursosByTeacher($user_id);
+        $data['cursos'] = $this->Cursomodel->obtenerCursos();
         return view('components/crear', $data);
     }
     public function crear()

@@ -50,6 +50,56 @@ class CrudUsuariosController extends Controller
         return redirect()->to(site_url('components/crud_usuarios'));
     }
     
+    public function miInformacion()
+    {
+        $model = new CrudUsuarioModel();
+        $session = session();
+        $userId = $session->get('iduser');
+        $data['usuario'] = $model->obtenerUsuarioPorId($userId);
+        return view('components/mi_informacion', $data);
+    }
+
+    public function actualizarInformacion()
+    {
+        if ($this->request->getMethod() === 'post') {
+            log_message('debug', 'Método POST recibido.');
+            $model = new CrudUsuarioModel();
+            $session = session();
+            $userId = $session->get('iduser');
+            log_message('debug', 'User ID: ' . $userId);
+    
+            $validation = \Config\Services::validation();
+    
+            $rules = [
+                'nombre' => 'required|min_length[3]|max_length[50]',
+                'especialidad' => 'max_length[50]',
+            ];
+    
+            if (!empty($this->request->getPost('password'))) {
+                $rules['password'] = 'required|min_length[6]';
+            }
+    
+            if ($this->validate($rules)) {
+                log_message('debug', 'Validación exitosa.');
+                $data = [
+                    'nombre' => $this->request->getPost('nombre'),
+                    'especialidad' => $this->request->getPost('especialidad'),
+                ];
+    
+                if (!empty($this->request->getPost('password'))) {
+                    $data['password'] = password_hash($this->request->getPost('password'), PASSWORD_DEFAULT);
+                }
+    
+                $model->actualizarUsuario($userId, $data);
+                log_message('debug', 'Usuario actualizado.');
+                log_message('debug', 'Redirigiendo a: ' . site_url('usuario/mi_informacion'));
+                return redirect()->to(site_url('usuario/mi_informacion'))->with('success', 'Información actualizada exitosamente');
+            } else {
+                log_message('debug', 'Errores de validación: ' . json_encode($validation->getErrors()));
+                return redirect()->to(site_url('usuario/mi_informacion'))->withInput()->with('errors', $validation->getErrors());
+            }
+        }
+    }  
     public function editar($id)
 {
     if ($this->request->getMethod() === 'post') {

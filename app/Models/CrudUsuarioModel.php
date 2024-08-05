@@ -28,7 +28,7 @@ class CrudUsuarioModel extends Model
             ->get()
             ->getResultArray();
     }
- public function obtenerUsuarios()
+    public function obtenerUsuarios()
     {
         return $this->db->table('usuarios')
             ->select('usuarios.nombre,usuarios.user_id')
@@ -38,12 +38,26 @@ class CrudUsuarioModel extends Model
     }
     public function obtenerUsuarioPorId($id)
     {
-        return $this->find($id);
+        return $this->db->table('usuarios')
+        ->select('usuarios.nombre,usuarios.user_id, usuarios.email, usuarios.especialidad')
+        ->where('activo', null)
+        ->where('user_id', $id)
+        ->get()
+        ->getRowArray();
     }
 
     public function agregarUsuario($datos)
     {
         return $this->insert($datos);
+    }
+
+    
+
+    public function actualizarUsuario($id, $datos)
+    {
+        return $this->db->table('usuarios')
+            ->where('user_id', $id)
+            ->update($datos);
     }
 
     public function editarUsuario($id, $datos)
@@ -52,15 +66,16 @@ class CrudUsuarioModel extends Model
     }
 
     public function eliminarUsuario($id)
-    {
-        $user = $this->find($id);
-       
-        if ($user) {
-            return $this->update($id, ['activo' => null, 'email' => '']);
-                   
-        } else {
-           
-            return false; 
-        }
+{
+    $user = $this->find($id);
+
+    if ($user) {
+        $random = bin2hex(random_bytes(8)); 
+        $uniqueString = $random . '_' . $id . '_' . time(); 
+
+        return $this->update($id, ['activo' => '', 'email' => $uniqueString]);
+    } else {
+        return false; 
     }
+}
 }
