@@ -49,6 +49,49 @@ $(document).ready(function () {
 
     $.fn.dataTable.ext.errMode = 'none';
 
+/*     $(document).ready(function () {
+        var exportUrl = "<?= site_url('cursos/exportar/' . $cursoId) ?>";
+
+        // Evento para exportar todo el curso
+        $('#exportarTodoCurso').click(function () {
+            // Hacer una solicitud AJAX para obtener todos los datos de los estudiantes del curso
+            $.ajax({
+                url: "<?= site_url('cursos/exportar/') . $cursoId ?>",  // Asegúrate de pasar el cursoId desde tu vista o controlador
+                method: 'GET',
+                success: function(data) {
+                    exportarDatosCurso(data);  // Llamamos a la función que procesa los datos
+                },
+                error: function() {
+                    alert("Error al exportar los datos del curso.");
+                }
+            });
+        });
+    
+        function exportarDatosCurso(data) {
+            var table = $('<table></table>');
+            var headerRow = $('<tr><th>Estudiante</th><th>Anotaciones</th><th>Asistencias</th><th>Calificaciones</th></tr>');
+            table.append(headerRow);
+    
+            data.estudiantes.forEach(function(estudiante) {
+                var row = $('<tr></tr>');
+                row.append($('<td></td>').text(estudiante.nombre));
+                row.append($('<td></td>').text(estudiante.anotaciones));
+                row.append($('<td></td>').text(estudiante.asistencias));
+                row.append($('<td></td>').text(estudiante.calificaciones));
+                table.append(row);
+            });
+    
+            table.DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+            });
+    
+            table.DataTable().button('.buttons-excel').trigger();
+        }
+    });  */
+
     $('#calificacionesTable').DataTable({
         "language": {
             "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"

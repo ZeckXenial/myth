@@ -52,6 +52,8 @@ $routes->get('editar/(:num)', 'Calificaciones::editar/$1');
 $routes->post('calificacion/update/(:num)', 'Calificaciones::update/$1');
 $routes->get('delete/(:num)', 'Calificaciones::delete/$1');
 
+$routes->get('cursos/exportarcurso/(:num)', 'Cursos::exportar/$1');
+
 $routes->get('estudiantes', 'crudEstudiantes::index');
 $routes->post('estudiantes', 'crudEstudiantes::editar/$1');
 $routes->get('estudiantes/agregar', 'crudEstudiantes::agregar');

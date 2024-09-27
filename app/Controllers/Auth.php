@@ -67,7 +67,7 @@ class Auth extends Controller
                 $session_data['id_course_or_subject'] = $courseOrSubject['id'];
             }
             if ($courseOrSubject != True or $courseOrSubject < '0'){
-                $session_data = " ";  //Si no tiene asignado curso
+                $session_data = " ";  
             }
             $session->set($session_data);
             if ($user->id_rol == 1) { 

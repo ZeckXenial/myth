@@ -36,7 +36,7 @@ class Asistencias extends BaseController
             $model = new AsistenciasModel();
             $fecha_asistencia = date('Y-m-d'); 
 
-            foreach ($_POST['asistencias'] as $asistencia) {
+            foreach ($asistencias as $asistencia) {
                 $data = [
                     'estudiante_id' => $asistencia['estudiante_id'],
                     'fecha' => $fecha_asistencia,

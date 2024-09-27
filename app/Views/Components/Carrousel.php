@@ -6,21 +6,21 @@
   </div>
   <div class="mx-auto carousel-inner">
     <div class="carousel-item active">
-      <img src="https://www.colegiosanjosesalamanca.es/images/portfolio/index/5.jpg" class="d-block img-fluid w-100" alt="...">
+      <img src="<?= base_url('public/images/Onlinebook_1.svg') ?>" class="d-block img-fluid w-100" alt="...">
       <div class="carousel-caption d-none d-md-block">
         <h5>Salas digitalizadas</h5>
         <p>Salas bien equipadas para activididades didacticas y actualizadas.</p>
       </div>
     </div>
     <div class="carousel-item">
-      <img src="https://www.colegiosanjosesalamanca.es/images/portfolio/index/1.jpg" class="d-block img-fluid w-100" alt="...">
+      <img src="<?= base_url('public/images/onlinebook_2.svg') ?>" class="d-block img-fluid w-100" alt="...">
       <div class="carousel-caption d-none d-md-block">
         <h5>Instalaciones Exteriores</h5>
         <p>Espacios adecuados para esparcimiento y diversion sana.</p>
       </div>
     </div>
     <div class="carousel-item">
-      <img src="https://www.colegiosanjosesalamanca.es/images/portfolio/index/3.jpg" class="d-block img-fluid w-100" alt="...">
+      <img src="<?= base_url('public/images/onlinebook_3.svg') ?>" class="d-block img-fluid w-100" alt="...">
       <div class="carousel-caption d-none d-md-block">
         <h5>Entornos seguros</h5>
         <p>Entornos adecuados para todos los niños de todas las edades.</p>
