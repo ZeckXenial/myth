@@ -8,7 +8,7 @@ class AnotacionesModel extends Model
 {
     protected $table = 'anotaciones';
     protected $primaryKey = 'anotacion_id';
-    protected $allowedFields = ['estudiante_id', 'user_id', 'origen_anot', 'glosa_anot'];
+    protected $allowedFields = ['estudiante_id', 'curso_id','user_id', 'origen_anot','grado','glosa_anot','fecha_anotacion'];
 
     public function crearAnotacion($data)
     {

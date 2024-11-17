@@ -1,8 +1,7 @@
 <?php include(APPPATH . 'Views/Components/headers.php');?>
+<?php include(APPPATH . 'Views/Components/NavBar.php');?>
 <div class="container">
-    <?php include(APPPATH . 'Views/Components/NavBar.php');?>
     <h1 class="text-center ">Administracion de usuarios</h1>
-
     <table id="usuariosTable" class="table position-absolute caption-top table-bordered table-responsive table-hover table-striped scroller dataTable">
     <thead>
             <tr>
@@ -34,41 +33,46 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <form action="<?= site_url('crud_usuarios/editar/' . $user['user_id']) ?>" method="post"> 
-                                    <div class="mb-3">
-                                        <label for="nombre_edit" class="form-floating">Nombre:</label>
-                                        <input type="text" name="nombre_edit" class="form-control" value="<?= $user['nombre']; ?>">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="email_edit" class="form-floating">Email:</label>
-                                        <input type="email" name="email_edit" class="form-control" value="<?= $user['email']; ?>" >
-                                    </div>
-                                    <div class="mb-3">
-                                    <label for="especialidad" class="form-floating">Especialidad:</label>
-                                    <input type="text" name="especialidad" class="form-control <?= (isset($validation) && $validation->hasError('especialidad')) ? 'is-invalid' : 'is-valid'; ?>" value="<?= (isset($validation)) ? set_value('especialidad') : ''; ?>"required >
-                                    <?php if (isset($validation) && $validation->hasError('especialidad')): ?>
-                                        <div class="invalid-feedback"><?= $validation->getError('especialidad'); ?></div>
-                                    <?php endif; ?>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="password_edit" class="form-floating">Nueva Contraseña:</label>
-                                        <div class="input-group">
-                                            <input type="password" name="password_edit" class="form-control" placeholder="Ingrese nueva contraseña">
-                                            <button class="btn btn-outline-secondary reveal-password" onclick="mostrarContrasena()" type="button">
-                                                <i class="bi bi-eye"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="rol_edit" class="form-floating">Rol:</label>
-                                        <select name="id_rol" class="form-select" required>
-                                            <option value="1" <?= ($user['id_rol'] == '1') ? 'selected' : ''; ?>>Profesor</option>
-                                            <option value="2" <?= ($user['id_rol'] == '2') ? 'selected' : ''; ?>>Director</option>
-                                            <option value="3" <?= ($user['id_rol'] == '3') ? 'selected' : ''; ?>>UTP</option>
-                                        </select>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-                                </form>
+                            <form action="<?= site_url('crud_usuarios/editar/' . $user['user_id']) ?>" method="post">
+    <div class="form-floating mb-3">
+        <input type="text" name="nombre_edit" class="form-control" id="nombre_edit" placeholder="Nombre" value="<?= $user['nombre']; ?>" required>
+        <label for="nombre_edit">Nombre</label>
+    </div>
+
+    <div class="form-floating mb-3">
+        <input type="email" name="email_edit" class="form-control" id="email_edit" placeholder="Email" value="<?= $user['email']; ?>" required>
+        <label for="email_edit">Email</label>
+    </div>
+
+    <div class="form-floating mb-3">
+        <input type="text" name="especialidad" class="form-control <?= (isset($validation) && $validation->hasError('especialidad')) ? 'is-invalid' : ''; ?>" id="especialidad" placeholder="Especialidad" value="<?= $user['especialidad']; ?>" required>
+        <label for="especialidad">Especialidad</label>
+        <?php if (isset($validation) && $validation->hasError('especialidad')): ?>
+            <div class="invalid-feedback"><?= $validation->getError('especialidad'); ?></div>
+        <?php endif; ?>
+    </div>
+
+    <div class="form-floating mb-3">
+        <div class="input-group">
+            <input type="password" name="password_edit" class="form-control" id="password_edit" placeholder="Nueva Contraseña">
+            <button class="btn btn-outline-secondary reveal-password" onclick="mostrarContrasena()" type="button">
+                <i class="bi bi-eye"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="form-floating mb-3">
+        <select name="id_rol" class="form-select" id="rol_edit" required>
+            <option value="1" <?= ($user['id_rol'] == '1') ? 'selected' : ''; ?>>Profesor</option>
+            <option value="2" <?= ($user['id_rol'] == '2') ? 'selected' : ''; ?>>Director</option>
+            <option value="3" <?= ($user['id_rol'] == '3') ? 'selected' : ''; ?>>UTP</option>
+        </select>
+        <label for="rol_edit">Rol</label>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+</form>
+
                             </div>
                         </div>
                     </div>

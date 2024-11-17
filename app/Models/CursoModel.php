@@ -131,4 +131,37 @@ public function getAsignaturasPorCurso($cursoId)
     {
         return $this->delete(['curso_id' => $id]); 
     }
+    public function getAsistenciasCurso($cursoId) {
+        // Obtiene el builder para la tabla 'asistencias'
+        $builder = $this->db->table('asistencia');
+        
+        // Realiza la consulta con select, where y obtiene los resultados
+        return $builder->select('fecha, presente')
+                       ->where('curso_id', $cursoId)
+                       ->get()
+                       ->getResultArray();  // Devuelve los resultados en un array
+    }
+    
+    public function getCalificacionesCurso($cursoId) {
+        // Obtiene el builder para la tabla 'calificaciones'
+        $builder = $this->db->table('calificaciones');
+    
+        // Realiza la consulta con el JOIN a la tabla 'asignaturas' y selecciona 'nombre_asignatura'
+        return $builder->select('asignaturas.nombre_asignatura, calificaciones.nota')
+                       ->join('asignaturas', 'asignaturas.asignatura_id = calificaciones.asignatura_id', 'left') // Realiza el JOIN con la tabla 'asignaturas'
+                       ->where('calificaciones.curso_id', $cursoId) // Filtro para el curso
+                       ->get() // Ejecuta la consulta
+                       ->getResultArray();  // Devuelve los resultados como un array
+    }
+    
+    public function getAnotacionesCurso($cursoId) {
+        // Obtiene el builder para la tabla 'anotaciones'
+        $builder = $this->db->table('anotaciones');
+        
+        // Realiza la consulta con select, where y obtiene los resultados
+        return $builder->select('origen_anot, glosa_anot')
+                       ->where('curso_id', $cursoId)
+                       ->get()
+                       ->getResultArray();  // Devuelve los resultados en un array
+    }
 }

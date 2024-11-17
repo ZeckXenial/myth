@@ -3,6 +3,11 @@
             <div class="card-header">
                 <h5>Mi Información</h5>
             </div>
+            <?php if(empty($usuario['nombre'] ?? '')) ?>
+            <div class="alert alert-danger">
+                    <p>La sesion se ha vencido.</p>
+                </div>
+         
             <div class="card-body">
                 <?php if (session()->getFlashdata('success')): ?>
                     <div class="alert alert-success"><?= session()->getFlashdata('success') ?></div>
@@ -21,6 +26,7 @@
 
                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editarModal">Editar</button>
             </div>
+          
         </div>
     </div>
 

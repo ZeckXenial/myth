@@ -8,7 +8,7 @@
         <div class="row">
             <?php foreach ($cursos as $curso): ?>
                 <div class="col-md-4 mb-4">
-                    <div class="card">
+                    <div class="card shadow-drop-2-center">
                         <div class="card-body">
                             <p class="card-title"><?= $curso['grado'] ?></p>
                             <p class="card-text">Nivel: <?= $curso['nombre_nivel'] ?></p> 
@@ -19,7 +19,7 @@
                             <?php if ((session()->get('idrol') === '2' || session()->get('idrol') === '3')): ?>
                                 <a href="<?= site_url("cursos/editar/{$curso['curso_id']}") ?>" class="btn margin5px btn-primary">Editar</a>
                             <?php endif; ?>
-                            <a href="<?= site_url("cursos/exportar/{$curso['curso_id']}") ?>" class="btn margin5px btn-primary">Exportar</a>
+                            <a href="<?= site_url("cursos/exportar/{$curso['curso_id']}");?>" class="btn margin5px btn-primary">Exportar</a>
                         </div>
                     </div>
                 </div>

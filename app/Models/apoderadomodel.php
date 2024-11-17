@@ -7,13 +7,13 @@ use CodeIgniter\Model;
 class ApoderadoModel extends Model
 {
     protected $table = 'apoderados';
-    protected $primaryKey = 'apoderados_id';
-    protected $allowedFields = ['nombre_apoderado', 'numero_telefono', 'email'];
+    protected $primaryKey = 'apoderado_id';
+    protected $allowedFields = ['apoderado_id','rut','nombre_apoderado', 'numero_telefono', 'email'];
 
     public function obtenerApoderados()
 {
     return $this->select('apoderados.*')
-                ->join('estudiantes_apoderados', 'estudiantes_apoderados.apoderados_id = apoderados.apoderados_id')
+                ->join('estudiantes_apoderados', 'estudiantes_apoderados.apoderado_id = apoderados.apoderado_id')
                 ->findAll();
 }
     public function obtenerApoderado($id)
@@ -27,13 +27,14 @@ class ApoderadoModel extends Model
     public function editarapoderado($apoderadoId, $apoderadoData)
     {
         $data = [
+            
             'nombre_apoderado' => $apoderadoData['nombre_apoderado'],
             'numero_telefono' => $apoderadoData['numero_telefono'],
             'email' => $apoderadoData['email']
         ];
     
         $this->db->table('apoderados')
-                 ->where('apoderados_id', $apoderadoId)
+                 ->where('apoderado_id', $apoderadoId)
                  ->update($data);
     
         return $this->db->affectedRows() > 0;

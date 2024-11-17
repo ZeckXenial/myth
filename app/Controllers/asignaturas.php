@@ -9,7 +9,7 @@ use App\Models\CrudUsuarioModel;
 use App\Models\CursoModel;
 use CodeIgniter\Model;
 
-class Asignaturas extends Controller
+class asignaturas extends Controller
 {
     private $usuariosmodel;
     private $Cursomodel;

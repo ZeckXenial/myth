@@ -1,5 +1,4 @@
 $(document).ready(function () {
-    // Manejo de la exportación por estudiante
     $('.accordion-collapse').on('show.bs.collapse', async function () {
         var estudianteId = $(this).attr('id').replace('collapse', '');
         const spinnerElement = $('.spinner-border');
@@ -9,11 +8,12 @@ $(document).ready(function () {
             const response = await fetch(`<?= site_url("cursos/exportarestudiante/") ?>${estudianteId}`);
             const data = await response.json();
 
-            spinnerElement.hide("fast", "swing");
-
+            
+           spinnerElement.hide("fast","swing");
+            
             // Actualizar tabla de asistencias
             var asistenciasTableHTML = '<table class="table">';
-            asistenciasTableHTML += '<thead class="text-center"><tr><th>Fecha</th><th>Asistencia</th></tr></thead><tbody>';
+            asistenciasTableHTML += '<thead class="text-center"><tr><th>Fecha</th><th>Asistencia</th></tr></thead><tbody ';
             for (var i = 0; i < data.asistencias.length; i++) {
                 asistenciasTableHTML += '<tr>';
                 asistenciasTableHTML += '<td>' + data.asistencias[i].fecha + '</td>';
@@ -33,21 +33,25 @@ $(document).ready(function () {
             // Recorre los datos de calificaciones para agrupar las notas por asignatura
             for (var i = 0; i < data.calificaciones.length; i++) {
                 var nota = data.calificaciones[i];
+                // Si la asignatura aún no está en el objeto, inicialízala
                 if (!(nota.nombre_asignatura in notasPorAsignatura)) {
                     notasPorAsignatura[nota.nombre_asignatura] = [];
                 }
+                // Agrega la nota al arreglo de la asignatura correspondiente
                 notasPorAsignatura[nota.nombre_asignatura].push(nota.nota);
             }
-
+            
+            // Recorre el objeto con las notas por asignatura para crear las filas de la tabla
             for (var asignatura in notasPorAsignatura) {
                 calificacionesTableHTML += '<tr>';
                 calificacionesTableHTML += '<td>' + asignatura + '</td>';
-                calificacionesTableHTML += '<td>' + notasPorAsignatura[asignatura].join(' ') + '</td>';
+                calificacionesTableHTML += '<td>' + notasPorAsignatura[asignatura].join('   ') + '</td>';
                 calificacionesTableHTML += '</tr>';
             }
-
+            
             calificacionesTableHTML += '</tbody></table>';
             $('#calificacionesContainer' + estudianteId).html(calificacionesTableHTML);
+            
 
             // Actualizar tabla de anotaciones
             var anotacionesTableHTML = '<table class="table">';
@@ -60,104 +64,287 @@ $(document).ready(function () {
             }
             anotacionesTableHTML += '</tbody></table>';
             $('#anotacionesContainer' + estudianteId).html(anotacionesTableHTML);
+            function getBase64Image(imgUrl) {
+                var canvas = document.createElement("canvas");
+                var ctx = canvas.getContext("2d");
+                var img = new Image();
+                img.src = imgUrl;
+                canvas.width = img.width;
+                canvas.height = img.height;
+                ctx.drawImage(img, 0, 0);
+                var dataURL = canvas.toDataURL("image/png");
+                return dataURL;
+            }
+            getBase64Image('/myth/public/logo-css-180x181.png');
 
-            // Agregar botones de exportación a las tablas (asistencias, calificaciones, anotaciones)
-            initializeDataTable('#asistenciasContainer' + estudianteId, 'Historial de asistencias', '/myth/public/logo-css-180x181.png');
-            initializeDataTable('#calificacionesContainer' + estudianteId, 'Resumen de Notas', '/myth/public/logo-css-180x181.png');
-            initializeDataTable('#anotacionesContainer' + estudianteId, 'Anotaciones del estudiante', '/myth/public/logo-css-180x181.png');
+            // Agregar los botones de DataTables a sus respectivas tablas
+            $.fn.dataTable.ext.errMode = 'none';
+            $('#asistenciasContainer' + estudianteId).DataTable({
+                ordering: false,
+                info:     false,
+                searching: false,
+                paging: false,
+                layout: {
+            topStart: {
+                buttons: [
+                    {
+                        extend: 'collection',
+                        text: 'Asistencias',
+                        autoClose: true,
+                        title:     'Historial de asistencias',
+                        buttons: [
+                            {
+                                extend: 'copy',
+                                text: 'Copiar',
+                                exportOptions: {
+                                    columns: ':visible'
+                                }
+                            },
+                            {
+                                extend: 'excel',
+                                text: 'Excel',
+                                exportOptions: {
+                                    margin: [0, 0, 0, 12],
+                                    alignment: 'center',
+                                    columns: ':visible'
+                                }
+                            },
+                            {
+                                extend: 'pdf',
+                                text: 'PDF',
+                                title:     'Historial de asistencias',
+                                download: 'open',
+                                customize: function (doc) {
+                                    var logoDataURL = getBase64Image('/myth/public/logo-css-180x181.png');
+                                    doc.content.splice(1, 0, {
+                                        margin: [0, 0, 0, 12],
+                                        alignment: 'center',
+                                        image: logoDataURL                               });
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+            });
 
+            $('#calificacionesContainer' + estudianteId).DataTable({
+                searching: false,
+                paging: false,
+                ordering: false,
+                info:     false,
+                layout: {
+            topStart: {
+                buttons: [
+                    {
+                        extend: 'collection',
+                        text: 'Resumen de notas',
+                        autoClose: true,
+                        title:     'Resumen de Notas',
+                        buttons: [
+                            {
+                                extend: 'copy',
+                                text: 'Copiar',
+                                exportOptions: {
+                                    columns: ':visible'
+                                }
+                            },
+                            {
+                                extend: 'excel',
+                                text: 'Excel',
+                                exportOptions: {
+                                    margin: [0, 0, 0, 12],
+                                    alignment: 'center',
+                                    columns: ':visible'
+                                }
+                            },
+                            {
+                                extend: 'pdf',
+                                text: 'PDF',
+                                title:     'Resumen de Notas',
+                                download: 'open',
+                                customize: function (doc) {
+                                    var logoDataURL = getBase64Image('/myth/public/logo-css-180x181.png');
+                                    doc.content.splice(1, 0, {
+                                        margin: [0, 0, 0, 12],
+                                        alignment: 'center',
+                                        image: logoDataURL                               });
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+            });
+
+            $('#anotacionesContainer' + estudianteId).DataTable({
+                searching: false,
+                paging: false,
+                ordering: false,
+                info:     false,
+                layout: {
+            topStart: {
+                buttons: [
+                    {
+                        extend: 'collection',
+                        text: 'Anotaciones ',
+                        autoClose: true,
+                        buttons: [
+                            {
+                                extend: 'copy',
+                                text: 'Copiar',
+                                title:     'Anotaciones del estudiante',
+                                exportOptions: {
+                                    columns: ':visible'
+                                }
+                            },
+                            {
+                                extend: 'excel',
+                                text: 'Excel',
+                               
+                            },
+                            {
+                                extend: 'pdf',
+                                text: 'PDF',
+                                title:     'Anotaciones del estudiante',
+                                download: 'open',
+                                customize: function (doc) {
+                                    var logoDataURL = getBase64Image('/myth/public/logo-css-180x181.png');
+                                    doc.content.splice(1, 0, {
+                                        margin: [0, 0, 0, 12],
+                                        alignment: 'center',
+                                        image: logoDataURL                               });
+                                }
+                                
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+            });
         } catch (error) {
-            spinnerElement.hide();
+            $('.spinner-border').hide();
             console.error(error);
         }
+        
     });
-
     $('#exportarTodoCurso').on('click', async function () {
-        const urlParams = new URLSearchParams(window.location.search);
-        const cursoId = urlParams.get('cursoId');        console.log(cursoId);
+        var cursoId = $(this).val();  // Obtener el valor
         const spinnerElement = $('.spinner-border');
         spinnerElement.show();
         
-        try {
-            const response = await fetch(`<?= site_url("cursos/exportarcurso/") ?>${cursoId}`);
-            const data = await response.json();
-            spinnerElement.hide();
-            var cursoAsistenciasHTML = '<table class="table">';
-            cursoAsistenciasHTML += '<thead><tr><th>Fecha</th><th>Asistencias Totales</th></tr></thead><tbody>';
-            for (var i = 0; i < data.asistencias.length; i++) {
-                cursoAsistenciasHTML += '<tr>';
-                cursoAsistenciasHTML += '<td>' + data.asistencias[i].fecha + '</td>';
-                cursoAsistenciasHTML += '<td>' + data.asistencias[i].total_asistencias + '</td>';
-                cursoAsistenciasHTML += '</tr>';
+        
+        // Hacer la petición al servidor para obtener los datos del curso
+        const response = await fetch(`<?= site_url("cursos/exportarcurso/") ?>${cursoId}`);
+        const data = await response.json();
+        console.log(data);
+            
+            spinnerElement.hide("fast", "swing");
+            
+            // Llenar las tablas con los datos recibidos
+            // Asistencias
+            let asistenciasTableHTML = '<table class="table">';
+            asistenciasTableHTML += '<thead class="text-center"><tr><th>Fecha</th><th>Asistencia</th></tr></thead><tbody>';
+            for (let i = 0; i < data.asistencias.length; i++) {
+                asistenciasTableHTML += '<tr>';
+                asistenciasTableHTML += `<td>${data.asistencias[i].fecha}</td>`;
+                asistenciasTableHTML += `<td>${data.asistencias[i].presente ? 'Presente' : 'Ausente'}</td>`;
+                asistenciasTableHTML += '</tr>';
             }
-            cursoAsistenciasHTML += '</tbody></table>';
-            $('#asistenciasCursoContainer').html(cursoAsistenciasHTML);
+            asistenciasTableHTML += '</tbody></table>';
+            $('#asistenciasContainer').html(asistenciasTableHTML);
 
-            initializeDataTable('#asistenciasCursoContainer', 'Historial de asistencias del curso', '/myth/public/logo-css-180x181.png');
-
-        } catch (error) {
-            spinnerElement.hide();
-            console.error(error);
-        }
-    });
-    function initializeDataTable(selector, title, logoPath) {
-        $(selector).DataTable({
-            ordering: false,
-            info: false,
-            searching: false,
-            paging: false,
-            layout: {
-                topStart: {
-                    buttons: [
-                        {
-                            extend: 'collection',
-                            text: title,
-                            autoClose: true,
-                            buttons: [
-                                {
-                                    extend: 'copy',
-                                    text: 'Copiar',
-                                    exportOptions: {
-                                        columns: ':visible'
-                                    }
-                                },
-                                {
-                                    extend: 'excel',
-                                    text: 'Excel',
-                                    exportOptions: {
-                                        columns: ':visible'
-                                    }
-                                },
-                                {
-                                    extend: 'pdf',
-                                    text: 'PDF',
-                                    title: title,
-                                    download: 'open',
-                                    customize: function (doc) {
-                                        var logoDataURL = getBase64Image(logoPath);
-                                        doc.content.splice(1, 0, {
-                                            margin: [0, 0, 0, 12],
-                                            alignment: 'center',
-                                            image: logoDataURL
-                                        });
-                                    }
-                                }
-                            ]
-                        }
-                    ]
+            // Calificaciones
+            let calificacionesTableHTML = '<table class="table">';
+            calificacionesTableHTML += '<thead><tr><th>Asignatura</th><th>Notas</th></tr></thead><tbody>';
+            let notasPorAsignatura = {};
+            for (let i = 0; i < data.calificaciones.length; i++) {
+                const nota = data.calificaciones[i];
+                if (!(nota.nombre_asignatura in notasPorAsignatura)) {
+                    notasPorAsignatura[nota.nombre_asignatura] = [];
                 }
+                notasPorAsignatura[nota.nombre_asignatura].push(nota.nota);
             }
-        });
-    }
+            for (let asignatura in notasPorAsignatura) {
+                calificacionesTableHTML += '<tr>';
+                calificacionesTableHTML += `<td>${asignatura}</td>`;
+                calificacionesTableHTML += `<td>${notasPorAsignatura[asignatura].join('   ')}</td>`;
+                calificacionesTableHTML += '</tr>';
+            }
+            calificacionesTableHTML += '</tbody></table>';
+            $('#calificacionesContainer').html(calificacionesTableHTML);
 
-    function getBase64Image(imgUrl) {
-        var canvas = document.createElement("canvas");
-        var ctx = canvas.getContext("2d");
-        var img = new Image();
-        img.src = imgUrl;
-        canvas.width = img.width;
-        canvas.height = img.height;
-        ctx.drawImage(img, 0, 0);
-        return canvas.toDataURL("image/png");
-    }
+            // Anotaciones
+            let anotacionesTableHTML = '<table class="table">';
+            anotacionesTableHTML += '<thead><tr><th>Origen</th><th>Glosa</th></tr></thead><tbody>';
+            for (let i = 0; i < data.anotaciones.length; i++) {
+                anotacionesTableHTML += '<tr>';
+                anotacionesTableHTML += `<td>${data.anotaciones[i].origen_anot}</td>`;
+                anotacionesTableHTML += `<td>${data.anotaciones[i].glosa_anot}</td>`;
+                anotacionesTableHTML += '</tr>';
+            }
+            anotacionesTableHTML += '</tbody></table>';
+            $('#anotacionesContainer').html(anotacionesTableHTML);
+
+            // Inicializar DataTables para cada sección
+            $('#asistenciasContainer').DataTable({
+                searching: false,
+                paging: false,
+                ordering: false,
+                info: false,
+                buttons: [
+                    {
+                        extend: 'collection',
+                        text: 'Asistencias',
+                        buttons: [
+                            { extend: 'copy', text: 'Copiar' },
+                            { extend: 'excel', text: 'Excel' },
+                            { extend: 'pdf', text: 'PDF' }
+                        ]
+                    }
+                ]
+            });
+
+            $('#calificacionesContainer').DataTable({
+                searching: false,
+                paging: false,
+                ordering: false,
+                info: false,
+                buttons: [
+                    {
+                        extend: 'collection',
+                        text: 'Resumen de Notas',
+                        buttons: [
+                            { extend: 'copy', text: 'Copiar' },
+                            { extend: 'excel', text: 'Excel' },
+                            { extend: 'pdf', text: 'PDF' }
+                        ]
+                    }
+                ]
+            });
+
+            $('#anotacionesContainer').DataTable({
+                searching: false,
+                paging: false,
+                ordering: false,
+                info: false,
+                buttons: [
+                    {
+                        extend: 'collection',
+                        text: 'Anotaciones',
+                        buttons: [
+                            { extend: 'copy', text: 'Copiar' },
+                            { extend: 'excel', text: 'Excel' },
+                            { extend: 'pdf', text: 'PDF' }
+                        ]
+                    }
+                ]
+            });
+
+      
+    });
+
 });

@@ -31,14 +31,17 @@ class Anotaciones extends Controller
         $request = service('request');
 
         $anotacionesModel = new AnotacionesModel();
-
+        $fecha_anotacion = $fecha ?? date('Y-m-d'); 
         $data = [
             'estudiante_id' => $request->getPost('estudiante_id'),
             'user_id' => $request->getPost('user_id'),
+            'fecha_anotacion' => $request->getPost('fecha_anotacion'),
+            'grado' => $request->getPost('grado'),
+            'curso_id' => $request->getPost('curso_id'),
             'origen_anot' => $request->getPost('origen_anotacion'),
             'glosa_anot' => $request->getPost('glosa')
         ];
-
+    
         $anotacionesModel->crearAnotacion($data);
 
         return redirect()->back()->with('success', 'Anotación creada exitosamente');

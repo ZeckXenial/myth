@@ -1,5 +1,8 @@
 <?php include(APPPATH . 'Views/Components/headers.php'); ?>
 <?php include(APPPATH . 'Views/Components/NavBar.php'); ?>
+<body>
+   
+
 <div class="container mt-4">
     <h1 class="text-center">Editar Curso</h1>
     <div class="container">
@@ -68,5 +71,5 @@
         </div>
     </div>
 </div>
-
+</body>
 <?php include(APPPATH . 'Views/Components/footer.php'); ?>

@@ -92,7 +92,7 @@ $(document).ready(function () {
         }
     });  */
 
-    $('#calificacionesTable').DataTable({
+/*     $('#calificacionesTable').DataTable({
         "language": {
             "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
         },
@@ -104,8 +104,14 @@ $(document).ready(function () {
        ],
         fixedColumns: true,
         responsive: true
+    }); */
+    $('#validacionestable').DataTable({
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+        },
+        responsive: true,
+        scroller: true,
     });
-
     $('#estudiantesTable').DataTable({
         "language": {
             "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"

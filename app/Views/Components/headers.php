@@ -7,11 +7,15 @@
     <meta http-equiv="Last-Modified" content="0">
     <meta http-equiv="Cache-Control" content="no-cache, mustrevalidate">
     <meta http-equiv="Pragma" content="no-cache">
-    <?php
-    header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
-    header("Expires: Sat, 1 Jul 2000 05:00:00 GMT"); // Fecha en el pasado
-    ?>
+    
 
+    <?php
+    Header("Cache-Control: no-cache, must-revalidate"); 
+    Header("Expires: Sat, 1 Jul 2000 05:00:00 GMT"); 
+    Header('X-Content-Type-Options', true);
+    Header('X-Frame-Options', true);
+
+    ?>
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -25,7 +29,7 @@
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="<?= base_url('public/css/style.scss') ?>">
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <!-- jQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js" integrity="sha512-+k1pnlgt4F1H8L7t3z95o3/KO+o78INEcXTbnoJQ/F2VqDVhWoaiVml/OEHv9HsVgxUaVW+IbiZPUJQfF/YxZw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>

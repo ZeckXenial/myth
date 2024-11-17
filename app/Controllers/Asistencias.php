@@ -20,8 +20,11 @@ class Asistencias extends BaseController
 
     public function curso($cursoId)
     {
+        $fecha = $fecha ?? date('Y-m-d'); 
+
         $data['cursoId'] = $cursoId;
         $data['asistencias'] = $this->estudiantesModel->obtenerEstudiantesPorCurso($cursoId);
+        $data['estudiantesPresentes'] = $this->asistenciasModel->getEstudiantesPresentes($cursoId,$fecha);
         $data['ultimaFechaAsistencia'] = $this->asistenciasModel->obtenerUltimaFechaAsistenciaPorCurso($cursoId);
         return view('components/asistencias', $data);
     }

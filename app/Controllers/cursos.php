@@ -40,7 +40,6 @@ class Cursos extends Controller
         $this->asignaturaCursoModel = new AsignaturaCursoModel();
         $this->crudUsuarioModel = new CrudUsuarioModel();
     }
-
     public function index()
     {
         
@@ -58,10 +57,7 @@ class Cursos extends Controller
         }
 
         return view('cursos/index', $data);
-    }
-    
-
-    public function editar($id)
+    }    public function editar($id)
     {
         $data['curso'] = $this->cursoModel->obtenerCursoPorId($id);
         $data['asignaturas'] = $this->asignaturaModel->obtenerAsignaturas($id);
@@ -102,8 +98,21 @@ class Cursos extends Controller
         $data['usuarios'] = $usuarioModel->findAll();
 
         return view('components/agregar', $data);
+    } 
+    public function exportarcurso($cursoId) {
+        // Obtener los datos del curso, incluyendo asistencias, calificaciones y anotaciones
+        $asistencias = $this->cursoModel->getAsistenciasCurso($cursoId);
+        $calificaciones = $this->cursoModel->getCalificacionesCurso($cursoId);
+        $anotaciones = $this->cursoModel->getAnotacionesCurso($cursoId);
+        $data= [
+            'asistencias' => $asistencias,
+            'calificaciones' => $calificaciones,
+            'anotaciones' => $anotaciones
+        ];
+        // Retornar los datos como JSON
+        return $this->response->setJSON($data);
+        
     }
-
     public function update($cursoId)
     {
         if ($this->request->getMethod() === 'post') {
@@ -154,6 +163,12 @@ class Cursos extends Controller
             'calificaciones' => $calificaciones,
             'estudiantes' => $estudiantes
         ];
+       
+        if ($this->request->isAJAX()) {
+            return $this->response->setJSON($data);
+        }
+   
+        // Si no es AJAX, retornar la vista
         return view('Components/exportar', $data);
         
     }
@@ -171,8 +186,9 @@ class Cursos extends Controller
             'asistencias' => $asistencias,
             'calificaciones' => $calificaciones,
         ];
-   
+        
        return $this->response->setJSON($data);  
+       
 
        
     }

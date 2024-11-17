@@ -55,9 +55,12 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                        <form action="<?= site_url('anotaciones/crear') ?>" method="post">
+                            <form action="<?= site_url('anotaciones/crear') ?>" method="post">
                                 <input type="hidden" name="estudiante_id" value="<?= $estudiante['estudiante_id'] ?>">
+                                <input type="hidden"  name="fecha_anotacion" datetimeformat="dd-MM-yyyy" value="<?= date('Y-m-d') ?>">
                                 <input type="hidden" name="user_id" value="<?= session()->get('iduser') ?>">
+                                <input type="hidden" name="curso_id" value="<?= request()->uri->getsegment(3,0)?>">
+
                                 <div class="mb-3">
                                     <label for="glosa" class="form-label">Nueva Anotación:</label>
                                     <textarea class="form-control" name="glosa" rows="3" required></textarea>
@@ -69,6 +72,22 @@
                                         <option value="negativa">Negativa</option>
                                     </select>
                                 </div>
+                                <div class="mb-3">
+                                    <label for="grado" class="form-label">Grado de la Anotación:</label>
+                                    <select class="form-select" name="grado" required>
+                                        <option value="connotado">Connotacion negativa</option>
+                                        <option value="grave">Grave</option>
+                                        <option value="gravisimo">Gravisimo</option>
+                                        <option value="extremo">Extremo</option>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <option value="connotado">Connotacion Positiva</option>
+                                        <option value="bueno">Bueno</option>
+                                        <option value="Buenisimo">Buenisimo</option>
+                                        <option value="felicitaciones">Felicitaciones</option>
+
+                                    </select>
+                                </div>
+
                                 <button type="submit" class="btn btn-primary">Agregar Anotación</button>
                             </form>
                         </div>
