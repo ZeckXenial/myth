@@ -83,10 +83,16 @@
 
 <script>
 document.getElementById('rut').addEventListener('input', function(event) {
-  let value = event.target.value.replace(/[^0-9]/g, ''); // Eliminar cualquier car芍cter que no sea n迆mero
-  if (value.length > 8) {
-    value = value.slice(0, 8) + '-' + value.slice(8);
+  let rawValue = event.target.value.replace(/[^0-9kK]/g, ''); // Permitir solo números y 'k'/'K'
+
+  // Validar longitud y agregar el guion antes del dígito verificador
+  if (rawValue.length > 8) {
+    let cuerpo = rawValue.slice(0, -1); // Todo excepto el último dígito
+    let dv = rawValue.slice(-1);       // Último dígito (posible dígito verificador)
+    rawValue = `${cuerpo}-${dv}`;
   }
-  event.target.value = value;
+
+  // Actualizar el valor del input de forma segura
+  event.target.value = rawValue.toUpperCase(); // Convertir a mayúsculas para 'K'
 });
 </script>

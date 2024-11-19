@@ -59,12 +59,12 @@
         </div>
 
         <!-- DataTable -->
-        <div class="card mt-5">
-    <div class="card-header bg-secondary text-white">
-        <h5>Registros Recientes</h5>
-    </div>
-    <div class="shadow-drop-2-center card-body">
-        <table id="validacionestable" class="table table-striped table-bordered">
+        
+            <div class=" form-control ">
+                <table id="validacionestable" class="table table-hover table-striped table-bordered">
+            
+                <h3 class="text-center">Registros Recientes</h3>
+            
             <thead>
                 <tr>
                     <th>ID</th>

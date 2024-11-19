@@ -135,33 +135,44 @@ public function getAsignaturasPorCurso($cursoId)
         // Obtiene el builder para la tabla 'asistencias'
         $builder = $this->db->table('asistencia');
         
-        // Realiza la consulta con select, where y obtiene los resultados
-        return $builder->select('fecha, presente')
-                       ->where('curso_id', $cursoId)
-                       ->get()
-                       ->getResultArray();  // Devuelve los resultados en un array
+        // Realiza la consulta con select, join para obtener los nombres de los estudiantes, y where para filtrar por curso_id
+        return $builder->select('a.asistencia_id, a.estudiante_id, e.nombre_estudiante, a.fecha, a.presente')
+                       ->join('estudiantes e', 'a.estudiante_id = e.estudiante_id', 'left') // Realiza el JOIN con la tabla 'estudiantes'
+                       ->where('a.curso_id', $cursoId) // Filtro por curso
+                       ->orderBy('e.nombre_estudiante', 'ASC') // Ordenar alfabéticamente por el nombre del estudiante
+                       ->get() // Ejecuta la consulta
+                       ->getResultArray();  // Devuelve los resultados como un array
     }
+    
     
     public function getCalificacionesCurso($cursoId) {
         // Obtiene el builder para la tabla 'calificaciones'
         $builder = $this->db->table('calificaciones');
-    
-        // Realiza la consulta con el JOIN a la tabla 'asignaturas' y selecciona 'nombre_asignatura'
-        return $builder->select('asignaturas.nombre_asignatura, calificaciones.nota')
-                       ->join('asignaturas', 'asignaturas.asignatura_id = calificaciones.asignatura_id', 'left') // Realiza el JOIN con la tabla 'asignaturas'
-                       ->where('calificaciones.curso_id', $cursoId) // Filtro para el curso
+        
+        // Realiza la consulta con el JOIN a las tablas 'estudiantes', 'asignaturas' y 'evaluaciones'
+        return $builder->select('c.calificacion_id, c.estudiante_id, e.nombre_estudiante, c.curso_id, c.nota, c.fecha_ingreso, 
+                                ev.descripcion AS descripcion_evaluacion, asg.nombre_asignatura')
+                       ->join('estudiantes e', 'e.estudiante_id = c.estudiante_id', 'left')  // Join con estudiantes
+                       ->join('asignaturas asg', 'asg.asignatura_id = c.asignatura_id', 'left') // Join con asignaturas
+                       ->join('evaluaciones ev', 'ev.evaluacion_id = c.evaluacion_id', 'left') // Join con evaluaciones
+                       ->where('c.curso_id', $cursoId) // Filtro por curso
+                       ->orderBy('e.nombre_estudiante', 'ASC') // Ordenar alfabéticamente por el nombre del estudiante
                        ->get() // Ejecuta la consulta
                        ->getResultArray();  // Devuelve los resultados como un array
     }
+    
     
     public function getAnotacionesCurso($cursoId) {
         // Obtiene el builder para la tabla 'anotaciones'
         $builder = $this->db->table('anotaciones');
         
-        // Realiza la consulta con select, where y obtiene los resultados
-        return $builder->select('origen_anot, glosa_anot')
-                       ->where('curso_id', $cursoId)
-                       ->get()
-                       ->getResultArray();  // Devuelve los resultados en un array
+        // Realiza la consulta con select, join para obtener los nombres de los estudiantes y where para filtrar por curso_id
+        return $builder->select('a.anotacion_id, a.estudiante_id, e.nombre_estudiante, a.origen_anot, a.glosa_anot, a.fecha_anotacion')
+                       ->join('estudiantes e', 'e.estudiante_id = a.estudiante_id', 'left') // Join con estudiantes
+                       ->where('a.curso_id', $cursoId) // Filtro por curso
+                       ->orderBy('e.nombre_estudiante', 'ASC') // Ordenar alfabéticamente por el nombre del estudiante
+                       ->get() // Ejecuta la consulta
+                       ->getResultArray();  // Devuelve los resultados como un array
     }
+    
 }

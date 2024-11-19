@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+
+
 use App\Models\CursoModel;
 use App\Models\CrudUsuarioModel;
 use App\Models\AsistenciasModel;
@@ -12,10 +14,12 @@ use App\Models\EstudiantesModel;
 use App\Models\AsignaturaCursoModel;
 use App\Models\NivelModel;
 use App\Models\ApoderadoModel;
+use App\Models\exportarcurso;
 use CodeIgniter\Controller;
 
 class Cursos extends Controller
 {
+    private $cursodata;
     private $cursoModel;
     private $nivelModel;
     private $anotacionesmodel;
@@ -29,6 +33,7 @@ class Cursos extends Controller
 
     public function __construct()
     {
+        $this->cursodata = new exportarcurso();
         $this->cursoModel = new CursoModel();
         $this->calificacionesmodel = new calificacionesModel();
         $this->asistenciasmodel = new asistenciasModel();
@@ -100,16 +105,9 @@ class Cursos extends Controller
         return view('components/agregar', $data);
     } 
     public function exportarcurso($cursoId) {
-        // Obtener los datos del curso, incluyendo asistencias, calificaciones y anotaciones
-        $asistencias = $this->cursoModel->getAsistenciasCurso($cursoId);
-        $calificaciones = $this->cursoModel->getCalificacionesCurso($cursoId);
-        $anotaciones = $this->cursoModel->getAnotacionesCurso($cursoId);
-        $data= [
-            'asistencias' => $asistencias,
-            'calificaciones' => $calificaciones,
-            'anotaciones' => $anotaciones
-        ];
-        // Retornar los datos como JSON
+        $data = $this->cursodata->obtenerDatosGenerales($cursoId);
+
+       
         return $this->response->setJSON($data);
         
     }

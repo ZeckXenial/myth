@@ -232,119 +232,90 @@ $(document).ready(function () {
         
     });
     $('#exportarTodoCurso').on('click', async function () {
-        var cursoId = $(this).val();  // Obtener el valor
+        var cursoId = $(this).val();
         const spinnerElement = $('.spinner-border');
         spinnerElement.show();
-        
-        
-        // Hacer la petición al servidor para obtener los datos del curso
-        const response = await fetch(`<?= site_url("cursos/exportarcurso/") ?>${cursoId}`);
-        const data = await response.json();
-        console.log(data);
-            
-            spinnerElement.hide("fast", "swing");
-            
-            // Llenar las tablas con los datos recibidos
-            // Asistencias
-            let asistenciasTableHTML = '<table class="table">';
-            asistenciasTableHTML += '<thead class="text-center"><tr><th>Fecha</th><th>Asistencia</th></tr></thead><tbody>';
-            for (let i = 0; i < data.asistencias.length; i++) {
-                asistenciasTableHTML += '<tr>';
-                asistenciasTableHTML += `<td>${data.asistencias[i].fecha}</td>`;
-                asistenciasTableHTML += `<td>${data.asistencias[i].presente ? 'Presente' : 'Ausente'}</td>`;
-                asistenciasTableHTML += '</tr>';
-            }
-            asistenciasTableHTML += '</tbody></table>';
-            $('#asistenciasContainer').html(asistenciasTableHTML);
-
-            // Calificaciones
-            let calificacionesTableHTML = '<table class="table">';
-            calificacionesTableHTML += '<thead><tr><th>Asignatura</th><th>Notas</th></tr></thead><tbody>';
-            let notasPorAsignatura = {};
-            for (let i = 0; i < data.calificaciones.length; i++) {
-                const nota = data.calificaciones[i];
-                if (!(nota.nombre_asignatura in notasPorAsignatura)) {
-                    notasPorAsignatura[nota.nombre_asignatura] = [];
+    
+        try {
+            // Hacer la petición al servidor
+            const response = await fetch(`<?= site_url("cursos/exportarcurso/") ?>${cursoId}`);
+            const rawData = await response.json();
+            spinnerElement.hide();
+    
+            // Agrupar datos
+            const asistencias = rawData.map(item => ({
+                fecha: item.fecha_asistencia,
+                presente: item.presente === "1" ? "Presente" : "Ausente"
+            }));
+    
+            const calificaciones = rawData.map(item => ({
+                asignatura: item.nombre_asignatura,
+                nota: item.nota
+            }));
+    
+            const anotaciones = rawData.map(item => ({
+                origen: item.origen_anot,
+                glosa: item.glosa_anot
+            }));
+    
+            // Generar contenido del PDF
+            let pdfContent = [
+                {
+                    text: 'Reporte del Curso',
+                    style: 'header',
+                    alignment: 'center'
+                },
+                {
+                    text: `Estudiante: ${rawData[0].nombre_estudiante}`,
+                    margin: [0, 10, 0, 20]
+                },
+                { text: 'Asistencias', style: 'subheader' },
+                {
+                    table: {
+                        body: [
+                            [{ text: 'Fecha', bold: true }, { text: 'Asistencia', bold: true }],
+                            ...asistencias.map(asistencia => [asistencia.fecha, asistencia.presente])
+                        ]
+                    },
+                    layout: 'lightHorizontalLines'
+                },
+                { text: 'Calificaciones', style: 'subheader', margin: [0, 20, 0, 0] },
+                {
+                    table: {
+                        body: [
+                            [{ text: 'Asignatura', bold: true }, { text: 'Nota', bold: true }],
+                            ...calificaciones.map(calificacion => [calificacion.asignatura, calificacion.nota])
+                        ]
+                    },
+                    layout: 'lightHorizontalLines'
+                },
+                { text: 'Anotaciones', style: 'subheader', margin: [0, 20, 0, 0] },
+                {
+                    table: {
+                        body: [
+                            [{ text: 'Origen', bold: true }, { text: 'Glosa', bold: true }],
+                            ...anotaciones.map(anotacion => [anotacion.origen, anotacion.glosa])
+                        ]
+                    },
+                    layout: 'lightHorizontalLines'
                 }
-                notasPorAsignatura[nota.nombre_asignatura].push(nota.nota);
-            }
-            for (let asignatura in notasPorAsignatura) {
-                calificacionesTableHTML += '<tr>';
-                calificacionesTableHTML += `<td>${asignatura}</td>`;
-                calificacionesTableHTML += `<td>${notasPorAsignatura[asignatura].join('   ')}</td>`;
-                calificacionesTableHTML += '</tr>';
-            }
-            calificacionesTableHTML += '</tbody></table>';
-            $('#calificacionesContainer').html(calificacionesTableHTML);
-
-            // Anotaciones
-            let anotacionesTableHTML = '<table class="table">';
-            anotacionesTableHTML += '<thead><tr><th>Origen</th><th>Glosa</th></tr></thead><tbody>';
-            for (let i = 0; i < data.anotaciones.length; i++) {
-                anotacionesTableHTML += '<tr>';
-                anotacionesTableHTML += `<td>${data.anotaciones[i].origen_anot}</td>`;
-                anotacionesTableHTML += `<td>${data.anotaciones[i].glosa_anot}</td>`;
-                anotacionesTableHTML += '</tr>';
-            }
-            anotacionesTableHTML += '</tbody></table>';
-            $('#anotacionesContainer').html(anotacionesTableHTML);
-
-            // Inicializar DataTables para cada sección
-            $('#asistenciasContainer').DataTable({
-                searching: false,
-                paging: false,
-                ordering: false,
-                info: false,
-                buttons: [
-                    {
-                        extend: 'collection',
-                        text: 'Asistencias',
-                        buttons: [
-                            { extend: 'copy', text: 'Copiar' },
-                            { extend: 'excel', text: 'Excel' },
-                            { extend: 'pdf', text: 'PDF' }
-                        ]
-                    }
-                ]
-            });
-
-            $('#calificacionesContainer').DataTable({
-                searching: false,
-                paging: false,
-                ordering: false,
-                info: false,
-                buttons: [
-                    {
-                        extend: 'collection',
-                        text: 'Resumen de Notas',
-                        buttons: [
-                            { extend: 'copy', text: 'Copiar' },
-                            { extend: 'excel', text: 'Excel' },
-                            { extend: 'pdf', text: 'PDF' }
-                        ]
-                    }
-                ]
-            });
-
-            $('#anotacionesContainer').DataTable({
-                searching: false,
-                paging: false,
-                ordering: false,
-                info: false,
-                buttons: [
-                    {
-                        extend: 'collection',
-                        text: 'Anotaciones',
-                        buttons: [
-                            { extend: 'copy', text: 'Copiar' },
-                            { extend: 'excel', text: 'Excel' },
-                            { extend: 'pdf', text: 'PDF' }
-                        ]
-                    }
-                ]
-            });
-
-      
+            ];
+    
+            const docDefinition = {
+                content: pdfContent,
+                styles: {
+                    header: { fontSize: 18, bold: true },
+                    subheader: { fontSize: 14, bold: true }
+                }
+            };
+    
+            pdfMake.createPdf(docDefinition).download(`Reporte_${rawData[0].nombre_estudiante}.pdf`);
+        } catch (error) {
+            console.error('Error al generar el PDF:', error);
+            spinnerElement.hide();
+            alert('Ocurrió un error al generar el PDF.');
+        }
     });
+    
 
 });
