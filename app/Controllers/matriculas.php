@@ -35,73 +35,60 @@ class Matriculas extends BaseController
     
 
     public function guardar()
-{
-    // Iniciar una transacción para asegurar la consistencia
-    $this->matriculasModel->db->transStart();
-
-   
-        // Paso 1: Insertar Estudiante y obtener su ID
-        $estudianteData = [
-            'nombre_estudiante' => $this->request->getPost('nombre_estudiante'),
-            'fecha_nacimiento' => $this->request->getPost('fecha_nacimiento'),
-            'curso_id' => $this->request->getPost('curso_id'),
-            'fecha_matricula' => $this->request->getPost('fecha_matricula'),
-            'rut' => $this->request->getPost('rut_estudiante'), // Rut del estudiante
-        ];
-
-       
-
-        // Paso 2: Insertar Apoderado y obtener su ID
-        $apoderadoData = [
-            'nombre_apoderado' => $this->request->getPost('nombre_apoderado'),
-            'numero_telefono' => $this->request->getPost('numero_telefono'),
-            'email' => $this->request->getPost('email'),
-            'fecha_matricula' => $this->request->getPost('fecha_matricula'),
-            'rut' => $this->request->getPost('rut_apoderado'), // Rut del apoderado
-        ];
-       
-       
-         // Insertar estudiante y obtener ID
-         $estudiante_id = $this->matriculasModel->agregar_estudiante($estudianteData);
-
-         if (!$estudiante_id) {
-             
-             throw new \Exception('No se pudo registrar el estudiante.');
-             exit;
-         }
-        // Insertar apoderado y obtener ID
-        $apoderado_id = $this->matriculasModel->agregar_apoderado($apoderadoData);
-
-        if (!$apoderado_id) {
-            throw new \Exception('No se pudo registrar el apoderado.');
-            exit;
-        }
-       
-
-        // Paso 3: Insertar la Matrícula utilizando estudiante_id y apoderado_id obtenidos
-        $matriculaData = [
-            'estudiante_id' => $estudiante_id,
-            'apoderado_id' => $apoderado_id,
-            'fecha_matriculacion' => $this->request->getPost('fecha_matricula'),
-            'estado' => $this->request->getPost('estado'),
-        ];
-      
-        // Insertar la matrícula
-        $this->matriculasModel->agregar_matricula($estudianteData,$apoderadoData,$matriculaData);
-         
-
-        // Completar la transacción
-        $this->matriculasModel->db->transComplete();
-
-        if ($this->matriculasModel->db->transStatus() === FALSE) {
-            // Si algo falla, establecer un mensaje de error
-            return redirect()->to('estudiantes')->with('error', 'Hubo un problema al guardar la matrícula.');
-        }
-
-        // Si todo está bien, establecer un mensaje de éxito
-        return redirect()->to('estudiantes')->with('success', 'Matrícula agregada exitosamente.');
+    {
+        // Iniciar una transacción
+        $this->matriculasModel->db->transStart();
     
-}
+        try {
+            // Paso 1: Insertar Estudiante
+            $estudianteData = [
+                'nombre_estudiante' => $this->request->getPost('nombre_estudiante'),
+                'fecha_nacimiento' => $this->request->getPost('fecha_nacimiento'),
+                'curso_id' => $this->request->getPost('curso_id'),
+                'rut' => $this->request->getPost('rut_estudiante'), // Rut del estudiante
+            ];
+            $estudiante_id = $this->matriculasModel->agregar_estudiante($estudianteData);
+            if (!$estudiante_id) {
+                throw new \Exception('No se pudo registrar el estudiante.');
+            }
+    
+            // Paso 2: Insertar Apoderado
+            $apoderadoData = [
+                'nombre_apoderado' => $this->request->getPost('nombre_apoderado'),
+                'numero_telefono' => $this->request->getPost('numero_telefono'),
+                'email' => $this->request->getPost('email'),
+                'rut' => $this->request->getPost('rut_apoderado'), // Rut del apoderado
+            ];
+            $apoderado_id = $this->matriculasModel->agregar_apoderado($apoderadoData);
+            if (!$apoderado_id) {
+                throw new \Exception('No se pudo registrar el apoderado.');
+            }
+    
+            // Paso 3: Insertar Matrícula
+            $matriculaData = [
+                'estudiante_id' => $estudiante_id,
+                'apoderado_id' => $apoderado_id,
+                'fecha_matriculacion' => $this->request->getPost('fecha_matricula'),
+                'estado' => $this->request->getPost('estado'),
+            ];
+            if (!$this->matriculasModel->agregar_matricula($matriculaData)) {
+                throw new \Exception('No se pudo registrar la matrícula.');
+            }
+    
+            // Completar la transacción
+            $this->matriculasModel->db->transComplete();
+    
+            if ($this->matriculasModel->db->transStatus() === FALSE) {
+                throw new \Exception('Hubo un problema al guardar los datos.');
+            }
+    
+            return redirect()->to('estudiantes')->with('success', 'Matrícula agregada exitosamente.');
+        } catch (\Exception $e) {
+            $this->matriculasModel->db->transRollback(); // Revertir cambios en caso de error
+            return redirect()->to('estudiantes')->with('error', $e->getMessage());
+        }
+    }
+    
 
 public function editar($estudiante_id, $apoderado_id,$matricula_id)
 {

@@ -28,7 +28,7 @@ class Calificaciones extends BaseController
         session()->set('asignatura_id', $asignaturaId);
 
         // Obtener los estudiantes para el curso
-        $estudiantes = $this->estudiantesModel->obtenerEstudiantesPorCurso($cursoId);
+        $estudiantes = $this->estudiantesModel->obtenerEstudiantesPorCurso($asignaturaId);
         
         // Obtener las evaluaciones de la asignatura
         $evaluaciones = $this->evaluacionesModel->obtenerEvaluacionesPorCursoYAsignatura($asignaturaId,$cursoId);
@@ -90,7 +90,7 @@ class Calificaciones extends BaseController
             'asignatura_id' => $asignaturaId,
             'curso_id' => $cursoId
         ];
-
+    
         // Guardar la evaluación
         $evaluacionId = $this->evaluacionesModel->guardarEvaluacion($data);
 

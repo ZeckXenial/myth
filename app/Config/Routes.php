@@ -20,7 +20,7 @@ $routes->get('check-session', 'SessionController::check');
 
 $routes->get('anotaciones/curso/(:num)', 'Anotaciones::curso/$1');
 $routes->get('asistencias/curso/(:num)', 'Asistencias::curso/$1');
-$routes->get('calificaciones/(:num)/(:num)', 'Calificaciones::calificaciones/$1/$1');
+$routes->get('calificaciones/(:num)/(:num)', 'Calificaciones::calificaciones/$1/$2');
 
 $routes->get('usuario/mi_informacion', 'CrudUsuariosController::miInformacion');
 $routes->post('usuario/actualizar_informacion', 'CrudUsuariosController::actualizarInformacion');
