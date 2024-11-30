@@ -139,36 +139,32 @@ class cursomodel extends Model
     public function getAsistenciasCurso($cursoId) {
         $builder = $this->db->table('asistencia');
         
-        return $builder->select('a.asistencia_id, a.estudiante_id, e.nombre_estudiante, a.fecha, a.presente')
-                       ->join('estudiantes e', 'a.estudiante_id = e.estudiante_id', 'left')
-                       ->where('a.curso_id', $cursoId)
-                       ->orderBy('e.nombre_estudiante', 'ASC')
+        // Realiza la consulta con select, where y obtiene los resultados
+        return $builder->select('fecha, presente')
+                       ->where('curso_id', $cursoId)
                        ->get()
-                       ->getResultArray();
+                       ->getResultArray();  // Devuelve los resultados en un array
     }
-
+    
     public function getCalificacionesCurso($cursoId) {
         $builder = $this->db->table('calificaciones');
-        
-        return $builder->select('c.calificacion_id, c.estudiante_id, e.nombre_estudiante, c.curso_id, c.nota, c.fecha_ingreso, 
-                                ev.descripcion AS descripcion_evaluacion, asg.nombre_asignatura')
-                       ->join('estudiantes e', 'e.estudiante_id = c.estudiante_id', 'left')
-                       ->join('asignaturas asg', 'asg.asignatura_id = c.asignatura_id', 'left')
-                       ->join('evaluaciones ev', 'ev.evaluacion_id = c.evaluacion_id', 'left')
-                       ->where('c.curso_id', $cursoId)
-                       ->orderBy('e.nombre_estudiante', 'ASC')
-                       ->get()
-                       ->getResultArray();
+    
+        // Realiza la consulta con el JOIN a la tabla 'asignaturas' y selecciona 'nombre_asignatura'
+        return $builder->select('asignaturas.nombre_asignatura, calificaciones.nota')
+                       ->join('asignaturas', 'asignaturas.asignatura_id = calificaciones.asignatura_id', 'left') // Realiza el JOIN con la tabla 'asignaturas'
+                       ->where('calificaciones.curso_id', $cursoId) // Filtro para el curso
+                       ->get() // Ejecuta la consulta
+                       ->getResultArray();  // Devuelve los resultados como un array
     }
-
+    
     public function getAnotacionesCurso($cursoId) {
         $builder = $this->db->table('anotaciones');
         
-        return $builder->select('a.anotacion_id, a.estudiante_id, e.nombre_estudiante, a.origen_anot, a.glosa_anot, a.fecha_anotacion')
-                       ->join('estudiantes e', 'e.estudiante_id = a.estudiante_id', 'left')
-                       ->where('a.curso_id', $cursoId)
-                       ->orderBy('e.nombre_estudiante', 'ASC')
+        // Realiza la consulta con select, where y obtiene los resultados
+        return $builder->select('origen_anot, glosa_anot')
+                       ->where('curso_id', $cursoId)
                        ->get()
-                       ->getResultArray();
+                       ->getResultArray();  // Devuelve los resultados en un array
     }
+    
 }

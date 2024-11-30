@@ -17,8 +17,9 @@ class OtpController extends Controller
         $rut = $this->request->getGet('rut');
         $otp = $this->request->getGet('otp');
         $timestamp = $this->request->getGet('DateWithTimeZone');
-        $user_id = $this->request->getGet('user_id');
-
+        $user_id = session()->get('iduser');
+        var_dump($user_id);
+        exit;
         // URL de verificación de OTP
         $url = "https://apiede.mineduc.cl/otp/verify-otp?rut={$rut}&otp={$otp}&DateWithTimeZone={$timestamp}";
         

@@ -22,10 +22,29 @@ class matriculas_model extends Model
     }
 
     // Agregar un nuevo estudiante, apoderado y matrícula
-public function agregar_matricula($data)
-{
-    return $this->db->table('matriculas')->insert($data);
-}
+    public function agregar_matricula($estudiante_data, $apoderado_data, $matricula_data)
+    {
+        $this->db->transStart();
+
+        // Insertar el estudiante y obtener su ID
+        $this->db->table('estudiantes')->insert($estudiante_data);
+        $estudiante_id = $this->db->insertID();
+
+        // Insertar el apoderado y obtener su ID
+        $this->db->table('apoderados')->insert($apoderado_data);
+        $apoderado_id = $this->db->insertID();
+
+        // Insertar la matrícula asociando los IDs de estudiante y apoderado
+        $matricula_data['estudiante_id'] = $estudiante_id;
+        $matricula_data['apoderado_id'] = $apoderado_id;
+        $this->db->table('matriculas')->insert($matricula_data);
+
+        // Completar la transacción
+        $this->db->transComplete();
+
+        return $this->db->transStatus();
+    }
+
     // Actualizar los datos de estudiante, apoderado y matrícula
     public function actualizar_matricula($id, $matricula_data)
     {
@@ -70,18 +89,19 @@ public function agregar_matricula($data)
     return view('components/crud_apoderados', $data);
 }
 
-   public function agregar_estudiante($data)
-{
-    $this->db->table('estudiantes')->insert($data);
-    return $this->db->insertID(); // Retorna el ID del estudiante
-}
+     public function agregar_estudiante($data)
+    {
+        $builder = $this->db->table('estudiantes');
+        $builder->insert($data);
+        return $this->db->insertID();
+    }
 
-public function agregar_apoderado($data)
-{
-    $this->db->table('apoderados')->insert($data);
-    return $this->db->insertID(); // Retorna el ID del apoderado
-}
-
+    public function agregar_apoderado($data)
+    {
+        $builder = $this->db->table('apoderados');
+        $builder->insert($data);
+        return $this->db->insertID();
+    }
 
     public function actualizar_estudiante($estudiante_id, $data)
     {

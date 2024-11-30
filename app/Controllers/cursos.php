@@ -4,6 +4,8 @@ namespace App\Controllers;
 
 
 
+
+
 use App\Models\cursomodel;
 use App\Models\crudusuariomodel;
 use App\Models\asistenciasmodel;
@@ -33,17 +35,16 @@ class Cursos extends Controller
 
     public function __construct()
     {
-        $this->cursodata = new exportarcurso();
-        $this->cursoModel = new cursomodel();
-        $this->calificacionesmodel = new calificacionesmodel();
-        $this->asistenciasmodel = new asistenciasmodel();
-        $this->anotacionesmodel = new anotacionesmodel();
-        $this->apoderadoModel = new apoderadomodel();
-        $this->estudianteModel = new estudiantesmodel();
-        $this->nivelModel = new nivelmodel();
-        $this->asignaturaModel = new asignaturamodel();
-        $this->asignaturaCursoModel = new asignaturacursomodel();
-        $this->crudUsuarioModel = new crudusuariomodel();
+        $this->cursoModel = new CursoModel();
+        $this->calificacionesmodel = new calificacionesModel();
+        $this->asistenciasmodel = new asistenciasModel();
+        $this->anotacionesmodel = new anotacionesModel();
+        $this->apoderadoModel = new ApoderadoModel();
+        $this->estudianteModel = new EstudiantesModel();
+        $this->nivelModel = new NivelModel();
+        $this->asignaturaModel = new AsignaturaModel();
+        $this->asignaturaCursoModel = new AsignaturaCursoModel();
+        $this->crudUsuarioModel = new CrudUsuarioModel();
     }
     public function index()
     {
