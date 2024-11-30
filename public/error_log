@@ -1,0 +1,27 @@
+[18-Nov-2024 02:22:54 UTC] PHP Fatal error:  Uncaught ErrorException: fwrite(): Write of 33 bytes failed with errno=5 Input/output error in /home7/cap22025/public_html/college.apingenieros.cl/vendor/codeigniter4/framework/system/CLI/CLI.php:1148
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler()
+#1 /home7/cap22025/public_html/college.apingenieros.cl/vendor/codeigniter4/framework/system/CLI/CLI.php(1148): fwrite()
+#2 /home7/cap22025/public_html/college.apingenieros.cl/vendor/codeigniter4/framework/system/CLI/CLI.php(476): CodeIgniter\CLI\CLI::fwrite()
+#3 /home7/cap22025/public_html/college.apingenieros.cl/app/Views/errors/cli/error_exception.php(6): CodeIgniter\CLI\CLI::write()
+#4 /home7/cap22025/public_html/college.apingenieros.cl/vendor/codeigniter4/framework/system/Debug/BaseExceptionHandler.php(258): include('/home7/cap22025...')
+#5 /home7/cap22025/public_html/college.apingenieros.cl/vendor/codeigniter4/framework/system/Debug/BaseExceptionHandler.php(261): CodeIgniter\Debug\BaseExceptionHandler->CodeIgniter\Debug\{closure}()
+#6 /home7/cap22025/public_html/college.apingenieros.cl/vendor/codeigniter4/framework/system/Debug/ExceptionHandler.php(112): CodeIgniter\Debug\BaseExceptionHandler->render()
+#7 /home7/cap22025/public_html/college.apingenieros.cl/vendor/codeigniter4/framework/system/Debug/Exceptions.php(157): CodeIgniter\Debug\ExceptionHandler->handle()
+#8 [internal function]: CodeIgniter\Debug\Exceptions->exceptionHandler()
+#9 {main}
+  thrown in /home7/cap22025/public_html/college.apingenieros.cl/vendor/codeigniter4/framework/system/CLI/CLI.php on line 1148
+[18-Nov-2024 02:22:54 UTC] PHP Fatal error:  Uncaught ErrorException: fwrite(): Write of 33 bytes failed with errno=5 Input/output error in /home7/cap22025/public_html/college.apingenieros.cl/vendor/codeigniter4/framework/system/CLI/CLI.php:1148
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler()
+#1 /home7/cap22025/public_html/college.apingenieros.cl/vendor/codeigniter4/framework/system/CLI/CLI.php(1148): fwrite()
+#2 /home7/cap22025/public_html/college.apingenieros.cl/vendor/codeigniter4/framework/system/CLI/CLI.php(476): CodeIgniter\CLI\CLI::fwrite()
+#3 /home7/cap22025/public_html/college.apingenieros.cl/app/Views/errors/cli/error_exception.php(6): CodeIgniter\CLI\CLI::write()
+#4 /home7/cap22025/public_html/college.apingenieros.cl/vendor/codeigniter4/framework/system/Debug/BaseExceptionHandler.php(258): include('/home7/cap22025...')
+#5 /home7/cap22025/public_html/college.apingenieros.cl/vendor/codeigniter4/framework/system/Debug/BaseExceptionHandler.php(261): CodeIgniter\Debug\BaseExceptionHandler->CodeIgniter\Debug\{closure}()
+#6 /home7/cap22025/public_html/college.apingenieros.cl/vendor/codeigniter4/framework/system/Debug/ExceptionHandler.php(112): CodeIgniter\Debug\BaseExceptionHandler->render()
+#7 /home7/cap22025/public_html/college.apingenieros.cl/vendor/codeigniter4/framework/system/Debug/Exceptions.php(157): CodeIgniter\Debug\ExceptionHandler->handle()
+#8 /home7/cap22025/public_html/college.apingenieros.cl/vendor/codeigniter4/framework/system/Debug/Exceptions.php(245): CodeIgniter\Debug\Exceptions->exceptionHandler()
+#9 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+#10 {main}
+  thrown in /home7/cap22025/public_html/college.apingenieros.cl/vendor/codeigniter4/framework/system/CLI/CLI.php on line 1148

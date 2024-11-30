@@ -30,7 +30,9 @@ margin-top: 5%;
 
 }
 
-
+.modal-backdrop, .modal-backdrop.in{
+  display: none;
+}
 .user-menu-container {
   display: flex;
   align-items: center;
@@ -161,7 +163,7 @@ margin-top: 5%;
 div.form-control{
 box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 transition: 0.3s;
-background: #ffffe68f;
+background: rgba(255, 255, 255, 0.555);
 backdrop-filter: blur(10px);
 }
 #guardarcambios{
@@ -299,11 +301,12 @@ backdrop-filter: blur(10px);
 background: rgba(255, 255, 255, 0.555);
 }
 
-body {  background: linear-gradient(287deg, rgb(230, 224, 202), rgb(150, 189, 186), rgb(77, 150, 168),rgb(249, 191, 91),rgb(247, 179, 151));
+body {  background: linear-gradient(-45deg, rgb(230, 224, 202), rgb(150, 189, 186), rgb(77, 150, 168),rgb(249, 191, 91),rgb(247, 179, 151));
   ;
   background-size: 180% 180%;
-  animation: gradient-animation 10s cubic-bezier(0.42, 0, 0.52, 0.98) infinite;
+  animation: gradient-animation 15s ease infinite;
   margin: 0;
+  background-size: 400% 400%;
   padding: 0;
   flex-direction: column;
   align-items: center;
@@ -318,12 +321,28 @@ transition: transform .3s;
 
 .carousel-inner {
   box-shadow: 0 4px 8px 0 rgb(0 0 0 / 57%), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
- 
-  margin:20px;
+  margin: 20px auto; /* Centrar horizontalmente */
   height: 400px;
   display: flex;
-  width: 1000px;
+  width: 100%; /* Ajustar a su contenedor */
+  max-width: 1000px; /* Limitar el ancho máximo */
   border-radius: 10px;
+}
+
+/* Ajustes para tablets */
+@media (max-width: 768px) {
+  .carousel-inner {
+    height: 300px; /* Reducir la altura */
+    width: 90%; /* Ancho relativo a la pantalla */
+  }
+}
+
+/* Ajustes para teléfonos */
+@media (max-width: 576px) {
+  .carousel-inner {
+    height: 200px; /* Reducir aún más la altura */
+    width: 100%; /* Usar todo el ancho disponible */
+  }
 }
 img {
   display: flex;
@@ -340,7 +359,7 @@ img {
   display: inline-block;
 
 }
-nav.navbar {
+.navbar {
   margin-top: 25px;
   z-index: 1;
   background: #ffffff2c;
@@ -353,7 +372,7 @@ nav.navbar {
   &:hover{
     transform: translateY(10px);
     transition: transform .3s;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(5px);
   }
   ul.navbar-nav li.nav-item:hover:not(:hover) {
     backdrop-filter: blur(10px);
@@ -375,6 +394,7 @@ box-shadow: 10px 10px 34px 0px var(--shadow-color);
 }
 .modal{
 backdrop-filter: blur(10px);
+background:4040408f;
 }
 
 .login {

@@ -3,7 +3,7 @@
 namespace App\Models;
 use CodeIgniter\Model;
 
-class ValidacionModel extends Model
+class validacionmodel extends Model
 {
     protected $table = 'validacion';
     protected $primaryKey = 'val_id';

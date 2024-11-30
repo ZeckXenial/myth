@@ -20,7 +20,7 @@ $routes->get('check-session', 'SessionController::check');
 
 $routes->get('anotaciones/curso/(:num)', 'Anotaciones::curso/$1');
 $routes->get('asistencias/curso/(:num)', 'Asistencias::curso/$1');
-$routes->get('calificaciones/(:num)/(:num)', 'Calificaciones::calificaciones/$1/$1');
+$routes->get('calificaciones/(:num)/(:num)', 'Calificaciones::calificaciones/$1/$2');
 
 $routes->get('usuario/mi_informacion', 'CrudUsuariosController::miInformacion');
 $routes->post('usuario/actualizar_informacion', 'CrudUsuariosController::actualizarInformacion');
@@ -31,7 +31,7 @@ $routes->get('notas/crud/(:num)', 'NotasController::crud/$1');
 
 $routes->post('guardar_asistencias/(:num)', 'Asistencias::ingresarAsistencias/$1');
 $routes->post('anotaciones/crear', 'Anotaciones::crear');
-$routes->post('editar/(:num)', 'Anotaciones::editar/$1');
+$routes->post('anotaciones/editar/(:num)', 'Anotaciones::editar/$1');
 $routes->get('eliminar/(:num)', 'Anotaciones::eliminar/$1');
 
 $routes->post('exportar', 'Exportar::index');
@@ -48,8 +48,10 @@ $routes->get('cursos/delete/(:num)', 'Cursos::delete/$1');
 $routes->get('actividad/vista/(:num)/(:num)', 'actividad::mostrarActividadesRecientes/$1/$2');
 $routes->get('actividad/formulario/(:num)/(:num)', 'actividad::mostrarFormulario/$1/$2');
 $routes->post('actividad/registrarActividad', 'actividad::registrarActividad');
-$routes->post('evaluaciones/agregarEvaluacion', 'calificaciones::agregarEvaluacion');
-$routes->get('evaluaciones/agregarEvaluacion', 'calificaciones::agregarEvaluacion');
+$routes->post('valuaciones/agregarEvaluacion', 'Calificaciones::agregarEvaluacion');
+$routes->get('evaluaciones/agregarEvaluacion', 'Calificaciones::agregarEvaluacion');
+$routes->post('actividad/actualizar/(:num)', 'actividad::actualizar/$1');
+
 
 
 $routes->get('/', 'Calificaciones::index');
@@ -130,12 +132,12 @@ $routes->get('cursos/delete/(:num)', 'Cursos::delete/$1');
 
 $routes->get('actividad/formulario/(:num)/(:num)', 'actividad::mostrarFormulario/$1/$2');
 $routes->post('actividad/registrarActividad', 'actividad::registrarActividad');
-$routes->post('evaluaciones/agregarEvaluacion', 'calificaciones::agregarEvaluacion');
-$routes->get('evaluaciones/agregarEvaluacion', 'calificaciones::agregarEvaluacion');
-$routes->get('evaluaciones/guardarNota','calificaciones::guardarnota');
+$routes->post('evaluaciones/agregarEvaluacion', 'Calificaciones::agregarEvaluacion');
+$routes->get('evaluaciones/agregarEvaluacion', 'Calificaciones::agregarEvaluacion');
+$routes->get('evaluaciones/guardarNota','Calificaciones::guardarnota');
 
 $routes->get('/', 'Calificaciones::index');
-$routes->get('calificaciones/obtenerCalificaciones/(:num)/(:num)','calificaciones::obtenerCalificaciones/$1/$2');
+$routes->get('calificaciones/obtenerCalificaciones/(:num)/(:num)','Calificaciones::obtenerCalificaciones/$2/$1');
 $routes->get('calificaciones/asignaturas/(:num)', 'Calificaciones::asignaturas/$1');
 $routes->post('calificaciones/guardar', 'Calificaciones::guardar');
 $routes->get('editar/(:num)', 'Calificaciones::editar/$1');

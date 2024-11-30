@@ -2,15 +2,15 @@
 
 namespace App\Controllers;
 
-use App\Models\ApoderadoModel; 
-use App\Models\EstudiantesModel; 
-use App\Models\AnotacionesModel; 
+use App\Models\apoderadomodel;
+use App\Models\estudiantesmodel;
+use App\Models\anotacionesmodel;
 
 class CrudApoderados extends BaseController
 {
     public function index()
     {
-        $model = new ApoderadoModel();
+        $model = new apoderadomodel();
         $data['apoderados'] = $model->findAll(); // Obtén todos los apoderados
 
         // Carga la vista correspondiente con los datos
@@ -40,8 +40,8 @@ class CrudApoderados extends BaseController
             'fechanace_apoderado' => $this->request->getPost('fecha_nace'),
         ];
 
-        $apoderadosModel = new ApoderadoModel();
-        $apoderadosModel->insert($data);
+        $apoderadosmodel = new apoderadomodel();
+        $apoderadosmodel->insert($data);
 
         return redirect()->to('crud_apoderados');
     }
@@ -66,27 +66,27 @@ class CrudApoderados extends BaseController
         ];
 
         // Actualiza el registro en la base de datos usando el nuevo método
-        $apoderadosModel = new ApoderadoModel();
-        $apoderadosModel->actualizarApoderado($rutApoderado, $data);
+        $apoderadosmodel = new apoderadomodel();
+        $apoderadosmodel->actualizarapoderado($rutApoderado, $data);
 
         return redirect()->to('crud_apoderados');
     }
 
     public function eliminar($rutApoderado)
     {
-        $apoderadosModel = new ApoderadoModel();
-        $estudiantesModel = new EstudiantesModel();
-        $anotacionesModel = new AnotacionesModel();
+        $apoderadosmodel = new apoderadomodel();
+        $estudiantesmodel = new estudiantesmodel();
+        $anotacionesmodel = new anotacionesmodel();
     
-        $estudiantesAsociados = $estudiantesModel->where('rut_apoderado', $rutApoderado)->findAll();
+        $estudiantesAsociados = $estudiantesmodel->where('rut_apoderado', $rutApoderado)->findAll();
     
         foreach ($estudiantesAsociados as $estudiante) {
-            $anotacionesModel->where('Rut_estudiante', $estudiante['rut_estudiante'])->delete();
+            $anotacionesmodel->where('Rut_estudiante', $estudiante['rut_estudiante'])->delete();
         }
     
-        $estudiantesModel->where('rut_apoderado', $rutApoderado)->delete();
+        $estudiantesmodel->where('rut_apoderado', $rutApoderado)->delete();
     
-        $apoderadosModel->delete($rutApoderado);
+        $apoderadosmodel->delete($rutApoderado);
     
         return redirect()->to('crud_apoderados');
     }

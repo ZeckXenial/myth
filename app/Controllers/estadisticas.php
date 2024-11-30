@@ -2,14 +2,14 @@
 
 namespace App\Controllers;
 
-use App\Models\EstadisticasModel;
+use App\Models\estadisticasmodel;
 
 class Estadisticas extends BaseController
 {
     public function index()
     {
         // Instancia del modelo
-        $estadisticasModel = new EstadisticasModel();
+        $estadisticasModel = new estadisticasmodel();
 
         // Obtener los datos de las estadísticas
         $asistenciasData = $estadisticasModel->getAsistenciasPorCurso();
@@ -40,6 +40,6 @@ class Estadisticas extends BaseController
         ];
         
         // Cargar la vista y pasar los datos
-        return view('components/estadisticas.php', $data);
+        return view('Components/estadisticas.php', $data);
     }
 }

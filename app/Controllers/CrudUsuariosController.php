@@ -3,15 +3,15 @@
 namespace App\Controllers;
 
 use CodeIgniter\Controller;
-use App\Models\CrudUsuarioModel;
+use App\Models\crudusuariomodel;
 
 class CrudUsuariosController extends Controller
 {
     public function index()
     {
-        $model = new CrudUsuarioModel();
+        $model = new crudusuariomodel();
         $data['users'] = $model->obtenerUsuariosConRoles();
-        return view('components/crud_usuarios', $data);
+        return view('Components/crud_usuarios', $data);
     }
 
     public function agregar()
@@ -28,9 +28,10 @@ class CrudUsuariosController extends Controller
     
             if ($this->validate($rules)) {
                 try {
-                    $model = new CrudUsuarioModel();
+                    $model = new crudusuariomodel();
                     $data = [
                         'nombre' => $this->request->getPost('nombre'),
+                        'especialidad' => $this->request->getPost('especialidad'),
                         'email' => $this->request->getPost('email'),
                         'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
                         'id_rol' => $this->request->getPost('id_rol'),
@@ -38,32 +39,32 @@ class CrudUsuariosController extends Controller
     
                     $model->agregarUsuario($data);
     
-                    return redirect()->to(site_url('crud_usuarios'))->with('success', 'Usuario agregado exitosamente');
+                    return redirect()->to(site_url('usuarios'))->with('success', 'Usuario agregado exitosamente');
                 } catch (\Exception $e) {
-                    return redirect()->to(site_url('crud_usuarios'))->withInput()->with('error', 'Error al agregar usuario: ' . $e->getMessage());
+                    return redirect()->to(site_url('usuarios'))->withInput()->with('error', 'Error al agregar usuario: ' . $e->getMessage());
                 }
             } else {
-                return redirect()->to(site_url('crud_usuarios'))->withInput()->with('errors', $validation->getErrors());
+                return redirect()->to(site_url('usuarios'))->withInput()->with('errors', $validation->getErrors());
             }
         }
     
-        return redirect()->to(site_url('components/crud_usuarios'));
+        return redirect()->to(site_url('usuarios'));
     }
     
     public function miInformacion()
     {
-        $model = new CrudUsuarioModel();
+        $model = new crudusuariomodel();
         $session = session();
         $userId = $session->get('iduser');
         $data['usuario'] = $model->obtenerUsuarioPorId($userId);
-        return view('components/mi_informacion', $data);
+        return view('Components/mi_informacion', $data);
     }
 
     public function actualizarInformacion()
     {
         if ($this->request->getMethod() === 'post') {
-            log_message('debug', 'MÃ©todo POST recibido.');
-            $model = new CrudUsuarioModel();
+            log_message('debug', 'M¨¦todo POST recibido.');
+            $model = new crudusuariomodel();
             $session = session();
             $userId = $session->get('iduser');
             log_message('debug', 'User ID: ' . $userId);
@@ -80,7 +81,7 @@ class CrudUsuariosController extends Controller
             }
     
             if ($this->validate($rules)) {
-                log_message('debug', 'ValidaciÃ³n exitosa.');
+                log_message('debug', 'Validaci¨®n exitosa.');
                 $data = [
                     'nombre' => $this->request->getPost('nombre'),
                     'especialidad' => $this->request->getPost('especialidad'),
@@ -93,65 +94,61 @@ class CrudUsuariosController extends Controller
                 $model->actualizarUsuario($userId, $data);
                 log_message('debug', 'Usuario actualizado.');
                 log_message('debug', 'Redirigiendo a: ' . site_url('usuario/mi_informacion'));
-                return redirect()->to(site_url('usuario/mi_informacion'))->with('success', 'InformaciÃ³n actualizada exitosamente');
+                return redirect()->to(site_url('usuario/mi_informacion'))->with('success', 'Informaci¨®n actualizada exitosamente');
             } else {
-                log_message('debug', 'Errores de validaciÃ³n: ' . json_encode($validation->getErrors()));
+                log_message('debug', 'Errores de validaci¨®n: ' . json_encode($validation->getErrors()));
                 return redirect()->to(site_url('usuario/mi_informacion'))->withInput()->with('errors', $validation->getErrors());
             }
         }
     }  
+
     public function editar($id)
-{
-    if ($this->request->getMethod() === 'post') {
-        $validation = \Config\Services::validation();
+    {
+        if ($this->request->getMethod() === 'post') {
+            $validation = \Config\Services::validation();
 
-        $rules = [
-            'nombre_edit' => 'required|min_length[3]|max_length[50]',
-            'id_rol' => 'required'
-        ];
-
-   
-        if (!empty($this->request->getPost('password_edit'))) {
-         
-            $rules['password_edit'] = 'required|min_length[6]';
-        }
-   
-        if (!empty($this->request->getPost('email_edit'))) {
-         
-            $rules['email_edit'] = 'required|valid_email';
-        }
-
-        if ($this->validate($rules)) {
-            $model = new CrudUsuarioModel();
-            $data = [
-                'nombre' => $this->request->getPost('nombre_edit'),
-                'email' => $this->request->getPost('email_edit'),
-                'id_rol' => $this->request->getPost('id_rol'),
-                'especialidad' => $this->request->getPost('especialidad')
-
+            $rules = [
+                'nombre_edit' => 'required|min_length[3]|max_length[50]',
+                'id_rol' => 'required'
             ];
 
-          
             if (!empty($this->request->getPost('password_edit'))) {
-                $data['password'] = password_hash($this->request->getPost('password_edit'), PASSWORD_DEFAULT);
+                $rules['password_edit'] = 'required|min_length[6]';
             }
 
-            $model->editarUsuario($id, $data);
+            if (!empty($this->request->getPost('email_edit'))) {
+                $rules['email_edit'] = 'required|valid_email';
+            }
 
-            return redirect()->to(site_url('crud_usuarios'))->with('success', 'Usuario editado exitosamente');
-        } else {
-            return redirect()->to(site_url('crud_usuarios'))->withInput()->with('errors', $validation->getErrors());
+            if ($this->validate($rules)) {
+                $model = new crudusuariomodel();
+                $data = [
+                    'nombre' => $this->request->getPost('nombre_edit'),
+                    'email' => $this->request->getPost('email_edit'),
+                    'id_rol' => $this->request->getPost('id_rol'),
+                    'especialidad' => $this->request->getPost('especialidad')
+                ];
+
+                if (!empty($this->request->getPost('password_edit'))) {
+                    $data['password'] = password_hash($this->request->getPost('password_edit'), PASSWORD_DEFAULT);
+                }
+
+                $model->editarUsuario($id, $data);
+
+                return redirect()->to(site_url('usuarios'))->with('success', 'Usuario editado exitosamente');
+            } else {
+                return redirect()->to(site_url('usuarios'))->withInput()->with('errors', $validation->getErrors());
+            }
         }
-    }
 
-    return redirect()->to(site_url('crud_usuarios'));
-}
+        return redirect()->to(site_url('usuarios'));
+    }
 
     public function eliminar($id)
     {
-        $model = new CrudUsuarioModel();
+        $model = new crudusuariomodel();
         $model->eliminarUsuario($id);
 
-        return redirect()->to(site_url('crud_usuarios'))->with('success', 'Usuario eliminado exitosamente');
+        return redirect()->to(site_url('usuarios'))->with('success', 'Usuario eliminado exitosamente');
     }
 }

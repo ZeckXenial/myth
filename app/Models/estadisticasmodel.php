@@ -4,7 +4,7 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class EstadisticasModel extends Model
+class estadisticasmodel extends Model
 {
     protected $table = ''; 
 

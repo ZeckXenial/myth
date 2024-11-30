@@ -4,7 +4,7 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class AsistenciasModel extends Model
+class asistenciasmodel extends Model
 {
     protected $table = 'asistencia';
     protected $primaryKey = 'asistencia_id';

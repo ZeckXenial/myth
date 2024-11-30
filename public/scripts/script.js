@@ -11,7 +11,59 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+document.addEventListener('DOMContentLoaded', function() {
+    // Evento al hacer clic en "Editar"
+    const editButtons = document.querySelectorAll('.editar-btn');
+    editButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const anotacionId = this.getAttribute('data-anotacion-id');
+            document.getElementById('editable-glosa-' + anotacionId).style.display = 'block';
+            document.getElementById('glosaAnotacion' + anotacionId).focus();
+            this.style.display = 'none'; // Ocultar el botón de editar
+        });
+    });
 
+    // Evento al hacer clic en "Guardar"
+    const saveButtons = document.querySelectorAll('.guardar-btn');
+    saveButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const anotacionId = this.getAttribute('data-anotacion-id');
+            const nuevaGlosa = document.getElementById('glosaAnotacion' + anotacionId).value;
+
+            // Validar que el campo no esté vacío
+            if (!nuevaGlosa.trim()) {
+                alert('El campo no puede estar vacío.');
+                return;
+            }
+
+            // Enviar la nueva glosa con AJAX
+            fetch('https://college.apingenieros.cl/index.php/anotaciones/editar/' + anotacionId, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest' // Para evitar que la petición sea bloqueada
+                },
+                body: JSON.stringify({ glosa_anot: nuevaGlosa })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Actualizar el texto mostrado
+                    alert('Anotación guardada con éxito.');
+                    document.getElementById('editable-glosa-' + anotacionId).style.display = 'none';
+                    const glosaElement = document.querySelector(`#verAnotacionesModal .alert[data-anotacion-id='${anotacionId}'] span`);
+                    glosaElement.textContent = nuevaGlosa;
+                } else {
+                    alert('Hubo un error al guardar la anotación.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Hubo un error inesperado.');
+            });
+        });
+    });
+});
    document.addEventListener('DOMContentLoaded', function() {
     const loginForm = document.getElementById('loginForm');
 
@@ -128,8 +180,8 @@ document.addEventListener('DOMContentLoaded', function(){document.getElementById
     })
     .then(response => response.json())
     .then(data => {
-        console.log('Success:', data);
-         const bodyMessage = data.message;
+        console.log('Success:', data.body);
+         const bodyMessage = data.body;
         alert(bodyMessage);
         $('#otpModal').modal('hide');
     })

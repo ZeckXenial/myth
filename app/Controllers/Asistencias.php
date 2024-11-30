@@ -2,8 +2,8 @@
 
 namespace App\Controllers;
 
-use App\Models\AsistenciasModel;
-use App\Models\EstudiantesModel;
+use App\Models\asistenciasmodel;
+use App\Models\estudiantesmodel;
 
 class Asistencias extends BaseController
 {
@@ -13,8 +13,8 @@ class Asistencias extends BaseController
 
     public function __construct()
     {
-        $this->estudiantesModel = new EstudiantesModel();
-        $this->asistenciasModel = new AsistenciasModel();
+        $this->estudiantesModel = new estudiantesmodel();
+        $this->asistenciasModel = new asistenciasmodel();
 
     }
 
@@ -26,7 +26,7 @@ class Asistencias extends BaseController
         $data['asistencias'] = $this->estudiantesModel->obtenerEstudiantesPorCurso($cursoId);
         $data['estudiantesPresentes'] = $this->asistenciasModel->getEstudiantesPresentes($cursoId,$fecha);
         $data['ultimaFechaAsistencia'] = $this->asistenciasModel->obtenerUltimaFechaAsistenciaPorCurso($cursoId);
-        return view('components/asistencias', $data);
+        return view('Components/asistencias', $data);
     }
     
 

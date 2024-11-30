@@ -3,13 +3,13 @@
 namespace App\Controllers;
 
 use CodeIgniter\Controller;
-use App\Models\AsignaturaModel;
-use App\Models\asignaturacursoModel;
-use App\Models\CrudUsuarioModel;
-use App\Models\CursoModel;
+use App\Models\asignaturamodel;
+use App\Models\asignaturacursomodel;
+use App\Models\crudusuariomodel;
+use App\Models\cursomodel;
 use CodeIgniter\Model;
 
-class asignaturas extends Controller
+class Asignaturas extends Controller
 {
     private $usuariosmodel;
     private $Cursomodel;
@@ -17,10 +17,10 @@ class asignaturas extends Controller
     private $asignaturaModel;
 
     public function __construct() {
-        $this->usuariosmodel = new CrudusuarioModel;
-        $this->asignaturaModel = new AsignaturaModel();
-        $this->asignaturacursoModel = new asignaturacursoModel();
-        $this->Cursomodel = new Cursomodel();
+        $this->usuariosmodel = new crudusuariomodel;
+        $this->asignaturaModel = new asignaturamodel();
+        $this->asignaturacursoModel = new asignaturacursomodel();
+        $this->Cursomodel = new cursomodel();
     }
     public function index()
     {
@@ -33,7 +33,7 @@ class asignaturas extends Controller
         $user_id = session()->get('iduser');
         $data['usuarios'] = $this->usuariosmodel->obtenerprofesores();
         $data['cursos'] = $this->Cursomodel->obtenerCursos();
-        return view('components/crear', $data);
+        return view('Components/crear', $data);
     }
     public function crear()
     {

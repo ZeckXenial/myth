@@ -4,11 +4,11 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class CursoModel extends Model
+class cursomodel extends Model
 {
     protected $table      = 'cursos';
     protected $primaryKey = 'curso_id';
-    protected $allowedFields = ['user_id', 'asignatura_id', 'nivel_id', 'grado'];
+    protected $allowedFields = ['user_id', 'estado','asignatura_id', 'nivel_id', 'grado', 'estado']; // Asegúrate de agregar 'estado' a los campos permitidos
 
     public function obtenerCursos()
     {
@@ -23,65 +23,74 @@ class CursoModel extends Model
         
         return [];
     }
-    
+
     public function getCursosByTeacher($user_id)
     {
         return $this->select('cursos.*, usuarios.nombre AS nombre_usuario, nivel.nombre AS nombre_nivel')
-        ->join('usuarios', 'usuarios.user_id = cursos.user_id')
-        ->join('nivel', 'nivel.nivel_id = cursos.nivel_id')
-        ->where('cursos.user_id', $user_id)
-        ->distinct()
-        ->findAll();
+                    ->join('usuarios', 'usuarios.user_id = cursos.user_id')
+                    ->join('nivel', 'nivel.nivel_id = cursos.nivel_id')
+                    ->where('cursos.user_id', $user_id)
+                    ->where('estado !=', '')  // Filtramos los cursos activos
+                    ->where('estado IS NOT NULL')  // Aseguramos que el estado no sea NULL
+                    ->distinct()
+                    ->findAll();
     }
-    
+
     public function getCursosAndAsignaturas($user_id)
-{
-    $cursos_directos = $this->select('cursos.*, usuarios.nombre AS nombre_usuario, nivel.nombre AS nombre_nivel')
-                            ->join('usuarios', 'usuarios.user_id = cursos.user_id')
-                            ->join('nivel', 'nivel.nivel_id = cursos.nivel_id')
-                            ->where('cursos.user_id', $user_id)
-                            ->findAll();
+    {
+        $cursos_directos = $this->select('cursos.*, usuarios.nombre AS nombre_usuario, nivel.nombre AS nombre_nivel')
+                                ->join('usuarios', 'usuarios.user_id = cursos.user_id')
+                                ->join('nivel', 'nivel.nivel_id = cursos.nivel_id')
+                                ->where('cursos.user_id', $user_id)
+                                ->where('estado !=', '')  // Filtramos los cursos activos
+                                ->where('estado IS NOT NULL')  // Aseguramos que el estado no sea NULL
+                                ->findAll();
 
-    $asignatura_ids = $this->db->table('asignaturas')
-                               ->select('asignatura_id')
-                               ->where('user_id', $user_id)
-                               ->get()
-                               ->getResultArray();
-    
-    if (!empty($asignatura_ids)) {
-        $cursos_asignaturas = $this->db->table('cursos_asignaturas')
-                                       ->select('curso_id')
-                                       ->whereIn('asignatura_id', array_column($asignatura_ids, 'asignatura_id'))
-                                       ->get()
-                                       ->getResultArray();
+        $asignatura_ids = $this->db->table('asignaturas')
+                                   ->select('asignatura_id')
+                                   ->where('user_id', $user_id)
+                                   ->get()
+                                   ->getResultArray();
         
-        if (!empty($cursos_asignaturas)) {
-            $cursos_por_asignaturas = $this->select('cursos.*, usuarios.nombre AS nombre_usuario, nivel.nombre AS nombre_nivel')
-                                           ->join('usuarios', 'usuarios.user_id = cursos.user_id')
-                                           ->join('nivel', 'nivel.nivel_id = cursos.nivel_id')
-                                           ->whereIn('cursos.curso_id', array_column($cursos_asignaturas, 'curso_id'))
-                                           ->findAll();
+        if (!empty($asignatura_ids)) {
+            $cursos_asignaturas = $this->db->table('cursos_asignaturas')
+                                           ->select('curso_id')
+                                           ->whereIn('asignatura_id', array_column($asignatura_ids, 'asignatura_id'))
+                                           ->get()
+                                           ->getResultArray();
             
-            $todos_los_cursos = array_merge($cursos_directos, $cursos_por_asignaturas);
-            $todos_los_cursos = array_unique($todos_los_cursos, SORT_REGULAR);
+            if (!empty($cursos_asignaturas)) {
+                $cursos_por_asignaturas = $this->select('cursos.*, usuarios.nombre AS nombre_usuario, nivel.nombre AS nombre_nivel')
+                                               ->join('usuarios', 'usuarios.user_id = cursos.user_id')
+                                               ->join('nivel', 'nivel.nivel_id = cursos.nivel_id')
+                                               ->whereIn('cursos.curso_id', array_column($cursos_asignaturas, 'curso_id'))
+                                               ->where('estado !=', '')  // Filtramos los cursos activos
+                                               ->where('estado IS NOT NULL')  // Aseguramos que el estado no sea NULL
+                                               ->findAll();
+                
+                $todos_los_cursos = array_merge($cursos_directos, $cursos_por_asignaturas);
+                $todos_los_cursos = array_unique($todos_los_cursos, SORT_REGULAR);
 
-            return $todos_los_cursos;
+                return $todos_los_cursos;
+            }
         }
+
+        return $cursos_directos;
     }
 
-    return $cursos_directos;
-}
-public function getAllCursosAndAsignaturas()
-{
-    return $this->select('cursos.*, usuarios.nombre AS nombre_usuario, nivel.nombre AS nombre_nivel')
-        ->join('usuarios', 'usuarios.user_id = cursos.user_id')
-        ->join('nivel', 'nivel.nivel_id = cursos.nivel_id')
-        ->findAll();
-}
+    public function getAllCursosAndAsignaturas()
+    {
+        return $this->select('cursos.*, usuarios.nombre AS nombre_usuario, nivel.nombre AS nombre_nivel')
+                    ->join('usuarios', 'usuarios.user_id = cursos.user_id')
+                    ->join('nivel', 'nivel.nivel_id = cursos.nivel_id')
+                      // Filtramos los cursos activos
+                    ->where('estado IS NULL')  // Aseguramos que el estado no sea NULL
+                    ->findAll();
+    }
 
-public function getAsignaturasPorCurso($cursoId)
-{
-    $user_id = session()->get('iduser');
+    public function getAsignaturasPorCurso($cursoId)
+    {
+        $user_id = session()->get('iduser');
     $idrol = session()->get('idrol');
 
     $isUserRelatedToCourse = $this->db->table('cursos')
@@ -104,14 +113,8 @@ public function getAsignaturasPorCurso($cursoId)
     }
 
     return $query->get()->getResultArray();
-}
-    public function getCursosByDirective()
-    {
-        return $this->select('cursos.*, usuarios.nombre AS nombre_usuario, nivel.nombre AS nombre_nivel')
-            ->join('usuarios', 'usuarios.user_id = cursos.user_id')
-            ->join('nivel', 'nivel.nivel_id = cursos.nivel_id', 'left')
-            ->findAll();
     }
+
     public function obtenerCursoPorId($id)
     {
         return $this->find($id);
@@ -129,39 +132,43 @@ public function getAsignaturasPorCurso($cursoId)
 
     public function eliminarCurso($id)
     {
-        return $this->delete(['curso_id' => $id]); 
+        // Borrado lógico: se actualiza el campo estado a vacío
+        return $this->update($id, ['estado' => '']); 
     }
+
     public function getAsistenciasCurso($cursoId) {
-        // Obtiene el builder para la tabla 'asistencias'
         $builder = $this->db->table('asistencia');
         
-        // Realiza la consulta con select, where y obtiene los resultados
-        return $builder->select('fecha, presente')
-                       ->where('curso_id', $cursoId)
+        return $builder->select('a.asistencia_id, a.estudiante_id, e.nombre_estudiante, a.fecha, a.presente')
+                       ->join('estudiantes e', 'a.estudiante_id = e.estudiante_id', 'left')
+                       ->where('a.curso_id', $cursoId)
+                       ->orderBy('e.nombre_estudiante', 'ASC')
                        ->get()
-                       ->getResultArray();  // Devuelve los resultados en un array
+                       ->getResultArray();
     }
-    
+
     public function getCalificacionesCurso($cursoId) {
-        // Obtiene el builder para la tabla 'calificaciones'
         $builder = $this->db->table('calificaciones');
-    
-        // Realiza la consulta con el JOIN a la tabla 'asignaturas' y selecciona 'nombre_asignatura'
-        return $builder->select('asignaturas.nombre_asignatura, calificaciones.nota')
-                       ->join('asignaturas', 'asignaturas.asignatura_id = calificaciones.asignatura_id', 'left') // Realiza el JOIN con la tabla 'asignaturas'
-                       ->where('calificaciones.curso_id', $cursoId) // Filtro para el curso
-                       ->get() // Ejecuta la consulta
-                       ->getResultArray();  // Devuelve los resultados como un array
+        
+        return $builder->select('c.calificacion_id, c.estudiante_id, e.nombre_estudiante, c.curso_id, c.nota, c.fecha_ingreso, 
+                                ev.descripcion AS descripcion_evaluacion, asg.nombre_asignatura')
+                       ->join('estudiantes e', 'e.estudiante_id = c.estudiante_id', 'left')
+                       ->join('asignaturas asg', 'asg.asignatura_id = c.asignatura_id', 'left')
+                       ->join('evaluaciones ev', 'ev.evaluacion_id = c.evaluacion_id', 'left')
+                       ->where('c.curso_id', $cursoId)
+                       ->orderBy('e.nombre_estudiante', 'ASC')
+                       ->get()
+                       ->getResultArray();
     }
-    
+
     public function getAnotacionesCurso($cursoId) {
-        // Obtiene el builder para la tabla 'anotaciones'
         $builder = $this->db->table('anotaciones');
         
-        // Realiza la consulta con select, where y obtiene los resultados
-        return $builder->select('origen_anot, glosa_anot')
-                       ->where('curso_id', $cursoId)
+        return $builder->select('a.anotacion_id, a.estudiante_id, e.nombre_estudiante, a.origen_anot, a.glosa_anot, a.fecha_anotacion')
+                       ->join('estudiantes e', 'e.estudiante_id = a.estudiante_id', 'left')
+                       ->where('a.curso_id', $cursoId)
+                       ->orderBy('e.nombre_estudiante', 'ASC')
                        ->get()
-                       ->getResultArray();  // Devuelve los resultados en un array
+                       ->getResultArray();
     }
 }

@@ -1,5 +1,5 @@
 <?php include(APPPATH . 'Views/Components/headers.php') ;
-include(APPPATH . 'Views/Components/Navbar.php') ;?>
+include(APPPATH . 'Views/Components/NavBar.php') ;?>
 <body class="container" >
 <div class="container mt-5">
         <div class="card">

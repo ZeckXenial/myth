@@ -4,7 +4,7 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class ApoderadoModel extends Model
+class apoderadomodel extends Model
 {
     protected $table = 'apoderados';
     protected $primaryKey = 'apoderado_id';

@@ -2,20 +2,24 @@
 
 namespace App\Controllers;
 
-use App\Models\CursoModel;
-use App\Models\CrudUsuarioModel;
-use App\Models\AsistenciasModel;
-use App\Models\CalificacionesModel;
-use App\Models\AnotacionesModel;
-use App\Models\AsignaturaModel;
-use App\Models\EstudiantesModel;
-use App\Models\AsignaturaCursoModel;
-use App\Models\NivelModel;
-use App\Models\ApoderadoModel;
+
+
+use App\Models\cursomodel;
+use App\Models\crudusuariomodel;
+use App\Models\asistenciasmodel;
+use App\Models\calificacionesmodel;
+use App\Models\anotacionesmodel;
+use App\Models\asignaturamodel;
+use App\Models\estudiantesmodel;
+use App\Models\asignaturacursomodel;
+use App\Models\nivelmodel;
+use App\Models\apoderadomodel;
+use App\Models\exportarcurso;
 use CodeIgniter\Controller;
 
 class Cursos extends Controller
 {
+    private $cursodata;
     private $cursoModel;
     private $nivelModel;
     private $anotacionesmodel;
@@ -29,16 +33,17 @@ class Cursos extends Controller
 
     public function __construct()
     {
-        $this->cursoModel = new CursoModel();
-        $this->calificacionesmodel = new calificacionesModel();
-        $this->asistenciasmodel = new asistenciasModel();
-        $this->anotacionesmodel = new anotacionesModel();
-        $this->apoderadoModel = new ApoderadoModel();
-        $this->estudianteModel = new EstudiantesModel();
-        $this->nivelModel = new NivelModel();
-        $this->asignaturaModel = new AsignaturaModel();
-        $this->asignaturaCursoModel = new AsignaturaCursoModel();
-        $this->crudUsuarioModel = new CrudUsuarioModel();
+        $this->cursodata = new exportarcurso();
+        $this->cursoModel = new cursomodel();
+        $this->calificacionesmodel = new calificacionesmodel();
+        $this->asistenciasmodel = new asistenciasmodel();
+        $this->anotacionesmodel = new anotacionesmodel();
+        $this->apoderadoModel = new apoderadomodel();
+        $this->estudianteModel = new estudiantesmodel();
+        $this->nivelModel = new nivelmodel();
+        $this->asignaturaModel = new asignaturamodel();
+        $this->asignaturaCursoModel = new asignaturacursomodel();
+        $this->crudUsuarioModel = new crudusuariomodel();
     }
     public function index()
     {
@@ -66,7 +71,7 @@ class Cursos extends Controller
         if (!$id) {
             return redirect()->to(site_url('cursos'))->with('error', 'El curso no existe.');
         }
-        return view('components/edit', $data);
+        return view('Components/edit', $data);
     }
     public function guardar()
     {
@@ -89,27 +94,20 @@ class Cursos extends Controller
     }
     public function agregar()
     {
-        $nivelModel = new NivelModel();
-        $asignaturaModel = new AsignaturaModel();
-        $usuarioModel = new CrudUsuarioModel();
+        $nivelModel = new nivelmodel();
+        $asignaturaModel = new asignaturamodel();
+        $usuarioModel = new crudusuariomodel();
 
         $data['niveles'] = $nivelModel->findAll();
         $data['asignaturas'] = $asignaturaModel->findAll();
         $data['usuarios'] = $usuarioModel->findAll();
 
-        return view('components/agregar', $data);
+        return view('Components/agregar', $data);
     } 
     public function exportarcurso($cursoId) {
-        // Obtener los datos del curso, incluyendo asistencias, calificaciones y anotaciones
-        $asistencias = $this->cursoModel->getAsistenciasCurso($cursoId);
-        $calificaciones = $this->cursoModel->getCalificacionesCurso($cursoId);
-        $anotaciones = $this->cursoModel->getAnotacionesCurso($cursoId);
-        $data= [
-            'asistencias' => $asistencias,
-            'calificaciones' => $calificaciones,
-            'anotaciones' => $anotaciones
-        ];
-        // Retornar los datos como JSON
+        $data = $this->cursodata->obtenerDatosGenerales($cursoId);
+
+       
         return $this->response->setJSON($data);
         
     }
@@ -194,7 +192,10 @@ class Cursos extends Controller
     }
     public function delete($id)
     {
-        $this->cursoModel->eliminarCurso($id);
-        return redirect()->to('cursos');
+         if ($this->cursoModel->eliminarCurso($id)) {
+        return redirect()->to('cursos')->with('success', 'Curso borrado correctamente.');
+    } else {
+        return redirect()->to('cursos')->with('error', 'No se pudo borrar el curso.');
+    }
     }
 }
