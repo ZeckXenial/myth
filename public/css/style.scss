@@ -20,7 +20,6 @@
 .card-body{
 box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 transition: 0.3s;
-background: #4040408f;
 border-radius: 5px;
 backdrop-filter: blur(10px);
 height: fit-content;
@@ -295,12 +294,10 @@ justify-content: inline;
 .none{
 display:none;
 }
-
 .form-control{
 backdrop-filter: blur(10px);
 background: rgba(255, 255, 255, 0.555);
 }
-
 body {  background: linear-gradient(-45deg, rgb(230, 224, 202), rgb(150, 189, 186), rgb(77, 150, 168),rgb(249, 191, 91),rgb(247, 179, 151));
   ;
   background-size: 180% 180%;
@@ -321,23 +318,37 @@ transition: transform .3s;
 
 .carousel-inner {
   box-shadow: 0 4px 8px 0 rgb(0 0 0 / 57%), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  margin: 20px auto; /* Centrar horizontalmente */
+  margin: 20px auto; 
   height: 400px;
   display: flex;
-  width: 100%; /* Ajustar a su contenedor */
-  max-width: 1000px; /* Limitar el ancho máximo */
+  width: 100%; 
+  max-width: 1000px; 
   border-radius: 10px;
 }
 
-/* Ajustes para tablets */
 @media (max-width: 768px) {
   .carousel-inner {
     height: 300px; /* Reducir la altura */
     width: 90%; /* Ancho relativo a la pantalla */
   }
 }
+.dropdown:hover{
+  -webkit-animation: shadow-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+  animation: shadow-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+  .dropdown-item:hover{
+    
+      -webkit-animation: shadow-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+      animation: shadow-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+    
+  }
+}
 
-/* Ajustes para teléfonos */
+.cards-body:hover{
+  -webkit-animation: shadow-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+  animation: shadow-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+  transform: scale(1.1); 
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); 
+}
 @media (max-width: 576px) {
   .carousel-inner {
     height: 200px; /* Reducir aún más la altura */
@@ -346,8 +357,8 @@ transition: transform .3s;
 }
 img {
   display: flex;
-  width: 500px;
-  height: 200px;
+  width: fit-content;
+  height: fit-content;
   object-fit: cover;
   border-radius: 10px;
 }
@@ -376,8 +387,6 @@ img {
   }
   ul.navbar-nav li.nav-item:hover:not(:hover) {
     backdrop-filter: blur(10px);
-    
-    
   }
 }
 
@@ -385,18 +394,15 @@ a.margin5px{
 margin:5px;
 }
 table{
-
 width: 100%;
 border-radius: 10px;
 background: #ffffffbf; 
 box-shadow: 10px 10px 34px 0px var(--shadow-color);
-
 }
 .modal{
 backdrop-filter: blur(10px);
 background:4040408f;
 }
-
 .login {
 background: rgba(255, 255, 255, 0.521);
 backdrop-filter: blur(20px);

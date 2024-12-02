@@ -31,31 +31,36 @@ class Asistencias extends BaseController
     
 
     public function ingresarAsistencias($cursoId)
-{
-    if ($this->request->getMethod() === 'post') {
-        $asistencias = $this->request->getPost('asistencias');
-
-        if (!empty($asistencias)) {
-            $model = new AsistenciasModel();
-            $fecha_asistencia = date('Y-m-d'); 
-
-            foreach ($asistencias as $asistencia) {
-                $data = [
-                    'estudiante_id' => $asistencia['estudiante_id'],
-                    'fecha' => $fecha_asistencia,
-                    'curso_id' => $cursoId,
-                    'presente' => isset($asistencia['presente']) ? 1 : 0,
-                ];
-      
-                $model->ingresarAsistencias($data);
+    {
+        if ($this->request->getMethod() === 'post') {
+            $asistencias = $this->request->getPost('asistencias');
+            $fecha_asistencia = date('Y-m-d'); // Fecha actual
+    
+            if (!empty($asistencias)) {
+                // Instanciamos el modelo
+                $model = new AsistenciasModel();
+    
+                // Recorrer cada asistencia
+                foreach ($asistencias as $asistencia) {
+                    $asistenciadata = [
+                        'estudiante_id' => $asistencia['estudiante_id'],
+                        'fecha' => $fecha_asistencia,
+                        'curso_id' => $cursoId,
+                        'presente' => $asistencia['presente'],
+                    ];
+                    
+                    $model->ingresarAsistencia($asistenciadata);
+                }
+    
+                return redirect()->to(site_url("cursos"))->with('success', 'Asistencias guardadas exitosamente');
+            } else {
+                return redirect()->to(site_url("asistencias/curso/$cursoId"))->with('error', 'No se recibieron datos de asistencia');
             }
-
-            return redirect()->to(site_url("cursos"))->with('success', 'Asistencias guardadas exitosamente');
         } else {
-            return redirect()->to(site_url("asistencias/curso/$cursoId"))->with('error', 'No se recibieron datos de asistencia');
+            return redirect()->to(site_url("asistencias/curso/$cursoId"))->with('error', 'Error al procesar la solicitud');
         }
-    } else {
-        return redirect()->to(site_url("asistencias/curso/$cursoId"))->with('error', 'Error al procesar la solicitud');
     }
-}
+    
+
+    
 }

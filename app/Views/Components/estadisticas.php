@@ -58,6 +58,10 @@
             </div>
         </div>
 
+        <div class="text-center">
+        <button id="exportarasistencia"  data-url="<?= site_url('cursos/exportarasistencias') ?>" class="btn  btn-primary">Exportar Asistencias</button>
+        
+    </div>
         <!-- DataTable -->
         
             <div class=" form-control ">

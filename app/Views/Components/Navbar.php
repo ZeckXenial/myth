@@ -45,12 +45,15 @@
            <a class="nav-link   dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi  bi-person-circle"></i>
                         </a>
+                        
                         <ul class="dropdown-menu  dropdown-menu-right" aria-labelledby="userDropdown">
+                          <li><h6 class="dropdown-header text-center">Menu del usuario</h6></li>
                             <?php if (session()->has('idrol')): ?>
-                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#otpModal">Código OTP</a></li>
-                            <a class="dropdown-item" href="<?= site_url('usuario/mi_informacion') ?>">Mi Información</a>
+                            <li><a class=" text-center dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#otpModal">Código OTP</a></li>
+                            <a class="text-center dropdown-item" href="<?= site_url('usuario/mi_informacion') ?>">Mi Información</a>
                              <?php endif; ?>
-                            <li><a class="dropdown-item btn" href="<?= site_url('logout') ?>">Cerrar sesión</a></li>
+                             <li><hr class="dropdown-divider"></li>
+                            <li><a class=" text-center dropdown-item btn" href="<?= site_url('logout') ?>">Cerrar sesión</a></li>
                         </ul>
         </div>
       </div>

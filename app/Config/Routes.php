@@ -18,6 +18,7 @@ $routes->post('asignaturas/eliminar/(:num)', 'Asignaturas::eliminar/$1');
 
 $routes->get('check-session', 'SessionController::check');
 
+
 $routes->get('anotaciones/curso/(:num)', 'Anotaciones::curso/$1');
 $routes->get('asistencias/curso/(:num)', 'Asistencias::curso/$1');
 $routes->get('calificaciones/(:num)/(:num)', 'Calificaciones::calificaciones/$1/$2');
@@ -72,6 +73,8 @@ $routes->post('matriculas/actualizar/(:num)/(:num)/(:num)', 'matriculas::actuali
 $routes->get('matriculas/eliminar/(:num)', 'matriculas::eliminar/$1');
 $routes->get('matriculas/guardar', 'matriculas::guardar');
 $routes->get('cursos/exportarcurso/(:num)', 'cursos::exportarcurso/$1');
+$routes->get('cursos/exportarasistencias','cursos::exportarasistencias');
+
 
 $routes->get('estudiantes', 'matriculas::index');
 $routes->post('estudiantes', 'crudEstudiantes::editar/$1');
