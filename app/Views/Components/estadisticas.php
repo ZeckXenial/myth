@@ -1,16 +1,15 @@
 <?php include(APPPATH . 'Views/Components/headers.php'); ?>
 <?php include(APPPATH . 'Views/Components/NavBar.php'); ?>
-
 <body class="container">
 
     <div class="container mt-5">
         <h1 class="text-center">Estadísticas Generales</h1>
 
-        <div class=" row">
+        <div class="row">
             <!-- Estadísticas de Asistencias -->
-            <div class=" col-lg-6 mb-4">
-                <div class="shadow-drop-2-center card shadow-sm">
-                    <div class="card-header bg-primary text-white">
+            <div class="col-lg-6 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-info text-white">
                         <h5>Asistencias</h5>
                     </div>
                     <div class="card-body">
@@ -21,7 +20,7 @@
 
             <!-- Estadísticas de Matrículas -->
             <div class="col-lg-6 mb-4">
-                <div class="shadow-drop-2-center card shadow-sm">
+                <div class="card shadow-sm">
                     <div class="card-header bg-success text-white">
                         <h5>Matrículas</h5>
                     </div>
@@ -35,7 +34,7 @@
         <div class="row">
             <!-- Estadísticas de Anotaciones -->
             <div class="col-lg-6 mb-4">
-                <div class="shadow-drop-2-center card shadow-sm">
+                <div class="card shadow-sm">
                     <div class="card-header bg-warning text-white">
                         <h5>Anotaciones</h5>
                     </div>
@@ -47,7 +46,7 @@
 
             <!-- Estadísticas de Calificaciones -->
             <div class="col-lg-6 mb-4">
-                <div class="shadow-drop-2-center card shadow-sm">
+                <div class="card shadow-sm">
                     <div class="card-header bg-danger text-white">
                         <h5>Calificaciones</h5>
                     </div>
@@ -59,44 +58,38 @@
         </div>
 
         <div class="text-center">
-        <button id="exportarasistencia"  data-url="<?= site_url('cursos/exportarasistencias') ?>" class="btn  btn-primary">Exportar Asistencias</button>
-        
-    </div>
-        <!-- DataTable -->
-        
-            <div class=" form-control ">
-                <table id="validacionestable" class="table table-hover table-striped table-bordered">
-            
-                <h3 class="text-center">Registros Recientes</h3>
-            
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Estado</th>
-                    <th>Fecha</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php if (!empty($validaciones)): ?>
-                    <?php foreach ($validaciones as $validacion): ?>
-                        <tr>
-                            <td><?= htmlspecialchars($validacion['val_id']) ?></td>
-                            <td><?= htmlspecialchars($validacion['usuario_nombre']) ?></td>
-                            <td><?= htmlspecialchars($validacion['status']) ?></td>
-                            <td><?= htmlspecialchars($validacion['fecha_val']) ?></td>
-                        </tr>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <tr>
-                        <td colspan="4" class="text-center">No hay registros recientes</td>
-                    </tr>
-                <?php endif; ?>
-            </tbody>
-        </table>
-    </div>
-</div>
+            <button id="exportarasistencia" data-url="<?= site_url('cursos/exportarasistencias') ?>" class="btn btn-primary">Exportar Asistencias</button>
+        </div>
 
+        <div class="form-control">
+            <h3 class="text-center">Registros Recientes</h3>
+            <table id="validacionestable" class="table table-hover table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Estado</th>
+                        <th>Fecha</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if (!empty($validaciones)): ?>
+                        <?php foreach ($validaciones as $validacion): ?>
+                            <tr>
+                                <td><?= htmlspecialchars($validacion['val_id']) ?></td>
+                                <td><?= htmlspecialchars($validacion['usuario_nombre']) ?></td>
+                                <td><?= htmlspecialchars($validacion['status']) ?></td>
+                                <td><?= htmlspecialchars($validacion['fecha_val']) ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="4" class="text-center">No hay registros recientes</td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <script src="<?= base_url('public/scripts/datatable-script.js') ?>"></script>
@@ -191,5 +184,4 @@
 
 </body>
 <?php include(APPPATH . 'Views/Components/toast.php'); include(APPPATH . 'Views/Components/footer.php'); ?>
-
 </html>

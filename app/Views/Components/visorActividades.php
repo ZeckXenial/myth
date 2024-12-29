@@ -22,11 +22,7 @@ include(APPPATH . 'Views/Components/NavBar.php');
                 </li>
             <?php endforeach; ?>
         </ul>
-    </div>
-    <?php else: ?>
-        <!-- Mensaje de no actividades -->
-        <p class="text-center mt-4">No hay actividades registradas.</p>
-    <?php endif; ?>
+    </div> 
     <div class="modal fade" id="editarModal<?= $actividad['act_id'] ?>" tabindex="-1" aria-labelledby="editarModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -46,6 +42,11 @@ include(APPPATH . 'Views/Components/NavBar.php');
                     <div class="d-flex justify-content-end">
                         <button type="submit" class="btn btn-primary">Guardar Cambios</button>
                     </div>
+    <?php else: ?>
+        <!-- Mensaje de no actividades -->
+        <p class="text-center mt-4">No hay actividades registradas.</p>
+    <?php endif; ?>
+  
                 </form>
             </div>
         </div>

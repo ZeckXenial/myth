@@ -36,6 +36,9 @@
                                         <div class="alert alert-info" role="alert">
                                     <?php endif; ?>
                                         <?= $anotacion['glosa_anot'] ?>
+                                        <?php if ($idrol !== 1): ?>
+                                            <a href="<?= site_url('anotaciones/editar/' . $anotacion['anotacion_id']) ?>" class="btn btn-warning">Editar</a>
+                                        <?php endif; ?>
                                     </div>
                                 <?php endforeach; ?>
                             <?php else: ?>

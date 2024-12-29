@@ -7,6 +7,7 @@ use App\Models\asignaturamodel;
 use App\Models\asignaturacursomodel;
 use App\Models\crudusuariomodel;
 use App\Models\cursomodel;
+use App\Models\AsignaturasEstaticasModel;
 use CodeIgniter\Model;
 
 class Asignaturas extends Controller
@@ -15,17 +16,19 @@ class Asignaturas extends Controller
     private $Cursomodel;
     private $asignaturacursoModel;
     private $asignaturaModel;
+    private $asignaturasEstaticasModel;
 
     public function __construct() {
         $this->usuariosmodel = new crudusuariomodel;
         $this->asignaturaModel = new asignaturamodel();
         $this->asignaturacursoModel = new asignaturacursomodel();
         $this->Cursomodel = new cursomodel();
+        $this->asignaturasEstaticasModel = new AsignaturasEstaticasModel();
     }
     public function index()
     {
         
-        $data['asignaturas'] = $this->asignaturaModel->obtenerAsignaturas();
+        $data['asignaturas_estaticas'] = $this->asignaturasEstaticasModel->obtenerTodasAsignaturas();
         
         return view('asignaturas/index', $data);
     }
@@ -33,6 +36,7 @@ class Asignaturas extends Controller
         $user_id = session()->get('iduser');
         $data['usuarios'] = $this->usuariosmodel->obtenerprofesores();
         $data['cursos'] = $this->Cursomodel->obtenerCursos();
+        $data['asignaturas'] = $this->asignaturaModel->obtenerTodasAsignaturas();
         return view('Components/crear', $data);
     }
     public function crear()

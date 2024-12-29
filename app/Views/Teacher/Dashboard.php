@@ -13,7 +13,7 @@
 
     <div> <?php include(APPPATH . 'Views/Components/Carrousel.php'); ?> </div>
     <div> <?php include(APPPATH . 'Views/Components/Card.php'); ?> </div>
-
+    
 
     <div> <?php include(APPPATH . 'Views/Components/footer.php'); ?> </div>
 </div>

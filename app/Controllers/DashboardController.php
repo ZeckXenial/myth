@@ -9,7 +9,15 @@ class DashboardController extends Controller
     public function index()
     {
         $session = session();
+        // Regenerar ID de sesión al iniciar sesión
+        $session->regenerate();
         $userId = $session->get('iduser');
+
+        // Validar el userId antes de usarlo
+        if (!is_numeric($userId)) {
+            // Manejar el error de ID no válido
+            return redirect()->to('login');
+        }
 
         $model = new AuthModel();
         $userData = $model->getUserDataById($userId);

@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use CodeIgniter\Controller;
 
-class CheckSession extends Controller
+class SessionController extends Controller
 {
     public function __construct()
     {
@@ -17,6 +17,9 @@ class CheckSession extends Controller
     {
         // Verificar si existe una sesión activa
         $authenticated = $this->session->has('iduser');
+
+        // Asegurarse de que las cookies sean seguras
+        $this->session->setCookieParams(['httponly' => true, 'secure' => true]);
 
         // Verificar el tiempo de sesión (ejemplo: 30 minutos)
         $sessionTimeout = 1800; // 30 minutos en segundos

@@ -18,7 +18,6 @@ $routes->post('asignaturas/eliminar/(:num)', 'Asignaturas::eliminar/$1');
 
 $routes->get('check-session', 'SessionController::check');
 
-
 $routes->get('anotaciones/curso/(:num)', 'Anotaciones::curso/$1');
 $routes->get('asistencias/curso/(:num)', 'Asistencias::curso/$1');
 $routes->get('calificaciones/(:num)/(:num)', 'Calificaciones::calificaciones/$1/$2');
@@ -51,9 +50,7 @@ $routes->get('actividad/formulario/(:num)/(:num)', 'actividad::mostrarFormulario
 $routes->post('actividad/registrarActividad', 'actividad::registrarActividad');
 $routes->post('valuaciones/agregarEvaluacion', 'Calificaciones::agregarEvaluacion');
 $routes->get('evaluaciones/agregarEvaluacion', 'Calificaciones::agregarEvaluacion');
-$routes->post('actividad/actualizar/(:num)', 'actividad::actualizar/$1');
-
-
+$routes->get('evaluaciones/guardarNota','Calificaciones::guardarnota');
 
 $routes->get('/', 'Calificaciones::index');
 $routes->get('calificaciones/asignaturas/(:num)', 'Calificaciones::asignaturas/$1');
@@ -75,7 +72,6 @@ $routes->get('matriculas/guardar', 'matriculas::guardar');
 $routes->get('cursos/exportarcurso/(:num)', 'cursos::exportarcurso/$1');
 $routes->get('cursos/exportarasistencias','cursos::exportarasistencias');
 
-
 $routes->get('estudiantes', 'matriculas::index');
 $routes->post('estudiantes', 'crudEstudiantes::editar/$1');
 $routes->get('estudiantes/agregar', 'crudEstudiantes::agregar');
@@ -91,11 +87,10 @@ $routes->post('crud_usuarios/editar/(:num)', 'CrudUsuariosController::editar/$1'
 
 $routes->post('auth', 'Auth::submit_login');
 $routes->get('dashboard', 'DashboardController::index');
-$routes->get('/', 'Home::index');
-$routes->get('login', 'Home::login');
-$routes->get('teacher/dashboard', 'TeacherController::dashboard');
-$routes->get('admin/dashboard', 'TeacherController::admin');
-$routes->get('logout', 'Auth::logout');
+
+$routes->get('calendar', 'CalendarController::index'); // Ruta para la vista del calendario
+$routes->get('calendar/getEvents', 'CalendarController::getEvents'); // Ruta para obtener eventos
+$routes->post('calendar/addEvent', 'CalendarController::addEvent'); // Ruta para agregar eventos
 
 $routes->get('cursos', 'CursosController::index');
 $routes->get('editar/(:num)', 'Asignaturas::editar/$1');
@@ -149,6 +144,8 @@ $routes->get('delete/(:num)', 'Calificaciones::delete/$1');
 
 $routes->get('api/verify-otp', 'otpcontroller::verifyotp');
 
+$routes->get('calendar/getEvents', 'CalendarController::getEvents'); // Ruta para obtener eventos
+
 $routes->get('estadisticas','estadisticas::index');
 
 $routes->get('matriculas','matriculas::index');
@@ -174,3 +171,5 @@ $routes->post('crud_usuarios/editar/(:num)', 'CrudUsuariosController::editar/$1'
 
 $routes->post('auth', 'Auth::submit_login');
 $routes->get('dashboard', 'DashboardController::index');
+
+$routes->post('evento/agregar', 'EventoController::addEvent');

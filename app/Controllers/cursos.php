@@ -42,6 +42,7 @@ class Cursos extends Controller
         $this->apoderadoModel = new ApoderadoModel();
         $this->estudianteModel = new EstudiantesModel();
         $this->nivelModel = new NivelModel();
+        $this->cursodata = new exportarcurso();
         $this->asignaturaModel = new AsignaturaModel();
         $this->asignaturaCursoModel = new AsignaturaCursoModel();
         $this->crudUsuarioModel = new CrudUsuarioModel();

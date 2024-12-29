@@ -35,6 +35,9 @@
             <li class="nav-item">
               <a class="nav-link" href="<?= site_url('estudiantes') ?>">Registrar Estudiante</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="<?= site_url('calendar') ?>">Calendario</a>
+            </li>
           <?php endif; ?>
         </ul>
       </div>

@@ -75,7 +75,7 @@ $(document).ready(function () {
                 var dataURL = canvas.toDataURL("image/png");
                 return dataURL;
             }
-            getBase64Image('/myth/public/logo-css-180x181.png');
+            getBase64Image('<?= base_url()?>public/logo-css-180x181.png');
 
             // Agregar los botones de DataTables a sus respectivas tablas
             $.fn.dataTable.ext.errMode = 'none';
@@ -115,11 +115,12 @@ $(document).ready(function () {
                                 title:     'Historial de asistencias',
                                 download: 'open',
                                 customize: function (doc) {
-                                    var logoDataURL = getBase64Image('/myth/public/logo-css-180x181.png');
+                                    var logoDataURL = getBase64Image('<?= base_url('public/logo-css-180x-181.png') ?>');
                                     doc.content.splice(1, 0, {
                                         margin: [0, 0, 0, 12],
                                         alignment: 'center',
-                                        image: logoDataURL                               });
+                                        image: logoDataURL
+                                    });
                                 }
                             }
                         ]
@@ -165,11 +166,12 @@ $(document).ready(function () {
                                 title:     'Resumen de Notas',
                                 download: 'open',
                                 customize: function (doc) {
-                                    var logoDataURL = getBase64Image('/myth/public/logo-css-180x181.png');
+                                    var logoDataURL = getBase64Image('<?= base_url()?>public/logo-css-180x181.png');
                                     doc.content.splice(1, 0, {
                                         margin: [0, 0, 0, 12],
                                         alignment: 'center',
-                                        image: logoDataURL                               });
+                                        image: logoDataURL
+                                    });
                                 }
                             }
                         ]
@@ -211,11 +213,12 @@ $(document).ready(function () {
                                 title:     'Anotaciones del estudiante',
                                 download: 'open',
                                 customize: function (doc) {
-                                    var logoDataURL = getBase64Image('/myth/public/logo-css-180x181.png');
+                                    var logoDataURL = getBase64Image('<?= base_url('public/logo-css-180x-181.png') ?>');
                                     doc.content.splice(1, 0, {
                                         margin: [0, 0, 0, 12],
                                         alignment: 'center',
-                                        image: logoDataURL                               });
+                                        image: logoDataURL
+                                    });
                                 }
                                 
                             }
@@ -242,21 +245,38 @@ $(document).ready(function () {
             const rawData = await response.json();
             spinnerElement.hide();
     
-            // Agrupar datos
-            const asistencias = rawData.map(item => ({
-                fecha: item.fecha_asistencia,
-                presente: item.presente === "1" ? "Presente" : "Ausente"
-            }));
+            if (!Array.isArray(rawData) || rawData.length === 0) {
+                alert('No hay datos disponibles para generar el PDF.');
+                return;
+            }
     
-            const calificaciones = rawData.map(item => ({
-                asignatura: item.nombre_asignatura,
-                nota: item.nota
-            }));
+            // Agrupar datos por estudiante
+            const estudiantes = {};
+            rawData.forEach(item => {
+                const nombre = item.nombre_estudiante || 'Desconocido';
+                if (!estudiantes[nombre]) {
+                    estudiantes[nombre] = {
+                        asistencias: [],
+                        calificaciones: [],
+                        anotaciones: []
+                    };
+                }
     
-            const anotaciones = rawData.map(item => ({
-                origen: item.origen_anot,
-                glosa: item.glosa_anot
-            }));
+                estudiantes[nombre].asistencias.push({
+                    fecha: item.fecha_asistencia || 'N/A',
+                    presente: item.presente === "1" ? "Presente" : "Ausente"
+                });
+    
+                estudiantes[nombre].calificaciones.push({
+                    asignatura: item.nombre_asignatura || 'N/A',
+                    nota: item.nota !== null ? item.nota : 'Sin nota'
+                });
+    
+                estudiantes[nombre].anotaciones.push({
+                    origen: item.origen_anot || 'N/A',
+                    glosa: item.glosa_anot || 'N/A'
+                });
+            });
     
             // Generar contenido del PDF
             let pdfContent = [
@@ -265,57 +285,69 @@ $(document).ready(function () {
                     style: 'header',
                     alignment: 'center'
                 },
-                {
-                    text: `Estudiante: ${rawData[0].nombre_estudiante}`,
-                    margin: [0, 10, 0, 20]
-                },
-                { text: 'Asistencias', style: 'subheader' },
-                {
-                    table: {
-                        body: [
-                            [{ text: 'Fecha', bold: true }, { text: 'Asistencia', bold: true }],
-                            ...asistencias.map(asistencia => [asistencia.fecha, asistencia.presente])
-                        ]
-                    },
-                    layout: 'lightHorizontalLines'
-                },
-                { text: 'Calificaciones', style: 'subheader', margin: [0, 20, 0, 0] },
-                {
-                    table: {
-                        body: [
-                            [{ text: 'Asignatura', bold: true }, { text: 'Nota', bold: true }],
-                            ...calificaciones.map(calificacion => [calificacion.asignatura, calificacion.nota])
-                        ]
-                    },
-                    layout: 'lightHorizontalLines'
-                },
-                { text: 'Anotaciones', style: 'subheader', margin: [0, 20, 0, 0] },
-                {
-                    table: {
-                        body: [
-                            [{ text: 'Origen', bold: true }, { text: 'Glosa', bold: true }],
-                            ...anotaciones.map(anotacion => [anotacion.origen, anotacion.glosa])
-                        ]
-                    },
-                    layout: 'lightHorizontalLines'
-                }
+                { text: `Fecha: ${new Date().toLocaleDateString()}`, alignment: 'right', margin: [0, 0, 0, 10] }
             ];
+    
+            Object.keys(estudiantes).forEach(nombre => {
+                const { asistencias, calificaciones, anotaciones } = estudiantes[nombre];
+    
+                pdfContent.push(
+                    { text: `Estudiante: ${nombre}`, style: 'subheader', margin: [0, 20, 0, 10] },
+                    { text: 'Asistencias', style: 'subheader', margin: [0, 10, 0, 10] },
+                    {
+                        table: {
+                            widths: ['*', '*'],
+                            body: [
+                                [{ text: 'Fecha', bold: true }, { text: 'Asistencia', bold: true }],
+                                ...asistencias.map(asistencia => [asistencia.fecha, asistencia.presente])
+                            ]
+                        },
+                        layout: 'lightHorizontalLines'
+                    },
+                    { text: 'Calificaciones', style: 'subheader', margin: [0, 20, 0, 10] },
+                    {
+                        table: {
+                            widths: ['*', '*'],
+                            body: [
+                                [{ text: 'Asignatura', bold: true }, { text: 'Nota', bold: true }],
+                                ...calificaciones.map(calificacion => [calificacion.asignatura, calificacion.nota])
+                            ]
+                        },
+                        layout: 'lightHorizontalLines'
+                    },
+                    { text: 'Anotaciones', style: 'subheader', margin: [0, 20, 0, 10] },
+                    {
+                        table: {
+                            widths: ['*', '*'],
+                            body: [
+                                [{ text: 'Origen', bold: true }, { text: 'Glosa', bold: true }],
+                                ...anotaciones.map(anotacion => [anotacion.origen, anotacion.glosa])
+                            ]
+                        },
+                        layout: 'lightHorizontalLines'
+                    }
+                );
+            });
     
             const docDefinition = {
                 content: pdfContent,
                 styles: {
                     header: { fontSize: 18, bold: true },
                     subheader: { fontSize: 14, bold: true }
+                },
+                defaultStyle: {
+                    fontSize: 10
                 }
             };
     
-            pdfMake.createPdf(docDefinition).download(`Reporte_${rawData[0].nombre_estudiante}.pdf`);
+            pdfMake.createPdf(docDefinition).download(`Reporte_Curso_${cursoId}.pdf`);
         } catch (error) {
             console.error('Error al generar el PDF:', error);
             spinnerElement.hide();
             alert('Ocurrió un error al generar el PDF.');
         }
     });
+    
     $('#exportarasistencia').on('click', async function () {
         const spinnerElement = $('.spinner-border');
         spinnerElement.show();

@@ -6,7 +6,7 @@
 <div class="container">
     <h2 class="text-center" style="margin-top: 20px;">Exportar Informacion</h2>
     <div class="text-center">
-        <button value="<?= isset($estudiantes[0]['curso_id']) ? $estudiantes[0]['curso_id'] : 0 ?>" 
+        <button  id="exportarTodoCurso" value="<?= isset($estudiantes[0]['curso_id']) ? $estudiantes[0]['curso_id'] : 0 ?>" 
         class="btn btn-primary">Exportar Todo el Curso</button>
         
     </div>
