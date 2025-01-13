@@ -172,4 +172,7 @@ $routes->post('crud_usuarios/editar/(:num)', 'CrudUsuariosController::editar/$1'
 $routes->post('auth', 'Auth::submit_login');
 $routes->get('dashboard', 'DashboardController::index');
 
-$routes->post('evento/agregar', 'EventoController::addEvent');
+$routes->post('calendar/editEvent/(:num)', 'CalendarController::editEvent/$1');$routes->post('evento/agregar', 'EventoController::addEvent');
+$routes->get('calendar', 'CalendarController::index');
+$routes->get('calendar/getEvents', 'CalendarController::getEvents');
+$routes->delete('calendar/deleteEvent/(:num)', 'CalendarController::deleteEvent/$1');

@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/main.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/main.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <title>Calendario Escolar</title>
     <?php include(APPPATH . 'Views/Components/headers.php'); ?>
 </head>
@@ -19,6 +17,35 @@
             Agregar Evento
         </button>
 
+<!-- Modal de Edición -->
+<div class="modal fade" id="editEventModal" tabindex="-1" aria-labelledby="editEventModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editEventModalLabel">Editar Evento</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editEventForm" >
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="editEventTitle" name="title" placeholder="Título del evento" required>
+                        <label for="editEventTitle">Título del evento</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="datetime-local" class="form-control" id="editEventStart" name="start" required>
+                        <label for="editEventStart">Inicio del evento</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="datetime-local" class="form-control" id="editEventEnd" name="end" required>
+                        <label for="editEventEnd">Fin del evento</label>
+                    </div>
+                    <button type="submit" class="btn btn-success">Actualizar Evento</button>
+                    <button type="button" class="btn btn-danger" id="deleteEventButton">Eliminar Evento</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
         <!-- Modal de Bootstrap -->
         <div class="modal fade" id="eventModal" tabindex="-1" aria-labelledby="eventModalLabel" aria-hidden="true">
             <div class="modal-dialog">
