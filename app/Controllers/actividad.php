@@ -40,34 +40,6 @@ class Actividad extends Controller
 
     return view('Components/formulario_actividad', $data);
 }
-
-public function actualizar($act_id)
-{
-    if ($this->request->getMethod() === 'post') {
-        $glosa = $this->request->getPost('glosa');
-        $user_id = session()->get('iduser');
-
-        // Verificar que la actividad existe
-        $actividad = $this->actividadesModel->find($act_id);
-
-        // Comprobar que el usuario tiene permisos para editar
-        if ($user_id != $actividad['user_id']&& $user_role != 2) {
-            return redirect()->to('/actividades')->with('error', 'No tienes permiso para editar esta actividad.');
-        }
-
-        // Actualizar la actividad
-        $actividadActualizada = [
-            'glosa' => $glosa
-        ];
-
-        $this->actividadesModel->update($act_id, $actividadActualizada);
-
-        return redirect()->back()->with('success', 'Actividad actualizada correctamente.');
-    }
-
-    return redirect()->back()->with('error', 'Error al actualizar la actividad.');
-}
-
     public function registrarActividad()
     {
         if ($this->request->getMethod() === 'post') {

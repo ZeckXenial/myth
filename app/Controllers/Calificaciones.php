@@ -92,7 +92,7 @@ class Calificaciones extends BaseController
             'asignatura_id' => $asignaturaId,
             'curso_id' => $cursoId
         ];
-
+    
         // Guardar la evaluación
         $evaluacionId = $this->evaluacionesModel->guardarEvaluacion($data);
 

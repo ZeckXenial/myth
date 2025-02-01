@@ -1,12 +1,23 @@
 <?php include(APPPATH . 'Views/Components/headers.php'); ?>
 <?php include(APPPATH . 'Views/Components/NavBar.php'); ?>
-
 <body>
     <h1 class="text-center">Calificaciones por Asignatura</h1>
 
     <div class="container mt-4">
         <div class="row">
-            <?php foreach ($asignaturas as $asignatura): ?>
+            <div class="col-md-12 mb-4">
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Seleccionar Asignatura
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <?php foreach ($asignaturas_estaticas as $asignatura): ?>
+                            <a class="dropdown-item" href="<?= site_url('calificaciones/' . $asignatura['asignatura_id']) ?>"><?= $asignatura['nombre_asignatura']; ?></a>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            </div>
+            <?php foreach ($asignaturas_estaticas as $asignatura): ?>
                 <div class="col-md-4 mb-4">
                     <div class="card">
                         <div class="card-body">

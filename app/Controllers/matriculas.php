@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\matriculas_model;
+use App\Models\matriculas_model;
 use App\Models\cursomodel;
 
 class Matriculas extends BaseController
@@ -13,6 +14,7 @@ class Matriculas extends BaseController
     public function __construct()
     {
         $this->cursomodel = new cursomodel();
+        $this->matriculasModel = new matriculas_model();
         $this->matriculasModel = new matriculas_model();
     }
 
@@ -30,6 +32,7 @@ class Matriculas extends BaseController
         });
     
         // Obtener cursos desde la base de datos
+        return view('Components/matriculas', $data);
         return view('Components/matriculas', $data);
     }
     
@@ -87,6 +90,7 @@ public function editar($estudiante_id, $apoderado_id,$matricula_id)
 
     $data['cursos'] = $this->cursomodel->obtenerCursos();
 
+    return view('Components/crud_apoderados', $data);
     return view('Components/crud_apoderados', $data);
 }
 

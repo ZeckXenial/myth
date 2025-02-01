@@ -10,11 +10,13 @@ use App\Models\cursomodel;
 use CodeIgniter\Model;
 
 class Asignaturas extends Controller
+class Asignaturas extends Controller
 {
     private $usuariosmodel;
     private $Cursomodel;
     private $asignaturacursoModel;
     private $asignaturaModel;
+    private $asignaturasEstaticasModel;
 
     public function __construct() {
         $this->usuariosmodel = new crudusuariomodel;
@@ -25,7 +27,7 @@ class Asignaturas extends Controller
     public function index()
     {
         
-        $data['asignaturas'] = $this->asignaturaModel->obtenerAsignaturas();
+        $data['asignaturas_estaticas'] = $this->asignaturasEstaticasModel->obtenerTodasAsignaturas();
         
         return view('asignaturas/index', $data);
     }
