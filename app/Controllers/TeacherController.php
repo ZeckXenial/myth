@@ -8,14 +8,14 @@ class TeacherController extends Controller
 {
     public function loadCrudUsuarios()
     {
-        return view('components/crud_usuarios');
+        return view('Components/crud_usuarios');
     }
 
     public function dashboard()
     {
       
 
-        return view('admin/dashboard');
+        return view('Admin/Dashboard');
     }
 
     public function admin()
@@ -23,6 +23,6 @@ class TeacherController extends Controller
        
 
 
-        return view('admin/dashboard');
+        return view('Admin/Dashboard');
     }
 }

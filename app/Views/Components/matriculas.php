@@ -8,7 +8,7 @@
     <!-- Botón para abrir el formulario de nueva matrícula -->
 
     <!-- Tabla de estudiantes y apoderados registrados -->
-    <table id="matriculasTable" class="table table-striped table-bordered">
+    <table id="matriculasTable" class="table table-striped table-hover table-responsive table-bordered">
         <thead>
             <tr>
                 <th>Nombre del Estudiante</th>

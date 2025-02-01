@@ -4,7 +4,7 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class AnotacionesModel extends Model
+class anotacionesmodel extends Model
 {
     protected $table = 'anotaciones';
     protected $primaryKey = 'anotacion_id';

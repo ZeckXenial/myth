@@ -2,10 +2,10 @@
 
 namespace App\Controllers;
 
-use App\Models\EstudiantesModel;
-use App\Models\EvaluacionesModel;
-use App\Models\CalificacionesModel;
-use App\Models\CursoModel;
+use App\Models\estudiantesmodel;
+use App\Models\evaluacionesmodel;
+use App\Models\calificacionesmodel;
+use App\Models\cursomodel;
 
 class Calificaciones extends BaseController
 {
@@ -16,28 +16,28 @@ class Calificaciones extends BaseController
 
     public function __construct()
     {
-        $this->estudiantesModel = new EstudiantesModel();
-        $this->evaluacionesModel = new EvaluacionesModel();
-        $this->calificacionesModel = new CalificacionesModel();
-        $this->cursoModel = new CursoModel();
+        $this->estudiantesModel = new estudiantesmodel();
+        $this->evaluacionesModel = new evaluacionesmodel();
+        $this->calificacionesModel = new calificacionesmodel();
+        $this->cursoModel = new cursomodel();
     }
 
     public function calificaciones($asignaturaId,$cursoId)
     {
 
-        session()->set('asignatura_id', $asignaturaId);
-
+       
+       
         // Obtener los estudiantes para el curso
-        $estudiantes = $this->estudiantesModel->obtenerEstudiantesPorCurso($cursoId);
+        $estudiantes = $this->estudiantesModel->obtenerEstudiantesPorCurso($asignaturaId);
         
         // Obtener las evaluaciones de la asignatura
         $evaluaciones = $this->evaluacionesModel->obtenerEvaluacionesPorCursoYAsignatura($asignaturaId,$cursoId);
         $parametrostabla = [$asignaturaId,$cursoId];
         // Obtener las calificaciones de los estudiantes para las evaluaciones
-        $calificaciones = $this->calificacionesModel->obtenerCalificacionesPorFecha($cursoId,$asignaturaId);
+        $calificaciones = $this->calificacionesModel->obtenerCalificacionesPorFecha($asignaturaId,$cursoId);
         // Pasar los datos a la vista
         
-        return view('components/calificaciones_curso', [
+        return view('Components/calificaciones_curso', [
             'estudiantes' => $estudiantes,
             'evaluaciones' => $evaluaciones,
             'calificaciones' => $calificaciones,
@@ -45,6 +45,8 @@ class Calificaciones extends BaseController
         ]);
     }
     // CalificacionesController.php
+
+
 
     public function obtenerCalificaciones($asignaturaId, $cursoId)
 {
@@ -71,7 +73,7 @@ class Calificaciones extends BaseController
         $asignaturas = $this->cursoModel->getAsignaturasPorCurso($cursoId);
 
 
-        return view('components/asignaturas', ['asignaturas' => $asignaturas],['cursoid' => $cursoId]);
+        return view('Components/asignaturas', ['asignaturas' => $asignaturas],['cursoid' => $cursoId]);
     }
     public function agregarEvaluacion()
     {

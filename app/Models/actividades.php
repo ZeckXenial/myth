@@ -43,6 +43,10 @@ class actividades extends Model
                     ->where('fecha_actividad', $fecha_actividad)
                     ->first();
     }
+    public function actualizarActividad($act_id, $data)
+{
+    return $this->update($act_id, $data);
+}
 
     public function insertarActividad($data)
     {

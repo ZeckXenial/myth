@@ -4,8 +4,8 @@
    
 
 <div class="container mt-4">
-    <h1 class="text-center">Editar Curso</h1>
     <div class="container">
+        <h1 class="text-center">Editar Curso</h1>
         <form action="<?= site_url('cursos/update/' . $curso['curso_id']) ?>" method="post" class="form-control">
             <div class="mb-3 form-floating">
                 <input type="text" class="form-control" placeholder="Nombre" id="grado" name="grado" value="<?= $curso['grado'] ?>" required>

@@ -70,6 +70,13 @@ class Auth extends Controller
                 $session_data = " ";  
             }
             $session->set($session_data);
+            $session = session();
+        $idUsuario = $session->get('iduser');
+
+        if (!$idUsuario) {
+            return redirect()->to('Auth/login'); // Redirige al login si no hay sesión
+        }
+
             if ($user->id_rol == 1) { 
                 return redirect()->to('admin/dashboard');
             } elseif ($user->id_rol == 2 or $user->id_rol == 3 ) { 
@@ -83,7 +90,7 @@ class Auth extends Controller
             $session->set('last_attempt_time', time());
             $logger->warning("Failed login attempt for user: $username from IP: {$_SERVER['REMOTE_ADDR']}");
             $data['error_message'] = 'Credenciales incorrectas';
-            return view('auth/login', $data);
+            return view('Auth/login', $data);
         }
     }
 

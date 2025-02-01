@@ -49,8 +49,8 @@
         </select>
     </div>
 
-    <input type="hidden" id="asignaturaId" name="asignatura_id" value="<?= session()->get('asignatura_id') ?? 0 ?>">
-    <input type="hidden" id="cursoId" name="curso_id" value="<?= $estudiantes[0]['curso_id'] ?? 0 ?>">
+    <input type="hidden" id="asignaturaId" name="asignatura_id" value="<?= $parametrostable[1] ?? 0 ?>">
+    <input type="hidden" id="cursoId" name="curso_id" value="<?=$parametrostable[0] ?? 0 ?>">
     
     <button type="submit" class="btn btn-primary">Guardar Evaluación</button>
 </form>

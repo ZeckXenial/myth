@@ -4,7 +4,7 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class NivelModel extends Model
+class nivelmodel extends Model
 {
     protected $table = 'nivel';
     protected $primaryKey = 'nivel_id';

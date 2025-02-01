@@ -6,7 +6,8 @@
 <div class="container">
     <h2 class="text-center" style="margin-top: 20px;">Exportar Informacion</h2>
     <div class="text-center">
-        <button id="exportarTodoCurso" value="<?= $estudiantes[0]['curso_id'] ?>" class="btn btn-primary">Exportar Todo el Curso</button>
+        <button value="<?= isset($estudiantes[0]['curso_id']) ? $estudiantes[0]['curso_id'] : 0 ?>" id="exportarTodoCurso"
+        class="btn btn-primary">Exportar Todo el Curso</button>
         
     </div>
     <div class="accordion" id="accordionExample">

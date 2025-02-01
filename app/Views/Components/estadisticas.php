@@ -1,5 +1,5 @@
 <?php include(APPPATH . 'Views/Components/headers.php'); ?>
-<?php include(APPPATH . 'Views/Components/navbar.php'); ?>
+<?php include(APPPATH . 'Views/Components/NavBar.php'); ?>
 
 <body class="container">
 
@@ -58,13 +58,17 @@
             </div>
         </div>
 
-        <!-- DataTable -->
-        <div class="card mt-5">
-    <div class="card-header bg-secondary text-white">
-        <h5>Registros Recientes</h5>
+        <div class="text-center">
+        <button id="exportarasistencia"  data-url="<?= site_url('cursos/exportarasistencias') ?>" class="btn  btn-primary">Exportar Asistencias</button>
+        
     </div>
-    <div class="shadow-drop-2-center card-body">
-        <table id="validacionestable" class="table table-striped table-bordered">
+        <!-- DataTable -->
+        
+            <div class=" form-control ">
+                <table id="validacionestable" class="table table-hover table-striped table-bordered">
+            
+                <h3 class="text-center">Registros Recientes</h3>
+            
             <thead>
                 <tr>
                     <th>ID</th>

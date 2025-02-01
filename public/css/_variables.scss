@@ -1,0 +1,9 @@
+:root {
+    --primary-color: #007bff;
+    --shadow-color: rgba(0, 0, 0, 0.54);
+    --text-color: #333;
+    --surface1-dim: hsl(var(--brand-hue) 10% 20%);
+    --surface2-dim: hsl(var(--brand-hue) 10% 25%);
+    --surface3-dim: hsl(var(--brand-hue) 5% 30%);
+    --surface4-dim: hsl(var(--brand-hue) 5% 35%);
+}
