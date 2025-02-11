@@ -76,7 +76,6 @@ $(document).ready(function () {
                 return dataURL;
             }
             getBase64Image('<?= base_url()?>public/logo-css-180x181.png');
-            getBase64Image('<?= base_url()?>public/logo-css-180x181.png');
 
             // Agregar los botones de DataTables a sus respectivas tablas
             $.fn.dataTable.ext.errMode = 'none';
@@ -120,8 +119,6 @@ $(document).ready(function () {
                                     doc.content.splice(1, 0, {
                                         margin: [0, 0, 0, 12],
                                         alignment: 'center',
-                                        image: logoDataURL
-                                    });
                                         image: logoDataURL
                                     });
                                 }
@@ -170,12 +167,9 @@ $(document).ready(function () {
                                 download: 'open',
                                 customize: function (doc) {
                                     var logoDataURL = getBase64Image('<?= base_url()?>public/logo-css-180x181.png');
-                                    var logoDataURL = getBase64Image('<?= base_url()?>public/logo-css-180x181.png');
                                     doc.content.splice(1, 0, {
                                         margin: [0, 0, 0, 12],
                                         alignment: 'center',
-                                        image: logoDataURL
-                                    });
                                         image: logoDataURL
                                     });
                                 }
@@ -219,7 +213,7 @@ $(document).ready(function () {
                                 title:     'Anotaciones del estudiante',
                                 download: 'open',
                                 customize: function (doc) {
-                                    var logoDataURL = getBase64Image('<?= base_url('public/logo-css-180x-181.png') ?>');
+                                    var logoDataURL = getBase64Image('<?= base_url('public/logo-css-180x181.png') ?>');
                                     doc.content.splice(1, 0, {
                                         margin: [0, 0, 0, 12],
                                         alignment: 'center',

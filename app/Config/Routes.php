@@ -204,4 +204,5 @@ $routes->post('horarios/crear', 'HorarioClaseController::crearHorario'); // Envi
 $routes->get('horarios/editar/(:num)', 'HorarioClaseController::editarHorario/$1'); // Editar horario
 $routes->post('horarios/editar/(:num)', 'HorarioClaseController::editarHorario/$1'); // Enviar formulario para editar horario
 $routes->get('horarios/eliminar/(:num)', 'HorarioClaseController::eliminarHorario/$1'); 
+$routes->get('horarios/getHorariosPorCurso/(:num)', 'HorarioClaseController::getHorariosPorCurso/$1');
 $routes->get('horarios/getAsignaturasPorProfesor/(:num)', 'HorarioClaseController::getAsignaturasPorProfesor/$1');// Eliminar horario

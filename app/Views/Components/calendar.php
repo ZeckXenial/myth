@@ -73,7 +73,7 @@
                     if (editEventStart) editEventStart.value = info.event.start.toISOString().slice(0, 16);
 
                     var editEventEnd = document.getElementById('editEventEnd');
-                    if (editEventEnd) editEventEnd.value = info.event.end.toISOString().slice(0, 16);
+                    if (editEventEnd) editEventEnd.value = info.event.end ? info.event.end.toISOString().slice(0, 16) : '';
 
                     var editEventId = document.getElementById('editEventId');
                     if (editEventId) editEventId.value = info.event.id; // Almacenar el ID del evento

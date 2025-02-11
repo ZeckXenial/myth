@@ -4,23 +4,6 @@ namespace App\Controllers;
 
 
 
-
-
-use App\Models\cursomodel;
-use App\Models\crudusuariomodel;
-use App\Models\asistenciasmodel;
-use App\Models\calificacionesmodel;
-use App\Models\anotacionesmodel;
-use App\Models\asignaturamodel;
-use App\Models\estudiantesmodel;
-use App\Models\asignaturacursomodel;
-use App\Models\nivelmodel;
-use App\Models\apoderadomodel;
-use App\Models\exportarcurso;
-
-
-
-
 use App\Models\cursomodel;
 use App\Models\crudusuariomodel;
 use App\Models\asistenciasmodel;
@@ -36,7 +19,6 @@ use CodeIgniter\Controller;
 
 class Cursos extends Controller
 {
-    private $cursodata;
     private $cursodata;
     private $cursoModel;
     private $nivelModel;
@@ -91,7 +73,6 @@ class Cursos extends Controller
             return redirect()->to(site_url('cursos'))->with('error', 'El curso no existe.');
         }
         return view('Components/edit', $data);
-        return view('Components/edit', $data);
     }
     public function guardar()
     {
@@ -125,7 +106,6 @@ class Cursos extends Controller
         $data['asignaturas'] = $asignaturaModel->findAll();
         $data['usuarios'] = $usuarioModel->findAll();
 
-        return view('Components/agregar', $data);
         return view('Components/agregar', $data);
     } 
     public function exportarcurso($cursoId) {

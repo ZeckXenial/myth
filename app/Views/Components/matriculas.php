@@ -6,6 +6,9 @@
     <h1 class="text-center">Gestión de Matrículas</h1>
 
     <!-- Botón para abrir el formulario de nueva matrícula -->
+    <button type="button" class="btn btn-primary mb-4" id="btnIngresarMatricula">
+        <i class="bi bi-person-plus"></i> Ingresar Matrícula
+    </button>
 
     <!-- Tabla de estudiantes y apoderados registrados -->
     <table id="matriculasTable" class="table table-striped table-hover table-responsive table-bordered">
@@ -34,14 +37,17 @@
                 <td><?= esc($matricula->fecha_matriculacion); ?></td>
                 <td><?= esc($matricula->estado); ?></td>
                 <td>
-    <a href="<?= site_url('matriculas/editar/' . $matricula->estudiante_id .'/'. $matricula->apoderado_id.'/'. $matricula->matricula_id); ?>" class="btn btn-warning btn-sm">Editar</a>
-    <a href="<?= site_url('matriculas/eliminar/' . $matricula->matricula_id); ?>" class="btn btn-danger gap btn-sm" onclick="return confirm('¿Estás seguro de que quieres eliminar esta matrícula?');">Eliminar</a>
-</td>
+                    <a href="<?= site_url('matriculas/editar/' . $matricula->estudiante_id .'/'. $matricula->apoderado_id.'/'. $matricula->matricula_id); ?>" class="btn btn-warning btn-sm">
+                        <i class="bi bi-pencil"></i> Editar
+                    </a>
+                    <a href="<?= site_url('matriculas/eliminar/' . $matricula->matricula_id); ?>" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que quieres eliminar esta matrícula?');">
+                        <i class="bi bi-trash"></i> Eliminar
+                    </a>
+                </td>
             </tr>
             <?php endforeach; ?>
         </tbody>
     </table>
-    <button type="button btn button-primary mx-auto" id="btnIngresarMatricula" class="btn btn-primary mb-4">Ingresar Matrícula</button>
 </div>
 
 <!-- Modal para agregar nueva matrícula -->
@@ -64,10 +70,10 @@
                     </div>
                     <div class="form-floating mb-3">
                         <select name="curso_id" class="form-select" required>
-                        <option value="">Seleccione un curso</option>
-                        <?php foreach ($cursos as $curso): ?>
-                            <option value="<?= esc($curso['curso_id']); ?>"><?= esc($curso['grado']),' - ',esc($curso['nombre_nivel']);  ?></option>
-                        <?php endforeach; ?>>
+                            <option value="">Seleccione un curso</option>
+                            <?php foreach ($cursos as $curso): ?>
+                                <option value="<?= esc($curso['curso_id']); ?>"><?= esc($curso['grado']), ' - ', esc($curso['nombre_nivel']);  ?></option>
+                            <?php endforeach; ?>
                         </select>
                         <label for="curso_id">Curso</label>
                     </div>
@@ -103,13 +109,14 @@
                         </select>
                         <label for="estado">Estado</label>
                     </div>
-                    <button type="submit" class="btn btn-primary">Guardar Matrícula</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-save"></i> Guardar Matrícula
+                    </button>
                 </form>
             </div>
         </div>
     </div>
 </div>
-
 
 <script>
     $(document).ready(function() {
@@ -119,18 +126,18 @@
             }
         });
         document.getElementById('rut_estudiante').addEventListener('input', function(event) {
-        let value = event.target.value.replace(/[^0-9]/g, ''); // Eliminar cualquier car芍cter que no sea n迆mero
-        if (value.length > 8) {
-            value = value.slice(0, 8) + '-' + value.slice(8);
-        }
-        event.target.value = value;
+            let value = event.target.value.replace(/[^0-9]/g, ''); // Eliminar cualquier carácter que no sea número
+            if (value.length > 8) {
+                value = value.slice(0, 8) + '-' + value.slice(8);
+            }
+            event.target.value = value;
         });
         document.getElementById('rut_apoderado').addEventListener('input', function(event) {
-        let value = event.target.value.replace(/[^0-9]/g, ''); // Eliminar cualquier car芍cter que no sea n迆mero
-        if (value.length > 8) {
-            value = value.slice(0, 8) + '-' + value.slice(8);
-        }
-        event.target.value = value;
+            let value = event.target.value.replace(/[^0-9]/g, ''); // Eliminar cualquier carácter que no sea número
+            if (value.length > 8) {
+                value = value.slice(0, 8) + '-' + value.slice(8);
+            }
+            event.target.value = value;
         });
         $('#btnIngresarMatricula').on('click', function() {
             $('#modalIngresarMatricula').modal('show');
@@ -141,4 +148,3 @@
 </body>
 <?php include(APPPATH . 'Views/Components/toast.php'); include(APPPATH . 'Views/Components/footer.php'); ?>
 </html>
-

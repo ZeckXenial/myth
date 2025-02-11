@@ -19,10 +19,14 @@
                     <td><?= $user['email']; ?></td>
                     <td><?= $user['nombre_rol']; ?></td>
                     <td><?= $user['especialidad']; ?></td> 
-                    <td>
-                        <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editarUsuarioModal<?= $user['user_id'] ?>">Editar</a>
-                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#eliminarUsuarioModal<?= $user['user_id'] ?>">Eliminar</button>
-                    </td>
+                    <td class="text-center">
+                                <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editarUsuarioModal<?= $user['user_id'] ?>">
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
+                                <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#eliminarUsuarioModal<?= $user['user_id'] ?>">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </td>
                 </tr>
 
                 <div class="modal fade" data-backdrop="static" id="editarUsuarioModal<?= $user['user_id'] ?>" tabindex="-1" aria-labelledby="editarUsuarioModalLabel<?= $user['user_id'] ?>" aria-hidden="true">

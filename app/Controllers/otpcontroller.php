@@ -41,6 +41,7 @@ class OtpController extends Controller
             'user_id' => $user_id,
             'status' => $status
         ];
+        
         $validacionModel->insert($data);
 
         // Retornar respuesta JSON

@@ -1,46 +1,30 @@
 <div id="toastContainer" class="position-fixed bottom-0 end-0 p-3" style="z-index: 11;">
-    <?php if (isset($_SESSION['success']) && !empty($_SESSION['success'])): ?>
-        <div class="toast mx-auto" role="alert" aria-live="assertive" aria-atomic="true" data-delay="5000">
-            <div class="toast-header">
-                <strong class="me-auto">Éxito</strong>
-                <button type="button" class="btn-close me-2" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
-            <div class="toast-body">
-                <?= $_SESSION['success'] ?>
-            </div>
-        </div>
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                var successToastElement = document.querySelector('#toastContainer .toast');
-                var successToast = new bootstrap.Toast(successToastElement);
-                successToast.show();
-            });
-        </script>
-    <?php endif; ?>
+    <?php 
+    $toastType = '';
+    $toastMessage = '';
+    if (isset($_SESSION['success']) && !empty($_SESSION['success'])) {
+        $toastType = 'success';
+        $toastMessage = $_SESSION['success'];
+    } elseif (isset($_SESSION['errors']) && !empty($_SESSION['errors'])) {
+        $toastType = 'error';
+        $toastMessage = is_array($_SESSION['errors']) ? implode('<br>', $_SESSION['errors']) : $_SESSION['errors'];
+    }
 
-    <?php if (isset($_SESSION['errors']) && !empty($_SESSION['errors'])): ?>
-        <div class="toast mx-auto" role="alert" aria-live="assertive" aria-atomic="true" data-delay="5000">
+    if ($toastType): ?>
+        <div class="toast mx-auto" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="5000">
             <div class="toast-header">
-                <strong class="me-auto">Error</strong>
+                <strong class="me-auto"><?= ucfirst($toastType) ?></strong>
                 <button type="button" class="btn-close me-2" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
             <div class="toast-body">
-                <?php
-                if (is_array($_SESSION['errors'])) {
-                    foreach ($_SESSION['errors'] as $error) {
-                        echo $error . '<br>';
-                    }
-                } else {
-                    echo $_SESSION['errors'];
-                }
-                ?>
+                <?= $toastMessage ?>
             </div>
         </div>
         <script>
             document.addEventListener('DOMContentLoaded', function () {
-                var errorToastElement = document.querySelector('#toastContainer .toast:last-child');
-                var errorToast = new bootstrap.Toast(errorToastElement);
-                errorToast.show();
+                var toastElement = document.querySelector('#toastContainer .toast');
+                var toast = new bootstrap.Toast(toastElement);
+                toast.show();
             });
         </script>
     <?php endif; ?>

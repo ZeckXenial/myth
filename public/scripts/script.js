@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
+    
     document.querySelectorAll('.reveal-password').forEach(button => {
         button.addEventListener('click', function() {
             const passwordInput = this.parentNode.querySelector('input[type="password"]');
@@ -10,6 +11,39 @@ document.addEventListener('DOMContentLoaded', function() {
                 this.innerHTML = '<i class="bi bi-eye"></i>';
             }
         });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        function cargarHorarios() {
+            var cursoId = document.getElementById('curso_id').value;
+            document.getElementById('curso_id_hidden').value = cursoId; // Establecer el campo oculto
+    
+            // Lógica para cargar los horarios en el FullCalendar
+            fetch('<?= site_url("horarios/getHorariosPorCurso") ?>/' + cursoId)
+                .then(response => response.json())
+                .then(data => {
+                    // Suponiendo que tienes una instancia de FullCalendar llamada 'calendar'
+                    // Limpia los eventos existentes
+                    calendar.removeAllEvents();
+    
+                    // Agrega los nuevos eventos al calendario
+                    data.forEach(event => {
+                        calendar.addEvent({
+                            id: event.horario_id,
+                            title: event.asignatura_nombre, // Asegúrate de que este campo existe en tu respuesta
+                            start: event.hora_inicio, // Asegúrate de que este campo existe en tu respuesta
+                            end: event.hora_fin, // Asegúrate de que este campo existe en tu respuesta
+                            daysOfWeek: [event.dia_semana], // Asegúrate de que este campo existe en tu respuesta
+                        });
+                    });
+                })
+                .catch(error => {
+                    console.error('Error al cargar los horarios:', error);
+                });
+        }
+    
+        // Asigna el evento de cambio al select de cursos
+        document.getElementById('curso_id').addEventListener('change', cargarHorarios);
     });
 document.addEventListener('DOMContentLoaded', function() {
  

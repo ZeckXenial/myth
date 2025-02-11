@@ -6,11 +6,13 @@ use CodeIgniter\Controller;
 
 class SessionController extends Controller
 {
+    protected $session;
+
     public function __construct()
     {
         // Carga los servicios necesarios
         helper(['url', 'cookie']);
-        $this->session = \Config\Services::session();
+        $this->session = service('request')->session();
     }
 
     public function index()
