@@ -16,7 +16,7 @@ class HorarioClaseController extends BaseController
     protected $usuarioModel;
 
     public function __construct() {
-        $this->horarioModel = new Horario();
+        $this->horarioModel = new horario();
         $this->asignaturaModel = new AsignaturaModel();
         $this->cursoModel = new CursoModel();
         $this->usuarioModel = new UsuarioModel();
@@ -28,7 +28,7 @@ class HorarioClaseController extends BaseController
 
         if ($userRole === 'Profesor') {
             // Si es profesor, solo puede ver sus propios horarios
-            $horarios = $this->horarioModel->where('user_id', $profesor_id)->findAll();
+            $horarios = $this->horarioModel->where('profesor_id', $profesor_id)->findAll();
         } else {
             // Si es administrador u otro rol, puede ver todos los horarios
             $horarios = $this->horarioModel->findAll();
@@ -44,6 +44,35 @@ class HorarioClaseController extends BaseController
             'cursos' => $cursos
         ]);
     }
+    private function convertRRuleStringToObject($rruleStr, $dtstart)
+    {
+        $parts    = explode(';', $rruleStr);
+        $rruleObj = ['dtstart' => $dtstart];
+
+        foreach ($parts as $part) {
+            $pair = explode('=', $part);
+            if(count($pair) == 2) {
+                list($key, $value) = $pair;
+                switch (strtoupper($key)) {
+                    case 'freq':
+                        $rruleObj['freq'] = strtolower($value);
+                        break;
+                    case 'bymonthday':
+                        $rruleObj['bymonthday'] = intval($value);
+                        break;
+                    case 'byhour':
+                        $rruleObj['byhour'] = intval($value);
+                        break;
+                    case 'byminute':
+                        $rruleObj['byminute'] = intval($value);
+                        break;
+                    default:
+                        $rruleObj[strtolower($key)] = $value;
+                }
+            }
+        }
+        return $rruleObj;
+    }
     public function getAsignaturasPorProfesor($profesor_id) {
         $asignaturasModel = new AsignaturaModel();
         $asignaturas = $asignaturasModel->where('user_id', $profesor_id)->findAll(); 
@@ -51,18 +80,35 @@ class HorarioClaseController extends BaseController
     }
     public function crearHorario() {
         // Obtener datos del formulario
+        $curso_id      = $this->request->getPost('curso_id');
+        $asignatura_id = $this->request->getPost('asignatura_id');
+        $profesor_id   = $this->request->getPost('profesor_id');
+        $dia_semana    = $this->request->getPost('dia_semana');
+        $hora_inicio   = $this->request->getPost('hora_inicio');
+        $currentDateTime = date('Y-m-d\TH:i:s');
+
+        $hora_fin      = $this->request->getPost('hora_fin');
+        $rruleStr      = $this->request->getPost('rrule');
+     
+        // Convertir rrule a objeto si se proporcionó y no es 'Ninguno'
+        if ($rruleStr !== 'Ninguno' && !empty($rruleStr)) {
+            $rruleObject = $this->convertRRuleStringToObject($rruleStr, $currentDateTime);
+            $rrule       = json_encode($rruleObject);
+        } else {
+            $rrule = null;
+        }
         
-            $curso_id = $this->request->getPost('curso_id');
-            $asignatura_id = $this->request->getPost('asignatura_id');
-            $profesor_id = $this->request->getPost('profesor_id');
-            $dia_semana = $this->request->getPost('dia_semana');
-            $hora_inicio = $this->request->getPost('hora_inicio');
-            $hora_fin = $this->request->getPost('hora_fin');
-            $recurrencia = $this->request->getPost('recurrencia');
-    
-        // Intentar insertar datos en la base de datos
         try {
-            if ($this->horarioModel->insertarHorario($profesor_id, $curso_id, $recurrencia ,$asignatura_id, $dia_semana, $hora_inicio, $hora_fin)) {
+            $horario_id = $this->horarioModel->insertarHorario(
+                $profesor_id,
+                $curso_id,
+                $rrule, 
+                $asignatura_id,
+                $dia_semana,
+                $hora_inicio,
+                $hora_fin
+            );
+            if ($horario_id) {
                 return redirect()->to(site_url("cursos"))->with('success', 'Horario creado correctamente');
             } else {
                 return redirect()->to(site_url("cursos"))->with('error', 'Error al crear el horario: datos inválidos');
@@ -73,7 +119,7 @@ class HorarioClaseController extends BaseController
     }
     public function getHorariosPorCurso($curso_id) {
         $userRole = session()->get('role');
-        $profesor_id = session()->get('user_id');
+        $profesor_id = session()->get('iduser');
     
         // Si el usuario es profesor, solo puede ver los horarios asignados a él
         if ($userRole === 'Profesor') {
@@ -81,7 +127,7 @@ class HorarioClaseController extends BaseController
         }
     
         $horarios = $this->horarioModel
-            ->select('horarios_clases.recurrencia as recurrencia, horarios_clases.horario_id, asignaturas.nombre_asignatura AS asignatura_nombre, cursos.grado AS curso_nombre, dia_semana, hora_inicio, hora_fin')
+            ->select('horarios_clases.recurrencia as recurrencia, horarios_clases.rrule ,horarios_clases.horario_id, asignaturas.nombre_asignatura AS asignatura_nombre, cursos.grado AS curso_nombre, dia_semana, hora_inicio, hora_fin')
             ->join('asignaturas', 'asignaturas.asignatura_id = horarios_clases.asignatura_id')
             ->join('cursos', 'cursos.curso_id = horarios_clases.curso_id')
             ->where('horarios_clases.curso_id', $curso_id)
@@ -107,26 +153,12 @@ class HorarioClaseController extends BaseController
                 'start' => isset($dias[$horario['dia_semana']]) ? $dias[$horario['dia_semana']] . 'T' . $horario['hora_inicio'] : null,
                 'end'   => isset($dias[$horario['dia_semana']]) ? $dias[$horario['dia_semana']] . 'T' . $horario['hora_fin'] : null,
                 'description' => 'Curso: ' . $horario['curso_nombre'] . ', Día: ' . $horario['dia_semana'],
-                'recurrencia' => $horario['recurrencia']
+                'recurrencia' => $horario['recurrencia'],
+                'rrule' => $horario['rrule']
             ];
         }
     
         return $this->response->setJSON($eventos);
-    }
-    
-   public function convertirRecurrencia($recurrencia) {
-        switch (strtolower($recurrencia)) {
-            case 'diario':
-                return 'daily';
-            case 'semanal':
-                return 'weekly';
-            case 'mensual':
-                return 'monthly';
-            case 'anual':
-                return 'yearly';
-            default:
-                return '';
-        }
     }
     
     // Función para calcular las fechas de recurrencia

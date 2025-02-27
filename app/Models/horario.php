@@ -8,23 +8,23 @@ class horario extends Model
 {
     protected $table = 'horarios_clases';
     protected $primaryKey = 'horario_id';
-    protected $allowedFields = ['profesor_id', 'recurrencia' ,'curso_id', 'asignatura_id', 'asignaturas.nombre' ,'dia_semana', 'hora_inicio', 'hora_fin', 'anio_escolar'];
+    protected $allowedFields = ['profesor_id', 'recurrencia' ,'curso_id', 'asignatura_id', 'asignaturas.nombre' ,'dia_semana', 'hora_inicio', 'hora_fin', 'rrule' , 'anio_escolar'];
 
     public function insertarHorario($profesor_id, $curso_id, $recurrencia ,$asignatura_id, $dia_semana, $hora_inicio, $hora_fin) {
-        if ($this->verificarConflicto($profesor_id, $asignatura_id, $dia_semana, $hora_inicio, $hora_fin, $horario_id)) {
-            throw new \Exception("Conflicto de horarios.");
-        }
+       
         $data = [
             'profesor_id' => $profesor_id,
             'curso_id' => $curso_id, // Asegúrate de que este campo esté presente
             'asignatura_id' => $asignatura_id,
             'dia_semana' => $dia_semana,
             'hora_inicio' => $hora_inicio,
-            'recurrencia' => $recurrencia,
+            'rrule' => $recurrencia,
             'hora_fin' => $hora_fin,
             'anio_escolar' => date('Y') // Obtener el año actual
         ];
-        
+          if ($this->verificarConflicto($profesor_id, $asignatura_id, $dia_semana, $hora_inicio, $hora_fin)) {
+            throw new \Exception("Conflicto de horarios.");
+          }
         return $this->insert($data);
     }
 
@@ -64,7 +64,7 @@ class horario extends Model
                 ->where('hora_fin >', $hora_inicio)
              ->groupEnd();
 
-        if ($horario_id) {
+        if ($horario_id !== null) {
             $this->where('horario_id !=', $horario_id);
         }
 
@@ -77,7 +77,7 @@ class horario extends Model
     public function getHorariosPorCurso($curso_id) {
         $db = \Config\Database::connect();
         $query = $db->table('horarios_clases')
-            ->select('horarios_clases.horario_id, asignaturas.nombre_asignatura AS asignatura_nombre, cursos.nombre AS curso_nombre, dia_semana, hora_inicio, hora_fin')
+            ->select('horarios_clases.horario_id, asignaturas.nombre_asignatura AS asignatura_nombre,rrule ,cursos.nombre AS curso_nombre, dia_semana, hora_inicio, hora_fin')
             ->join('asignaturas', 'asignaturas.asignatura_id = horarios_clases.asignatura_id')
             ->join('cursos', 'cursos.curso_id = horarios_clases.curso_id')
             ->where('horarios_clases.curso_id', $curso_id)

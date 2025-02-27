@@ -48,11 +48,10 @@
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.html5.min.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/fixedheader/4.0.0/js/dataTables.fixedHeader.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/fixedheader/4.0.0/js/fixedHeader.dataTables.js"></script>
-
-
-<script src="
-https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js
-"></script>
+    <!-- FullCalendar -->
+    <script src="https://cdn.jsdelivr.net/npm/rrule@2.8.1/dist/es5/rrule.min.js" integrity="sha256-8SVTQjPpdqKHaROYxyuHX9I0SDe85WAUI3m3MAnKNCc=" crossorigin="anonymous"></script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/rrule@6.1.15/index.global.min.js'></script>
 
 <!-- Scripts personalizados -->
     <script src="<?= base_url('public/scripts/datatable-script.js') ?>"></script>
