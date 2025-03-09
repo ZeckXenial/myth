@@ -5,11 +5,10 @@ namespace App\Models;
 use CodeIgniter\Model;
 
 class cursomodel extends Model
-class cursomodel extends Model
+
 {
     protected $table      = 'cursos';
     protected $primaryKey = 'curso_id';
-    protected $allowedFields = ['user_id', 'estado','asignatura_id', 'nivel_id', 'grado', 'estado']; // Asegúrate de agregar 'estado' a los campos permitidos
     protected $allowedFields = ['user_id', 'estado','asignatura_id', 'nivel_id', 'grado', 'estado']; // Asegúrate de agregar 'estado' a los campos permitidos
 
     public function obtenerCursos()
@@ -30,13 +29,6 @@ class cursomodel extends Model
     public function getCursosByTeacher($user_id)
     {
         return $this->select('cursos.*, usuarios.nombre AS nombre_usuario, nivel.nombre AS nombre_nivel')
-                    ->join('usuarios', 'usuarios.user_id = cursos.user_id')
-                    ->join('nivel', 'nivel.nivel_id = cursos.nivel_id')
-                    ->where('cursos.user_id', $user_id)
-                    ->where('estado !=', '')  // Filtramos los cursos activos
-                    ->where('estado IS NOT NULL')  // Aseguramos que el estado no sea NULL
-                    ->distinct()
-                    ->findAll();
                     ->join('usuarios', 'usuarios.user_id = cursos.user_id')
                     ->join('nivel', 'nivel.nivel_id = cursos.nivel_id')
                     ->where('cursos.user_id', $user_id)
@@ -110,9 +102,7 @@ class cursomodel extends Model
     public function getAsignaturasPorCurso($cursoId)
     {
         $user_id = session()->get('iduser');
-    public function getAsignaturasPorCurso($cursoId)
-    {
-        $user_id = session()->get('iduser');
+   
     $idrol = session()->get('idrol');
 
     $isUserRelatedToCourse = $this->db->table('cursos')
@@ -135,7 +125,7 @@ class cursomodel extends Model
     }
 
     return $query->get()->getResultArray();
-    }
+    
 
     }
 
@@ -158,8 +148,7 @@ class cursomodel extends Model
     {
         // Borrado lógico: se actualiza el campo estado a vacío
         return $this->update($id, ['estado' => '']); 
-        // Borrado lógico: se actualiza el campo estado a vacío
-        return $this->update($id, ['estado' => '']); 
+    
     }
 
 

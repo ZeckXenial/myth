@@ -3,7 +3,6 @@
 namespace App\Controllers;
 
 use App\Models\matriculas_model;
-use App\Models\matriculas_model;
 use App\Models\cursomodel;
 
 class Matriculas extends BaseController
@@ -39,7 +38,6 @@ class Matriculas extends BaseController
     }
     
 
- public function guardar()
  public function guardar()
 {
     try {

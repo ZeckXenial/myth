@@ -3,7 +3,6 @@
 
 <body>
     <h1 class="text-center mb-4">Calificaciones por Asignatura</h1>
-    <h1 class="text-center mb-4">Calificaciones por Asignatura</h1>
 
     <div class="container mt-4">
         <div class="row">

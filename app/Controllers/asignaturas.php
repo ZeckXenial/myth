@@ -7,10 +7,6 @@ use App\Models\asignaturamodel;
 use App\Models\asignaturacursomodel;
 use App\Models\crudusuariomodel;
 use App\Models\cursomodel;
-use App\Models\asignaturamodel;
-use App\Models\asignaturacursomodel;
-use App\Models\crudusuariomodel;
-use App\Models\cursomodel;
 use CodeIgniter\Model;
 
 class Asignaturas extends Controller
@@ -42,7 +38,6 @@ class Asignaturas extends Controller
         $user_id = session()->get('iduser');
         $data['usuarios'] = $this->usuariosmodel->obtenerprofesores();
         $data['cursos'] = $this->Cursomodel->obtenerCursos();
-        return view('Components/crear', $data);
         return view('Components/crear', $data);
     }
     public function crear()

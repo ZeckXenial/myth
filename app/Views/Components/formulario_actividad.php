@@ -2,9 +2,7 @@
 <?php include(APPPATH . 'Views/Components/headers.php'); ?>
 
 <body>
-    <div class="container mt-4">
-        <div class="card shadow-sm p-4">
-            <h1 class="text-center mb-4">Registra tu actividad diaria</h1>
+
     <div class="container mt-4">
         <div class="card shadow-sm p-4">
             <h1 class="text-center mb-4">Registra tu actividad diaria</h1>
@@ -19,7 +17,7 @@
                         <?= $actividadRegistrada ? 'disabled' : '' ?> required>
                         <?= $actividadRegistrada ? esc($glosaExistente) : '' ?>
                     </textarea>
-                    <label for="glosa">Descripci��n de la actividad</label>
+                    <label for="glosa">Descripcion de la actividad</label>
                 </div>
                 
                 <?php if ($actividadRegistrada): ?>
