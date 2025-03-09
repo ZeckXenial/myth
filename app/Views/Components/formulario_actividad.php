@@ -2,30 +2,31 @@
 <?php include(APPPATH . 'Views/Components/headers.php'); ?>
 
 <body>
-    <div class="container text-center mt-4">
-        <div class="form-control">
+    <div class="container mt-4">
+        <div class="card shadow-sm p-4">
+            <h1 class="text-center mb-4">Registra tu actividad diaria</h1>
             <form action="<?= site_url('actividad/registrarActividad') ?>" method="post">
-                <h1>Registra tu actividad diaria</h1>
                 
                 <input type="hidden" name="curso_id" value="<?= esc($curso['curso_id']) ?>">
                 <input type="hidden" name="asignatura_id" value="<?= esc($asignatura['asignatura_id']) ?>">
-
+                
                 <div class="form-floating mb-3">
-                      
-                <textarea
-                    class="form-floating form-control" 
-                    name="glosa" 
-                    placeholder="Descripci√≥n de la actividad" 
-                        <?= $actividadRegistrada ? 'disabled' : '' ?>
-                        required><?= $actividadRegistrada ? esc($glosaExistente) : '' ?></textarea><label for="">Descripci√≥n de la actividad</label>
-                    <?php if ($actividadRegistrada): ?>
-                        <div class="text-start mt-2 text-muted">
-                            <small>Responsable de la actividad de hoy: <?= esc($nombreResponsable) ?></small>
-                        </div>
-                    <?php endif; ?>
+                    <textarea class="form-control" name="glosa" placeholder="Descripci®Æn de la actividad" 
+                        <?= $actividadRegistrada ? 'disabled' : '' ?> required>
+                        <?= $actividadRegistrada ? esc($glosaExistente) : '' ?>
+                    </textarea>
+                    <label for="glosa">Descripci®Æn de la actividad</label>
                 </div>
-
-                <button class="btn btn-primary" type="submit" <?= $actividadRegistrada ? 'disabled' : '' ?>>Registrar actividad</button>
+                
+                <?php if ($actividadRegistrada): ?>
+                    <div class="alert alert-info text-start">
+                        <small><strong>Responsable de la actividad de hoy:</strong> <?= esc($nombreResponsable) ?></small>
+                    </div>
+                <?php endif; ?>
+                
+                <div class="text-center">
+                    <button class="btn btn-primary" type="submit" <?= $actividadRegistrada ? 'disabled' : '' ?>>Registrar actividad</button>
+                </div>
             </form>
         </div>
     </div>

@@ -19,10 +19,14 @@
                     <td><?= $user['email']; ?></td>
                     <td><?= $user['nombre_rol']; ?></td>
                     <td><?= $user['especialidad']; ?></td> 
-                    <td>
-                        <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editarUsuarioModal<?= $user['user_id'] ?>">Editar</a>
-                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#eliminarUsuarioModal<?= $user['user_id'] ?>">Eliminar</button>
-                    </td>
+                    <td class="text-center">
+                                <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editarUsuarioModal<?= $user['user_id'] ?>">
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
+                                <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#eliminarUsuarioModal<?= $user['user_id'] ?>">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </td>
                 </tr>
 
                 <div class="modal fade" data-backdrop="static" id="editarUsuarioModal<?= $user['user_id'] ?>" tabindex="-1" aria-labelledby="editarUsuarioModalLabel<?= $user['user_id'] ?>" aria-hidden="true">
@@ -54,7 +58,7 @@
 
     <div class="form-floating mb-3">
         <div class="input-group">
-            <input type="password" name="password_edit" class="form-control" id="password_edit" placeholder="Nueva ContraseÃ±a">
+            <input type="password" name="password_edit" class="form-control" id="password_edit" placeholder="Nueva Contrase«Ğa">
             <button class="btn btn-outline-secondary reveal-password" onclick="mostrarContrasena()" type="button">
                 <i class="bi bi-eye"></i>
             </button>
@@ -85,7 +89,7 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <p>Â¿EstÃ¡ seguro de que desea eliminar este usuario?</p>
+                                <p>¢ÄEst«¡ seguro de que desea eliminar este usuario?</p>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -131,7 +135,7 @@
                             <?php endif; ?>
                         </div>
                         <div class="mb-3">
-                            <label for="password" class="form-floating">ContraseÃ±a:</label>
+                            <label for="password" class="form-floating">Contrase«Ğa:</label>
                             <div class="input-group">
                                 <input type="password" name="password" class="form-control <?= (isset($validation) && $validation->hasError('password')) ? 'is-invalid' : 'is-valid'; ?>" value="<?= (isset($validation)) ? set_value('password') : ''; ?>" required id="password">
                                 <button class="btn btn-outline-secondary reveal-password" type="button">

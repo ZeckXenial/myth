@@ -4,15 +4,15 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class Matriculas_model extends Model
+class matriculas_model extends Model
 {
     protected $table = 'matriculas';
 
     // Obtener todos los estudiantes con sus datos de apoderado y matrícula
-    public function obtener_todos()
+   public function obtener_todos()
     {
         return $this->db->table('estudiantes e')
-            ->select('e.*, a.nombre_apoderado, a.apoderado_id, e.estudiante_id, m.matricula_id, a.numero_telefono, a.email, m.fecha_matriculacion, m.estado, c.grado, n.nombre')
+            ->select('e.*, a.nombre_apoderado, nmatricula ,a.apoderado_id, e.estudiante_id, m.matricula_id, a.numero_telefono, a.email, m.fecha_matriculacion, m.estado, c.grado, n.nombre')
             ->join('matriculas m', 'e.estudiante_id = m.estudiante_id', 'left')
             ->join('apoderados a', 'm.apoderado_id = a.apoderado_id', 'left')
             ->join('cursos c', 'e.curso_id = c.curso_id', 'left')  // Relaciona la tabla estudiantes con cursos
@@ -23,9 +23,10 @@ class Matriculas_model extends Model
 
     // Agregar un nuevo estudiante, apoderado y matrícula
     public function agregar_matricula($estudiante_data, $apoderado_data, $matricula_data)
-    {
-        $this->db->transStart();
+{
+    $this->db->transStart();
 
+    try {
         // Insertar el estudiante y obtener su ID
         $this->db->table('estudiantes')->insert($estudiante_data);
         $estudiante_id = $this->db->insertID();
@@ -34,16 +35,26 @@ class Matriculas_model extends Model
         $this->db->table('apoderados')->insert($apoderado_data);
         $apoderado_id = $this->db->insertID();
 
-        // Insertar la matrícula asociando los IDs de estudiante y apoderado
+        // Insertar la matrícula con los IDs obtenidos
         $matricula_data['estudiante_id'] = $estudiante_id;
         $matricula_data['apoderado_id'] = $apoderado_id;
         $this->db->table('matriculas')->insert($matricula_data);
 
-        // Completar la transacción
         $this->db->transComplete();
 
-        return $this->db->transStatus();
+        // Verificar el estado de la transacción
+        if ($this->db->transStatus() === FALSE) {
+            throw new \Exception('Error en la transacción. No se pudo guardar la matrícula.');
+        }
+
+        return true;
+    } catch (\Exception $e) {
+        // Revertir la transacción en caso de error
+        $this->db->transRollback();
+        throw $e;
     }
+}
+
 
     // Actualizar los datos de estudiante, apoderado y matrícula
     public function actualizar_matricula($id, $matricula_data)
@@ -52,7 +63,7 @@ class Matriculas_model extends Model
 
         
         // Actualizar la matrícula
-        $this->db->table('matriculas')->where('estudiante_id', $id)->update($matricula_data);
+        $this->db->table('matriculas')->where('matricula_id', $id)->update($matricula_data);
 
         // Completar la transacción
         $this->db->transComplete();

@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Models\Matriculas_model;
+use App\Models\matriculas_model;
 use App\Models\cursomodel;
 
 class Matriculas extends BaseController
@@ -13,7 +13,8 @@ class Matriculas extends BaseController
     public function __construct()
     {
         $this->cursomodel = new cursomodel();
-        $this->matriculasModel = new Matriculas_model();
+        $this->matriculasModel = new matriculas_model();
+        $this->matriculasModel = new matriculas_model();
     }
 
     public function index()
@@ -30,78 +31,51 @@ class Matriculas extends BaseController
         });
     
         // Obtener cursos desde la base de datos
-        return view('components/matriculas', $data);
+        return view('Components/matriculas', $data);
     }
     
 
-    public function guardar()
+ public function guardar()
 {
-    // Iniciar una transacción para asegurar la consistencia
-    $this->matriculasModel->db->transStart();
-
-   
-        // Paso 1: Insertar Estudiante y obtener su ID
+    try {
+        // Datos del estudiante
         $estudianteData = [
             'nombre_estudiante' => $this->request->getPost('nombre_estudiante'),
             'fecha_nacimiento' => $this->request->getPost('fecha_nacimiento'),
             'curso_id' => $this->request->getPost('curso_id'),
             'fecha_matricula' => $this->request->getPost('fecha_matricula'),
-            'rut' => $this->request->getPost('rut_estudiante'), // Rut del estudiante
+            'rut' => $this->request->getPost('rut_estudiante'),
         ];
 
-       
-
-        // Paso 2: Insertar Apoderado y obtener su ID
+        // Datos del apoderado
         $apoderadoData = [
             'nombre_apoderado' => $this->request->getPost('nombre_apoderado'),
             'numero_telefono' => $this->request->getPost('numero_telefono'),
             'email' => $this->request->getPost('email'),
             'fecha_matricula' => $this->request->getPost('fecha_matricula'),
-            'rut' => $this->request->getPost('rut_apoderado'), // Rut del apoderado
+            'rut' => $this->request->getPost('rut_apoderado'),
         ];
-       
-       
-         // Insertar estudiante y obtener ID
-         $estudiante_id = $this->matriculasModel->agregar_estudiante($estudianteData);
 
-         if (!$estudiante_id) {
-             
-             throw new \Exception('No se pudo registrar el estudiante.');
-             exit;
-         }
-        // Insertar apoderado y obtener ID
-        $apoderado_id = $this->matriculasModel->agregar_apoderado($apoderadoData);
-
-        if (!$apoderado_id) {
-            throw new \Exception('No se pudo registrar el apoderado.');
-            exit;
-        }
-       
-
-        // Paso 3: Insertar la Matrícula utilizando estudiante_id y apoderado_id obtenidos
+        // Datos de la matrícula (incluyendo el nuevo campo nmatricula)
         $matriculaData = [
-            'estudiante_id' => $estudiante_id,
-            'apoderado_id' => $apoderado_id,
             'fecha_matriculacion' => $this->request->getPost('fecha_matricula'),
             'estado' => $this->request->getPost('estado'),
+            'nmatricula' => $this->request->getPost('numero_matricula'),
         ];
-      
-        // Insertar la matrícula
-        $this->matriculasModel->agregar_matricula($estudianteData,$apoderadoData,$matriculaData);
-         
 
-        // Completar la transacción
-        $this->matriculasModel->db->transComplete();
+        // Llamar al modelo para procesar la transacción
+        $this->matriculasModel->agregar_matricula($estudianteData, $apoderadoData, $matriculaData);
 
-        if ($this->matriculasModel->db->transStatus() === FALSE) {
-            // Si algo falla, establecer un mensaje de error
-            return redirect()->to('estudiantes')->with('error', 'Hubo un problema al guardar la matrícula.');
-        }
-
-        // Si todo está bien, establecer un mensaje de éxito
+        // Redirigir con mensaje de éxito
         return redirect()->to('estudiantes')->with('success', 'Matrícula agregada exitosamente.');
-    
+
+    } catch (\Exception $e) {
+        // Manejar el error y redirigir con mensaje de error
+        return redirect()->to('estudiantes')->with('error', 'Error al guardar la matrícula: ' . $e->getMessage());
+    }
 }
+
+    
 
 public function editar($estudiante_id, $apoderado_id,$matricula_id)
 {
@@ -115,7 +89,7 @@ public function editar($estudiante_id, $apoderado_id,$matricula_id)
 
     $data['cursos'] = $this->cursomodel->obtenerCursos();
 
-    return view('components/crud_apoderados', $data);
+    return view('Components/crud_apoderados', $data);
 }
 
 

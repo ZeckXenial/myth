@@ -26,18 +26,24 @@
               <tr>
                 <td><?= $asistencia['nombre_estudiante'] ?></td>
                 <td>
-                  <div class="form-check">
-                    <!-- Verificar si el estudiante está presente -->
-                    <input class="form-check-input" 
-                           type="checkbox" 
-                           name="asistencias[<?= $asistencia['estudiante_id'] ?>][presente]" 
-                           value="1" 
-                           <?php if (isset($estudiantesPresentes) && in_array($asistencia['estudiante_id'], array_column($estudiantesPresentes, 'estudiante_id'))): ?> checked <?php endif; ?>>
-                    <input type="hidden" name="asistencias[<?= $asistencia['estudiante_id'] ?>][estudiante_id]" value="<?= $asistencia['estudiante_id'] ?>">
-                    <input type="hidden" name="curso_id" value="<?= $cursoId ?>">
-                    <input type="hidden" name="asistencias[<?= $asistencia['estudiante_id'] ?>][fecha_asistencia]" value="<?= date('Y-m-d') ?>">
-                  </div>
-                </td>
+    <div class="form-check">
+        <!-- Campo oculto para enviar 0 cuando el checkbox no está marcado -->
+        <input type="hidden" name="asistencias[<?= $asistencia['estudiante_id'] ?>][presente]" value="0">
+        
+        <!-- Checkbox para marcar la asistencia -->
+        <input class="form-check-input" 
+               type="checkbox" 
+               name="asistencias[<?= $asistencia['estudiante_id'] ?>][presente]" 
+               value="1" 
+               <?php if (isset($estudiantesPresentes) && in_array($asistencia['estudiante_id'], array_column($estudiantesPresentes, 'estudiante_id'))): ?> checked <?php endif; ?>>
+        <div class="checkmark"></div>
+
+        <!-- Otros campos ocultos -->
+        <input type="hidden" name="asistencias[<?= $asistencia['estudiante_id'] ?>][estudiante_id]" value="<?= $asistencia['estudiante_id'] ?>">
+        <input type="hidden" name="curso_id" value="<?= $cursoId ?>">
+        <input type="hidden" name="asistencias[<?= $asistencia['estudiante_id'] ?>][fecha_asistencia]" value="<?= date('Y-m-d') ?>">
+    </div>
+</td>
               </tr>
             <?php endforeach; ?>
           <?php else: ?>

@@ -20,7 +20,6 @@
 .card-body{
 box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 transition: 0.3s;
-background: fixed;
 border-radius: 5px;
 backdrop-filter: blur(10px);
 height: fit-content;
@@ -30,7 +29,9 @@ margin-top: 5%;
 
 }
 
-
+.modal-backdrop, .modal-backdrop.in{
+  display: none;
+}
 .user-menu-container {
   display: flex;
   align-items: center;
@@ -161,7 +162,7 @@ margin-top: 5%;
 div.form-control{
 box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 transition: 0.3s;
-background: #ffffe68f;
+background: rgba(255, 255, 255, 0.555);
 backdrop-filter: blur(10px);
 }
 #guardarcambios{
@@ -293,17 +294,16 @@ justify-content: inline;
 .none{
 display:none;
 }
-
 .form-control{
 backdrop-filter: blur(10px);
 background: rgba(255, 255, 255, 0.555);
 }
-
-body {  background: linear-gradient(287deg, rgb(230, 224, 202), rgb(150, 189, 186), rgb(77, 150, 168),rgb(249, 191, 91),rgb(247, 179, 151));
+body {  background: linear-gradient(-45deg, rgb(230, 224, 202), rgb(150, 189, 186), rgb(77, 150, 168),rgb(249, 191, 91),rgb(247, 179, 151));
   ;
   background-size: 180% 180%;
-  animation: gradient-animation 10s cubic-bezier(0.42, 0, 0.52, 0.98) infinite;
+  animation: gradient-animation 15s ease infinite;
   margin: 0;
+  background-size: 400% 400%;
   padding: 0;
   flex-direction: column;
   align-items: center;
@@ -318,17 +318,47 @@ transition: transform .3s;
 
 .carousel-inner {
   box-shadow: 0 4px 8px 0 rgb(0 0 0 / 57%), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
- 
-  margin:20px;
+  margin: 20px auto; 
   height: 400px;
   display: flex;
-  width: 1000px;
+  width: 100%; 
+  max-width: 1000px; 
   border-radius: 10px;
+}
+
+@media (max-width: 768px) {
+  .carousel-inner {
+    height: 300px; /* Reducir la altura */
+    width: 90%; /* Ancho relativo a la pantalla */
+  }
+}
+.dropdown:hover{
+  -webkit-animation: shadow-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+  animation: shadow-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+  .dropdown-item:hover{
+    
+      -webkit-animation: shadow-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+      animation: shadow-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+    
+  }
+}
+
+.cards-body:hover{
+  -webkit-animation: shadow-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+  animation: shadow-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+  transform: scale(1.1); 
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); 
+}
+@media (max-width: 576px) {
+  .carousel-inner {
+    height: 200px; /* Reducir aún más la altura */
+    width: 100%; /* Usar todo el ancho disponible */
+  }
 }
 img {
   display: flex;
-  width: 500px;
-  height: 200px;
+  width: fit-content;
+  height: fit-content;
   object-fit: cover;
   border-radius: 10px;
 }
@@ -340,7 +370,7 @@ img {
   display: inline-block;
 
 }
-nav.navbar {
+.navbar {
   margin-top: 25px;
   z-index: 1;
   background: #ffffff2c;
@@ -353,12 +383,10 @@ nav.navbar {
   &:hover{
     transform: translateY(10px);
     transition: transform .3s;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(5px);
   }
   ul.navbar-nav li.nav-item:hover:not(:hover) {
     backdrop-filter: blur(10px);
-    
-    
   }
 }
 
@@ -366,17 +394,15 @@ a.margin5px{
 margin:5px;
 }
 table{
-
 width: 100%;
 border-radius: 10px;
 background: #ffffffbf; 
 box-shadow: 10px 10px 34px 0px var(--shadow-color);
-
 }
 .modal{
 backdrop-filter: blur(10px);
+background:4040408f;
 }
-
 .login {
 background: rgba(255, 255, 255, 0.521);
 backdrop-filter: blur(20px);

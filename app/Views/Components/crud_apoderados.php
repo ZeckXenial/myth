@@ -38,13 +38,13 @@
                 <label for="email">Email del Apoderado</label>
             </div>
             <div class="form-floating mb-3">
-                        <select name="estado" class="form-select" required>
-                            <option value="Matriculado">Matriculado</option>
-                            <option value="Pendiente">Pendiente</option>
-                            <option value="Anulado">Anulado</option>
-                        </select>
-                        <label for="estado">Estado</label>
-                    </div>
+                <select name="estado" class="form-select" required>
+                    <option value="Matriculado">Matriculado</option>
+                    <option value="Pendiente">Pendiente</option>
+                    <option value="Anulado">Anulado</option>
+                </select>
+                <label for="estado">Estado</label>
+            </div>
             <div class="mb-3 form-floating">
                 <input type="text" name="rut_estudiante" class="form-control" id="rut_estudiante" value="<?= $matricula->rut_estudiantes; ?>" required>
                 <label for="rut_estudiante">RUT del Estudiante</label>
@@ -52,6 +52,10 @@
             <div class="mb-3 form-floating">
                 <input type="text" name="rut_apoderado" class="form-control" id="rut_apoderado" value="<?= $matricula->rut_apoderado; ?>" required>
                 <label for="rut_apoderado">RUT del apoderado</label>
+            </div>
+            <div class="mb-3 form-floating">
+                <input type="number" name="numero_matricula" class="form-control" id="numero_matricula" value="<?= $matricula->nmatricula; ?>" placeholder="">
+                <label for="numero_matricula">Número de Matrícula</label>
             </div>
             <div class="mb-3 form-floating">
                 <input type="date" name="fecha_matricula" class="form-control" id="fecha_matriculacion" value="<?= $matricula->fecha_matriculacion; ?>" required>
@@ -62,22 +66,25 @@
             </div>
         </form>
     </div>
+
 <script>
     document.getElementById('rut_estudiante').addEventListener('input', function(event) {
-        let value = event.target.value.replace(/[^0-9]/g, ''); // Eliminar cualquier car芍cter que no sea n迆mero
+        let value = event.target.value.replace(/[^0-9]/g, ''); // Eliminar cualquier carácter que no sea número
         if (value.length > 8) {
             value = value.slice(0, 8) + '-' + value.slice(8);
         }
         event.target.value = value;
-        });
-        document.getElementById('rut_apoderado').addEventListener('input', function(event) {
-        let value = event.target.value.replace(/[^0-9]/g, ''); // Eliminar cualquier car芍cter que no sea n迆mero
+    });
+
+    document.getElementById('rut_apoderado').addEventListener('input', function(event) {
+        let value = event.target.value.replace(/[^0-9]/g, ''); // Eliminar cualquier carácter que no sea número
         if (value.length > 8) {
             value = value.slice(0, 8) + '-' + value.slice(8);
         }
         event.target.value = value;
-        });
+    });
 </script>
-    <?php include(APPPATH . 'Views/Components/toast.php'); ?>
-    <?php include(APPPATH . 'Views/Components/footer.php'); ?>
+
+<?php include(APPPATH . 'Views/Components/toast.php'); ?>
+<?php include(APPPATH . 'Views/Components/footer.php'); ?>
 </body>

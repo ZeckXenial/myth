@@ -4,8 +4,8 @@ namespace App\Controllers;
 
 use CodeIgniter\Controller;
 use App\Models\actividades;
-use App\Models\AsignaturaModel;
-use App\Models\CursoModel;
+use App\Models\asignaturamodel;
+use App\Models\cursomodel;
 
 class Actividad extends Controller
 {
@@ -15,8 +15,8 @@ class Actividad extends Controller
 
     public function __construct() {
         $this->actividadesModel = new actividades();
-        $this->asignaturaModel = new AsignaturaModel();
-        $this->cursoModel = new CursoModel();
+        $this->asignaturaModel = new asignaturamodel();
+        $this->cursoModel = new cursomodel();
     }
 
     
@@ -38,8 +38,37 @@ class Actividad extends Controller
         $data['actividadRegistrada'] = false;
     }
 
-    return view('components/formulario_actividad', $data);
+    return view('Components/formulario_actividad', $data);
 }
+
+public function actualizar($act_id)
+{
+    if ($this->request->getMethod() === 'post') {
+        $glosa = $this->request->getPost('glosa');
+        $user_id = session()->get('iduser');
+        $rol_id = session()->get('idrol');
+
+        // Verificar que la actividad existe
+        $actividad = $this->actividadesModel->find($act_id);
+
+        // Comprobar que el usuario tiene permisos para editar
+        if ($rol_id != 2) {
+            return redirect()->to('/actividades')->with('error', 'No tienes permiso para editar esta actividad.');
+        }
+
+        // Actualizar la actividad
+        $actividadActualizada = [
+            'glosa' => $glosa
+        ];
+
+        $this->actividadesModel->update($act_id, $actividadActualizada);
+
+        return redirect()->back()->with('success', 'Actividad actualizada correctamente.');
+    }
+
+    return redirect()->back()->with('error', 'Error al actualizar la actividad.');
+}
+
     public function registrarActividad()
     {
         if ($this->request->getMethod() === 'post') {

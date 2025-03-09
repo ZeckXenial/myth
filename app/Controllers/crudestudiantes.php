@@ -2,10 +2,10 @@
 
 namespace App\Controllers;
 
-use App\Models\EstudiantesModel;
-use App\Models\ApoderadoModel;
+use App\Models\estudiantesmodel;
+use App\Models\apoderadomodel;
 use App\Models\apoderado_estudiante;
-use App\Models\CursoModel;
+use App\Models\cursomodel;
 
 class CrudEstudiantes extends BaseController
 {
@@ -14,10 +14,10 @@ class CrudEstudiantes extends BaseController
     private $cursoModel;
     private $apoderado_estudiante;
     public function __construct() {
-        $this->estudianteModel = new EstudiantesModel();
-        $this->apoderadoModel = new ApoderadoModel();
+        $this->estudianteModel = new estudiantesmodel();
+        $this->apoderadoModel = new apoderadomodel();
         $this->apoderado_estudiante = new apoderado_estudiante();
-        $this->cursoModel = new CursoModel();
+        $this->cursoModel = new curso_model();
     }
     public function index()
     {
@@ -27,7 +27,7 @@ class CrudEstudiantes extends BaseController
         $data['apoderados'] = $this->apoderadoModel->obtenerApoderados();
         
 
-        return view('components/estudiantes', $data);
+        return view('Components/estudiantes', $data);
     }
 
     public function agregar()
@@ -93,7 +93,7 @@ class CrudEstudiantes extends BaseController
     
         $data['estudiante'] = $this->estudianteModel->find($id);
     
-        return view('components/estudiantes', $data);
+        return view('Components/estudiantes', $data);
     }
     
 

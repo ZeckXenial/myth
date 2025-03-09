@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Models\CursoModel;
+use App\Models\cursomodel;
 
 class CursosController extends BaseController
 {
@@ -14,9 +14,9 @@ class CursosController extends BaseController
     }
 public function index()
 {
-    $cursosModel = new CursoModel();
+    $cursosModel = new cursomodel();
     $data['cursos'] = $cursosModel->obtenerCursos();
-    return view('components/cursos', $data);
+    return view('Components/cursos', $data);
 }
 
 private function obtenerCursosSegunRol($cursosModel)
@@ -40,7 +40,7 @@ public function agregar()
     }
 
     // Cargar la vista de agregar curso
-    return view('components/agregar_curso');
+    return view('Components/agregar_curso');
 }
 
 public function editar($id)
@@ -60,7 +60,7 @@ public function editar($id)
     // Obtener el curso por su ID y cargar la vista de editar
     $data['curso'] = $cursoModel->find($id);
 
-    return view('components/editar_curso', $data);
+    return view('Components/editar_curso', $data);
 }
 
 public function eliminar($id)

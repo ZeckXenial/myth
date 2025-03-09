@@ -2,8 +2,8 @@
 
 namespace App\Controllers;
 
-use App\Models\AsistenciasModel;
-use App\Models\EstudiantesModel;
+use App\Models\asistenciasmodel;
+use App\Models\estudiantesmodel;
 
 class Asistencias extends BaseController
 {
@@ -13,8 +13,8 @@ class Asistencias extends BaseController
 
     public function __construct()
     {
-        $this->estudiantesModel = new EstudiantesModel();
-        $this->asistenciasModel = new AsistenciasModel();
+        $this->estudiantesModel = new estudiantesmodel();
+        $this->asistenciasModel = new asistenciasmodel();
 
     }
 
@@ -26,36 +26,41 @@ class Asistencias extends BaseController
         $data['asistencias'] = $this->estudiantesModel->obtenerEstudiantesPorCurso($cursoId);
         $data['estudiantesPresentes'] = $this->asistenciasModel->getEstudiantesPresentes($cursoId,$fecha);
         $data['ultimaFechaAsistencia'] = $this->asistenciasModel->obtenerUltimaFechaAsistenciaPorCurso($cursoId);
-        return view('components/asistencias', $data);
+        return view('Components/asistencias', $data);
     }
     
 
     public function ingresarAsistencias($cursoId)
-{
-    if ($this->request->getMethod() === 'post') {
-        $asistencias = $this->request->getPost('asistencias');
-
-        if (!empty($asistencias)) {
-            $model = new AsistenciasModel();
-            $fecha_asistencia = date('Y-m-d'); 
-
-            foreach ($asistencias as $asistencia) {
-                $data = [
-                    'estudiante_id' => $asistencia['estudiante_id'],
-                    'fecha' => $fecha_asistencia,
-                    'curso_id' => $cursoId,
-                    'presente' => isset($asistencia['presente']) ? 1 : 0,
-                ];
-      
-                $model->ingresarAsistencias($data);
+    {
+        if ($this->request->getMethod() === 'post') {
+            $asistencias = $this->request->getPost('asistencias');
+            $fecha_asistencia = date('Y-m-d'); // Fecha actual
+    
+            if (!empty($asistencias)) {
+                // Instanciamos el modelo
+                $model = new AsistenciasModel();
+    
+                // Recorrer cada asistencia
+                foreach ($asistencias as $asistencia) {
+                    $asistenciadata = [
+                        'estudiante_id' => $asistencia['estudiante_id'],
+                        'fecha' => $fecha_asistencia,
+                        'curso_id' => $cursoId,
+                        'presente' => $asistencia['presente'],
+                    ];
+                    
+                    $model->ingresarAsistencia($asistenciadata);
+                }
+    
+                return redirect()->to(site_url("cursos"))->with('success', 'Asistencias guardadas exitosamente');
+            } else {
+                return redirect()->to(site_url("asistencias/curso/$cursoId"))->with('error', 'No se recibieron datos de asistencia');
             }
-
-            return redirect()->to(site_url("cursos"))->with('success', 'Asistencias guardadas exitosamente');
         } else {
-            return redirect()->to(site_url("asistencias/curso/$cursoId"))->with('error', 'No se recibieron datos de asistencia');
+            return redirect()->to(site_url("asistencias/curso/$cursoId"))->with('error', 'Error al procesar la solicitud');
         }
-    } else {
-        return redirect()->to(site_url("asistencias/curso/$cursoId"))->with('error', 'Error al procesar la solicitud');
     }
-}
+    
+
+    
 }

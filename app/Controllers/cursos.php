@@ -2,20 +2,26 @@
 
 namespace App\Controllers;
 
-use App\Models\CursoModel;
-use App\Models\CrudUsuarioModel;
-use App\Models\AsistenciasModel;
-use App\Models\CalificacionesModel;
-use App\Models\AnotacionesModel;
-use App\Models\AsignaturaModel;
-use App\Models\EstudiantesModel;
-use App\Models\AsignaturaCursoModel;
-use App\Models\NivelModel;
-use App\Models\ApoderadoModel;
+
+
+
+
+use App\Models\cursomodel;
+use App\Models\crudusuariomodel;
+use App\Models\asistenciasmodel;
+use App\Models\calificacionesmodel;
+use App\Models\anotacionesmodel;
+use App\Models\asignaturamodel;
+use App\Models\estudiantesmodel;
+use App\Models\asignaturacursomodel;
+use App\Models\nivelmodel;
+use App\Models\apoderadomodel;
+use App\Models\exportarcurso;
 use CodeIgniter\Controller;
 
 class Cursos extends Controller
 {
+    private $cursodata;
     private $cursoModel;
     private $nivelModel;
     private $anotacionesmodel;
@@ -66,7 +72,7 @@ class Cursos extends Controller
         if (!$id) {
             return redirect()->to(site_url('cursos'))->with('error', 'El curso no existe.');
         }
-        return view('components/edit', $data);
+        return view('Components/edit', $data);
     }
     public function guardar()
     {
@@ -89,37 +95,83 @@ class Cursos extends Controller
     }
     public function agregar()
     {
-        $nivelModel = new NivelModel();
-        $asignaturaModel = new AsignaturaModel();
-        $usuarioModel = new CrudUsuarioModel();
+        $nivelModel = new nivelmodel();
+        $asignaturaModel = new asignaturamodel();
+        $usuarioModel = new crudusuariomodel();
 
         $data['niveles'] = $nivelModel->findAll();
         $data['asignaturas'] = $asignaturaModel->findAll();
         $data['usuarios'] = $usuarioModel->findAll();
 
-        return view('components/agregar', $data);
+        return view('Components/agregar', $data);
     } 
     public function exportarcurso($cursoId) {
-        // Obtener los datos del curso, incluyendo asistencias, calificaciones y anotaciones
-        $asistencias = $this->cursoModel->getAsistenciasCurso($cursoId);
-        $calificaciones = $this->cursoModel->getCalificacionesCurso($cursoId);
-        $anotaciones = $this->cursoModel->getAnotacionesCurso($cursoId);
-        $data= [
-            'asistencias' => $asistencias,
-            'calificaciones' => $calificaciones,
-            'anotaciones' => $anotaciones
-        ];
-        // Retornar los datos como JSON
+      
+        $data = $this->cursodata->obtenerDatosGenerales($cursoId);
+
+       
         return $this->response->setJSON($data);
         
     }
+    public function exportarasistencias(){
+        $asistencias = $this->asistenciasmodel->obtenerAsistencias();
+
+        // Verificar si se encontraron asistencias
+        if (empty($asistencias)) {
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => 'No se encontraron asistencias registradas.'
+            ]);
+        }
+        
+        // Crear el contenido para PDFMake
+        $pdf_data = [
+            'header' => ['Curso', 'Mes', 'Fecha', 'Estudiante', 'Asistencia'],
+            'body' => []
+        ];
+        
+        $current_curso = '';
+        $current_mes = '';
+        
+        foreach ($asistencias as $asistencia) {
+            // Si necesitas agregar lógica para organizar por curso o mes
+            $curso = $asistencia['nombre_curso'];
+            $mes = date('Y-m', strtotime($asistencia['fecha'])); // Obtener mes en formato "2024-12"
+        
+            // Organizar datos por curso y mes (opcional)
+            if ($curso !== $current_curso || $mes !== $current_mes) {
+                $current_curso = $curso;
+                $current_mes = $mes;
+                $pdf_data['body'][] = [
+                    "Curso: $curso", "Mes: $mes", '', '', '' // Títulos intermedios
+                ];
+            }
+            $estado_asistencia = $asistencia['estado_asistencia'] == 1 ? 'Presente' : 'Ausente';
+
+            // Agregar datos al cuerpo
+            $pdf_data['body'][] = [
+                $curso,
+                $mes,
+                $asistencia['fecha'],
+                $asistencia['nombre_estudiante'],
+                $estado_asistencia
+            ];
+        }
+        
+        // Enviar datos JSON para PDFMake
+        return $this->response->setJSON([
+            'success' => true,
+            'pdf_data' => $pdf_data
+        ]);
+
+    }
+    
     public function update($cursoId)
     {
         if ($this->request->getMethod() === 'post') {
             $data = [
                 'grado' => $this->request->getPost('grado'),
                 'user_id' => $this->request->getPost('user_id'),
-                
                 'nivel_id' => $this->request->getPost('nivel_id'),
             ];
 
@@ -194,7 +246,10 @@ class Cursos extends Controller
     }
     public function delete($id)
     {
-        $this->cursoModel->eliminarCurso($id);
-        return redirect()->to('cursos');
+         if ($this->cursoModel->eliminarCurso($id)) {
+        return redirect()->to('cursos')->with('success', 'Curso borrado correctamente.');
+    } else {
+        return redirect()->to('cursos')->with('error', 'No se pudo borrar el curso.');
+    }
     }
 }
