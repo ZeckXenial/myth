@@ -3,6 +3,7 @@
 
 <body>
     <h1 class="text-center mb-4">Calificaciones por Asignatura</h1>
+    <h1 class="text-center mb-4">Calificaciones por Asignatura</h1>
 
     <div class="container mt-4">
         <div class="row">
@@ -13,16 +14,16 @@
                             <h5 class="card-title"><?= $asignatura['nombre_asignatura'] ?></h5>
                             <h6 class="card-subtitle mb-2 text-muted">Profesor: <?= $asignatura['nombre'] ?></h6>
 
-                            <!-- Botones de acci¨®n -->
+                            <!-- Botones de acciï¿½ï¿½n -->
                             <div class="d-grid gap-2">
-                                <!-- Bot¨®n para acceder a las calificaciones -->
+                                <!-- Botï¿½ï¿½n para acceder a las calificaciones -->
                                 <a href="<?= site_url('calificaciones/' . $asignatura['curso_id'] . '/' . $asignatura['asignatura_id']) ?>" class="btn btn-primary">Entrar a Calificaciones</a>
                                 
-                                <!-- Bot¨®n para registro de actividades -->
+                                <!-- Botï¿½ï¿½n para registro de actividades -->
                                 <a href="<?= site_url('actividad/formulario/' . $asignatura['curso_id'] . '/' . $asignatura['asignatura_id']) ?>" class="btn btn-primary">Registro de Actividades</a>
                                 <a href="<?= site_url('actividad/vista/' . $asignatura['curso_id'] . '/' . $asignatura['asignatura_id']) ?>" class="btn btn-primary">Ver Actividades</a>
 
-                                <!-- Bot¨®n para editar (visible solo para ciertos roles) -->
+                                <!-- Botï¿½ï¿½n para editar (visible solo para ciertos roles) -->
                                 <?php if (session()->get('idrol') === '2' || session()->get('idrol') === '3'): ?>
                                     <a href="<?= site_url('editar/' . $asignatura['asignatura_id']) ?>" class="btn btn-secondary">Editar</a>
                                 <?php endif; ?>

@@ -1,0 +1,12 @@
+@mixin box-shadow($shadow) {
+    box-shadow: $shadow;
+    -webkit-box-shadow: $shadow;
+}
+
+@mixin transition($property, $duration, $ease) {
+    transition: $property $duration $ease;
+}
+
+@mixin animate($animation-name, $duration, $delay: 0s, $count: 1, $direction: normal, $fill-mode: forwards) {
+    animation: $animation-name $duration $delay $count $direction $fill-mode;
+}

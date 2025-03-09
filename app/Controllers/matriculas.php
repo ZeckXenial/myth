@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\matriculas_model;
+use App\Models\matriculas_model;
 use App\Models\cursomodel;
 
 class Matriculas extends BaseController
@@ -13,6 +14,8 @@ class Matriculas extends BaseController
     public function __construct()
     {
         $this->cursomodel = new cursomodel();
+        $this->matriculasModel = new matriculas_model();
+        $this->matriculasModel = new matriculas_model();
         $this->matriculasModel = new matriculas_model();
         $this->matriculasModel = new matriculas_model();
     }
@@ -32,11 +35,15 @@ class Matriculas extends BaseController
     
         // Obtener cursos desde la base de datos
         return view('Components/matriculas', $data);
+        return view('Components/matriculas', $data);
     }
     
 
  public function guardar()
+ public function guardar()
 {
+    try {
+        // Datos del estudiante
     try {
         // Datos del estudiante
         $estudianteData = [
@@ -45,8 +52,10 @@ class Matriculas extends BaseController
             'curso_id' => $this->request->getPost('curso_id'),
             'fecha_matricula' => $this->request->getPost('fecha_matricula'),
             'rut' => $this->request->getPost('rut_estudiante'),
+            'rut' => $this->request->getPost('rut_estudiante'),
         ];
 
+        // Datos del apoderado
         // Datos del apoderado
         $apoderadoData = [
             'nombre_apoderado' => $this->request->getPost('nombre_apoderado'),
@@ -73,7 +82,14 @@ class Matriculas extends BaseController
         // Manejar el error y redirigir con mensaje de error
         return redirect()->to('estudiantes')->with('error', 'Error al guardar la matrícula: ' . $e->getMessage());
     }
+
+    } catch (\Exception $e) {
+        // Manejar el error y redirigir con mensaje de error
+        return redirect()->to('estudiantes')->with('error', 'Error al guardar la matrícula: ' . $e->getMessage());
+    }
 }
+
+    
 
     
 
@@ -89,6 +105,7 @@ public function editar($estudiante_id, $apoderado_id,$matricula_id)
 
     $data['cursos'] = $this->cursomodel->obtenerCursos();
 
+    return view('Components/crud_apoderados', $data);
     return view('Components/crud_apoderados', $data);
 }
 

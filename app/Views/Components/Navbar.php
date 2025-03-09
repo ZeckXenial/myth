@@ -5,6 +5,13 @@
   aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
   <span class="navbar-toggler-icon"></span>
 </button>
+<div class="container sticky-top mx-auto">
+  <nav class="navbar mx-auto shadow-drop-2-center navbar-expand-lg navbar-light ">
+    <div id="navbar-top" class="container">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+  aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+  <span class="navbar-toggler-icon"></span>
+</button>
 
 <!-- Contenedor de la barra de navegación -->
 <div class="collapse navbar-collapse" id="navbarNav">
@@ -102,6 +109,36 @@
     </ul>
   </div>
 </div>
+  <div class="menu-user btn nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-person-circle"></i>
+    </a>
+
+    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+      <li><h6 class="dropdown-header text-center">Menú del usuario</h6></li>
+
+      <?php if (session()->has('idrol')): ?>
+        <li>
+          <a class="text-center dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#otpModal">
+            <i class="bi bi-key"></i> Código OTP
+          </a>
+        </li>
+        <li>
+          <a class="text-center dropdown-item" href="<?= site_url('usuario/mi_informacion') ?>">
+            <i class="bi bi-file-person"></i> Mi Información
+          </a>
+        </li>
+      <?php endif; ?>
+
+      <li><hr class="dropdown-divider"></li>
+      <li>
+        <a class="text-center dropdown-item btn" href="<?= site_url('logout') ?>">
+          <i class="bi bi-box-arrow-right"></i> Cerrar sesión
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
     </div>
   </nav>
 
@@ -165,6 +202,18 @@ document.getElementById('rut').addEventListener('input', function(event) {
 
   // Actualizar el valor del input de forma segura
   event.target.value = rawValue.toUpperCase(); // Convertir a mayúsculas para 'K'
+  let rawValue = event.target.value.replace(/[^0-9kK]/g, ''); // Permitir solo números y 'k'/'K'
+
+  // Validar longitud y agregar el guion antes del dígito verificador
+  if (rawValue.length > 8) {
+    let cuerpo = rawValue.slice(0, -1); // Todo excepto el último dígito
+    let dv = rawValue.slice(-1);       // Último dígito (posible dígito verificador)
+    rawValue = `${cuerpo}-${dv}`;
+  }
+
+  // Actualizar el valor del input de forma segura
+  event.target.value = rawValue.toUpperCase(); // Convertir a mayúsculas para 'K'
 });
 </script>
+ 
  

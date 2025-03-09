@@ -22,6 +22,7 @@ use CodeIgniter\Controller;
 class Cursos extends Controller
 {
     private $cursodata;
+    private $cursodata;
     private $cursoModel;
     private $nivelModel;
     private $anotacionesmodel;
@@ -42,8 +43,10 @@ class Cursos extends Controller
         $this->apoderadoModel = new ApoderadoModel();
         $this->estudianteModel = new EstudiantesModel();
         $this->nivelModel = new NivelModel();
+        $this->cursodata = new exportarcurso();
         $this->asignaturaModel = new AsignaturaModel();
         $this->asignaturaCursoModel = new AsignaturaCursoModel();
+        $this->cursodata = new exportarcurso();
         $this->crudUsuarioModel = new CrudUsuarioModel();
     }
     public function index()
@@ -72,6 +75,7 @@ class Cursos extends Controller
         if (!$id) {
             return redirect()->to(site_url('cursos'))->with('error', 'El curso no existe.');
         }
+        return view('Components/edit', $data);
         return view('Components/edit', $data);
     }
     public function guardar()
@@ -104,8 +108,13 @@ class Cursos extends Controller
         $data['usuarios'] = $usuarioModel->findAll();
 
         return view('Components/agregar', $data);
+        return view('Components/agregar', $data);
     } 
     public function exportarcurso($cursoId) {
+      
+        $data = $this->cursodata->obtenerDatosGenerales($cursoId);
+
+       
       
         $data = $this->cursodata->obtenerDatosGenerales($cursoId);
 
@@ -113,6 +122,59 @@ class Cursos extends Controller
         return $this->response->setJSON($data);
         
     }
+    public function exportarasistencias(){
+        $asistencias = $this->asistenciasmodel->obtenerAsistencias();
+
+        // Verificar si se encontraron asistencias
+        if (empty($asistencias)) {
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => 'No se encontraron asistencias registradas.'
+            ]);
+        }
+        
+        // Crear el contenido para PDFMake
+        $pdf_data = [
+            'header' => ['Curso', 'Mes', 'Fecha', 'Estudiante', 'Asistencia'],
+            'body' => []
+        ];
+        
+        $current_curso = '';
+        $current_mes = '';
+        
+        foreach ($asistencias as $asistencia) {
+            // Si necesitas agregar lógica para organizar por curso o mes
+            $curso = $asistencia['nombre_curso'];
+            $mes = date('Y-m', strtotime($asistencia['fecha'])); // Obtener mes en formato "2024-12"
+        
+            // Organizar datos por curso y mes (opcional)
+            if ($curso !== $current_curso || $mes !== $current_mes) {
+                $current_curso = $curso;
+                $current_mes = $mes;
+                $pdf_data['body'][] = [
+                    "Curso: $curso", "Mes: $mes", '', '', '' // Títulos intermedios
+                ];
+            }
+            $estado_asistencia = $asistencia['estado_asistencia'] == 1 ? 'Presente' : 'Ausente';
+
+            // Agregar datos al cuerpo
+            $pdf_data['body'][] = [
+                $curso,
+                $mes,
+                $asistencia['fecha'],
+                $asistencia['nombre_estudiante'],
+                $estado_asistencia
+            ];
+        }
+        
+        // Enviar datos JSON para PDFMake
+        return $this->response->setJSON([
+            'success' => true,
+            'pdf_data' => $pdf_data
+        ]);
+
+    }
+    
     public function exportarasistencias(){
         $asistencias = $this->asistenciasmodel->obtenerAsistencias();
 
@@ -246,6 +308,11 @@ class Cursos extends Controller
     }
     public function delete($id)
     {
+         if ($this->cursoModel->eliminarCurso($id)) {
+        return redirect()->to('cursos')->with('success', 'Curso borrado correctamente.');
+    } else {
+        return redirect()->to('cursos')->with('error', 'No se pudo borrar el curso.');
+    }
          if ($this->cursoModel->eliminarCurso($id)) {
         return redirect()->to('cursos')->with('success', 'Curso borrado correctamente.');
     } else {

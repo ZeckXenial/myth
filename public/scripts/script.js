@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
+    
     document.querySelectorAll('.reveal-password').forEach(button => {
         button.addEventListener('click', function() {
             const passwordInput = this.parentNode.querySelector('input[type="password"]');
@@ -112,6 +113,65 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+$('#exportarasistencia').on('click', async function () {
+    const spinnerElement = $('.spinner-border');
+    spinnerElement.show();
+    const url = $(this).data('url');
+    console.log(url);
+    try {
+        // Hacer la petición al servidor
+        const response = await fetch(url);
+        const rawData = await response.json();
+        spinnerElement.hide();
+
+        if (!rawData.success) {
+            alert(rawData.message);
+            return;
+        }
+
+        const pdfData = rawData.pdf_data;
+
+        // Generar contenido del PDF
+        let pdfContent = [
+            { text: 'Reporte de Asistencias', style: 'header', alignment: 'center' }
+        ];
+
+        pdfData.body.forEach(item => {
+            // Verificar si el item es un título de curso/mes
+            if (item[0].startsWith('Curso:')) {
+                pdfContent.push({ text: item[0], style: 'subheader', margin: [0, 10, 0, 5] });
+                pdfContent.push({ text: item[1], style: 'subheader', margin: [0, 0, 0, 20] });
+            } else {
+                // Agregar asistencia al cuerpo
+                pdfContent.push({
+                    table: {
+                        body: [
+                            [{ text: 'Fecha', bold: true }, { text: 'Estudiante', bold: true }, { text: 'Asistencia', bold: true }],
+                            [item[2], item[3], item[4]]
+                        ]
+                    },
+                    layout: 'lightHorizontalLines'
+                });
+            }
+        });
+
+        // Definir el documento PDF
+        const docDefinition = {
+            content: pdfContent,
+            styles: {
+                header: { fontSize: 18, bold: true },
+                subheader: { fontSize: 14, bold: true }
+            }
+        };
+
+        // Descargar el PDF
+        pdfMake.createPdf(docDefinition).download('Reporte_Asistencias.pdf');
+    } catch (error) {
+        console.error('Error al generar el PDF:', error);
+        spinnerElement.hide();
+        alert('Ocurrió un error al generar el PDF.');
+    }
+});
 $('#exportarasistencia').on('click', async function () {
     const spinnerElement = $('.spinner-border');
     spinnerElement.show();

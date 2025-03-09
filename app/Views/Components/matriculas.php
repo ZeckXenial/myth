@@ -9,6 +9,9 @@
     <button type="button" class="btn btn-primary mb-4" id="btnIngresarMatricula">
         <i class="bi bi-person-plus"></i> Ingresar Matrícula
     </button>
+    <button type="button" class="btn btn-primary mb-4" id="btnIngresarMatricula">
+        <i class="bi bi-person-plus"></i> Ingresar Matrícula
+    </button>
 
     <!-- Tabla de estudiantes y apoderados registrados -->
     <div class="table-responsive">

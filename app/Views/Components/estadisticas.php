@@ -6,11 +6,11 @@
     <div class="container mt-5">
         <h1 class="text-center">Estadísticas Generales</h1>
 
-        <div class=" row">
+        <div class="row">
             <!-- Estadísticas de Asistencias -->
-            <div class=" col-lg-6 mb-4">
-                <div class="shadow-drop-2-center card shadow-sm">
-                    <div class="card-header bg-primary text-white">
+            <div class="col-lg-6 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-info text-white">
                         <h5>Asistencias</h5>
                     </div>
                     <div class="card-body">
@@ -21,7 +21,7 @@
 
             <!-- Estadísticas de Matrículas -->
             <div class="col-lg-6 mb-4">
-                <div class="shadow-drop-2-center card shadow-sm">
+                <div class="card shadow-sm">
                     <div class="card-header bg-success text-white">
                         <h5>Matrículas</h5>
                     </div>
@@ -35,7 +35,7 @@
         <div class="row">
             <!-- Estadísticas de Anotaciones -->
             <div class="col-lg-6 mb-4">
-                <div class="shadow-drop-2-center card shadow-sm">
+                <div class="card shadow-sm">
                     <div class="card-header bg-warning text-white">
                         <h5>Anotaciones</h5>
                     </div>
@@ -47,7 +47,7 @@
 
             <!-- Estadísticas de Calificaciones -->
             <div class="col-lg-6 mb-4">
-                <div class="shadow-drop-2-center card shadow-sm">
+                <div class="card shadow-sm">
                     <div class="card-header bg-danger text-white">
                         <h5>Calificaciones</h5>
                     </div>
@@ -191,5 +191,4 @@
 
 </body>
 <?php include(APPPATH . 'Views/Components/toast.php'); include(APPPATH . 'Views/Components/footer.php'); ?>
-
 </html>

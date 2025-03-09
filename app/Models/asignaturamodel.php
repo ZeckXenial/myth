@@ -67,6 +67,7 @@ $asignatura['selected'] = false;
 return $asignaturas_usuario;
     }
     }
+
     public function obtenerAsignaturaPorId($id)
     {
         return $this->find($id);
@@ -95,5 +96,9 @@ return $asignaturas_usuario;
         
         $this->delete($id);
         return true; 
+    }
+
+    public function obtenerTodasAsignaturas() {
+        return $this->findAll(); // Devuelve todas las asignaturas
     }
 }

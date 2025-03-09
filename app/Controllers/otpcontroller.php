@@ -8,8 +8,8 @@ class OtpController extends Controller
 
     public function __construct()
     {
-        helper('session'); // Cargar helper de sesi¨®n
-        $this->session = session(); // Iniciar sesi¨®n
+        helper('session'); // Cargar helper de sesiï¿½ï¿½n
+        $this->session = session(); // Iniciar sesiï¿½ï¿½n
     }
 
     public function verifyotp()
@@ -25,7 +25,7 @@ class OtpController extends Controller
         $timestamp = $this->request->getGet('DateWithTimeZone');
         $user_id = $this->session->get('iduser');
 
-        // URL de verificaci¨®n de OTP
+        // URL de verificaciï¿½ï¿½n de OTP
         $url = "https://apiede.mineduc.cl/otp/verify-otp?rut={$rut}&otp={$otp}&DateWithTimeZone={$timestamp}";
         
         $ch = curl_init($url);
@@ -38,10 +38,10 @@ class OtpController extends Controller
         $validacionModel = new validacionmodel();
         $fecha_val = date('Y-m-d');
 
-        // Verificar si hay error en la respuesta usando expresi¨®n regular
+        // Verificar si hay error en la respuesta usando expresiï¿½ï¿½n regular
         $status = ($error || preg_match('/ERROR:/i', $response)) ? 'Error' : 'Success';
 
-        // Guardar en la tabla validaci¨®n
+        // Guardar en la tabla validaciï¿½ï¿½n
         $data = [
             'rut' => $rut,
             'fecha_val' => $fecha_val,

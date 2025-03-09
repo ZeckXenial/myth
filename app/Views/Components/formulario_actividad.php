@@ -5,17 +5,21 @@
     <div class="container mt-4">
         <div class="card shadow-sm p-4">
             <h1 class="text-center mb-4">Registra tu actividad diaria</h1>
+    <div class="container mt-4">
+        <div class="card shadow-sm p-4">
+            <h1 class="text-center mb-4">Registra tu actividad diaria</h1>
             <form action="<?= site_url('actividad/registrarActividad') ?>" method="post">
                 
                 <input type="hidden" name="curso_id" value="<?= esc($curso['curso_id']) ?>">
                 <input type="hidden" name="asignatura_id" value="<?= esc($asignatura['asignatura_id']) ?>">
                 
+                
                 <div class="form-floating mb-3">
-                    <textarea class="form-control" name="glosa" placeholder="Descripci¨®n de la actividad" 
+                    <textarea class="form-control" name="glosa" placeholder="Descripciï¿½ï¿½n de la actividad" 
                         <?= $actividadRegistrada ? 'disabled' : '' ?> required>
                         <?= $actividadRegistrada ? esc($glosaExistente) : '' ?>
                     </textarea>
-                    <label for="glosa">Descripci¨®n de la actividad</label>
+                    <label for="glosa">Descripciï¿½ï¿½n de la actividad</label>
                 </div>
                 
                 <?php if ($actividadRegistrada): ?>

@@ -51,14 +51,8 @@ class Anotaciones extends Controller
     {
         $request = service('request');
 
-        $anotacionesModel = new AnotacionesModel();
-
-        $data = [
-            'estudiante_id' => $request->getPost('estudiante_id'),
-            'user_id' => $request->getPost('user_id'),
-            'origen_anot' => $request->getPost('origen_anotacion'),
-            'glosa_anot' => $request->getPost('glosa')
-        ];
+    $anotacionesModel = new AnotacionesModel();
+    $data = $this->request->getPost(); // Obtener los datos del formulario
 
         $anotacionesModel->editarAnotacion($anotacion_id, $data);
 
